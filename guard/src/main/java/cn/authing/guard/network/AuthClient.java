@@ -195,6 +195,7 @@ public class AuthClient {
 
     public static void loginByAccount(AuthRequest authData, String account, String password, @NotNull AuthCallback<UserInfo> callback) {
         try {
+            long now = System.currentTimeMillis();
             String encryptPassword = Util.sm2EncryptPassword(password);
             JSONObject body = new JSONObject();
             body.put("account", account);

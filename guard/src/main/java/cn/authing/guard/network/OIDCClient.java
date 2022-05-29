@@ -96,7 +96,7 @@ public class OIDCClient {
                     } else {
                         String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                         ALog.w(TAG, "OIDC prepare login failed. " + response.code() + " message:" + s);
-                        callback.call(response.code(), s,null);
+                        callback.call(response.code(), s, null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -255,14 +255,14 @@ public class OIDCClient {
         try {
             response = call.execute();
             ALog.d(TAG, "_oidcInteraction cost:" + (System.currentTimeMillis() - now) + "ms");
-            if (response.code() == 302) {
+            if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 oidcLogin(location, authData, callback);
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                 ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s,null);
+                callback.call(response.code(), s, null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -283,12 +283,13 @@ public class OIDCClient {
                 .followRedirects(false)
                 .followSslRedirects(false)
                 .build();
+
         Call call = client.newCall(request);
         okhttp3.Response response;
         try {
             response = call.execute();
             ALog.d(TAG, "oidcLogin cost:" + (System.currentTimeMillis() - now) + "ms");
-            if (response.code() == 302) {
+            if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 Uri uri = Uri.parse(location);
@@ -300,13 +301,18 @@ public class OIDCClient {
                     _oidcInteractionScopeConfirm(url, authData, callback);
                 } else {
                     // might be another redirect to this api itself
-                    url = request.url().scheme() + "://" + request.url().host() + location;
+                    assert location != null;
+                    if (!location.contains("http")) {
+                        url = request.url().scheme() + "://" + request.url().host() + location;
+                    } else {
+                        url = location;
+                    }
                     oidcLogin(url, authData, callback);
                 }
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                 ALog.w(TAG, "oidcLogin failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s,null);
+                callback.call(response.code(), s, null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -336,7 +342,6 @@ public class OIDCClient {
         try {
             response = call.execute();
             ALog.d(TAG, "_oidcInteractionScopeConfirm cost:" + (System.currentTimeMillis() - now) + "ms");
-            if (response.code() == 302) {
             if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
@@ -357,7 +362,7 @@ public class OIDCClient {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
                 String secret = authRequest.getClientSecret();
-                String body = "client_id="+Authing.getAppId()
+                String body = "client_id=" + Authing.getClientId()
                         + "&grant_type=authorization_code"
                         + "&code=" + code
                         + "&scope=" + authRequest.getScope()
@@ -365,7 +370,6 @@ public class OIDCClient {
                         + (secret == null ? "&code_verifier=" + authRequest.getCodeVerifier() : "&client_secret=" + secret)
                         + "&redirect_uri=" + URLEncoder.encode(authRequest.getRedirectURL(), "utf-8");
                 Guardian.authRequest(url, "post", body, (data) -> {
-                Guardian.authRequest(url, "post", body, (data)-> {
                     ALog.d(TAG, "authByCode cost:" + (System.currentTimeMillis() - now) + "ms");
                     if (data.getCode() == 200) {
                         try {
@@ -423,7 +427,7 @@ public class OIDCClient {
                     }
                 } else {
                     ALog.w(TAG, "_getUserInfoByAccessToken failed. " + response.code() + " message:" + s);
-                    callback.call(response.code(), s,null);
+                    callback.call(response.code(), s, null);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -432,7 +436,8 @@ public class OIDCClient {
         });
     }
 
-    public static void getNewAccessTokenByRefreshToken(String refreshToken, @NotNull AuthCallback<UserInfo> callback) {
+    public static void getNewAccessTokenByRefreshToken(String
+                                                               refreshToken, @NotNull AuthCallback<UserInfo> callback) {
         Authing.getPublicConfig(config -> {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
