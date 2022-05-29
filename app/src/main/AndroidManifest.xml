@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Guard">
         <activity
+            android:name=".push.LoginByPushNotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".scan.ScanAuthActivity"
             android:exported="false" />
         <activity
@@ -55,7 +58,8 @@
         <activity
             android:name=".SampleListActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:exported="false"
@@ -84,7 +88,21 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".appauth.AppAuthActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="cn.guard"
+                    android:host="appauth"
+                    android:path="/redirect" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity"
             android:exported="true"
@@ -96,9 +114,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:scheme="cn.guard"
                     android:host="authing.cn"
-                    android:path="/redirect"
-                    android:scheme="cn.guard" />
+                    android:path="/redirect" />
             </intent-filter>
         </activity>
         <activity
@@ -112,10 +130,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="authing.cn"
-                    android:scheme="guard" />
+                    android:scheme="guard"
+                    android:host="authing.cn" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".authenticator.AuthenticatorActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".guard.wxapi.WXEntryActivity"
             android:exported="true" />

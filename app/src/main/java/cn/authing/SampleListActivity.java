@@ -22,13 +22,15 @@ import java.util.concurrent.Executor;
 
 import cn.authing.abao.AbaoActivity;
 import cn.authing.appauth.AppAuthActivity;
+import cn.authing.authenticator.AuthenticatorActivity;
 import cn.authing.guard.Authing;
 import cn.authing.guard.container.AuthContainer;
 import cn.authing.guard.data.UserInfo;
 import cn.authing.guard.flow.AuthFlow;
 import cn.authing.guard.oneclick.OneClick;
-import cn.authing.nissan.NissanVirtualKeyAuthActivity;
 import cn.authing.oneclick.OneClickActivity;
+import cn.authing.push.LoginByPushNotificationActivity;
+import cn.authing.push.Push;
 import cn.authing.scan.ScanAuthActivity;
 import cn.authing.theragun.TheragunAuthActivity;
 import cn.authing.webview.AuthingWebViewActivity;
@@ -55,7 +57,8 @@ public class SampleListActivity extends AppCompatActivity {
             "登录/注册后用户信息完善",
             "扫码登录",
             "生物二次验证",
-            "Android 默认风格登录",
+            "Authenticator",
+            "Login by push notification",
     };
 
     @Override
@@ -64,17 +67,17 @@ public class SampleListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample_list);
 
         ListView listView = findViewById(R.id.lv_samples);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.sample_list_item, from);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.sample_list_item, from);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((arg0, arg1, arg2, pos) -> {
             if (pos == 7) {
-                Intent intent = new Intent(SampleListActivity.this, AppAuthActivity.class);
-                startActivity(intent);
+                startActivity(AppAuthActivity.class);
                 return;
             } else if (pos == 12) {
-                Intent intent = new Intent(SampleListActivity.this, ScanAuthActivity.class);
-                startActivity(intent);
+                startActivity(ScanAuthActivity.class);
+                return;
+            } else if (pos == 14) {
+                startActivity(AuthenticatorActivity.class);
                 return;
             }
 
@@ -100,14 +103,11 @@ public class SampleListActivity extends AppCompatActivity {
                     }
                 }));
             } else if (pos == 3) {
-                Intent intent = new Intent(SampleListActivity.this, WechatAuthActivity.class);
-                startActivity(intent);
+                startActivity(WechatAuthActivity.class);
             } else if (pos == 4) {
-                Intent intent = new Intent(SampleListActivity.this, TheragunAuthActivity.class);
-                startActivity(intent);
+                startActivity(TheragunAuthActivity.class);
             } else if (pos == 5) {
-                Intent intent = new Intent(SampleListActivity.this, AbaoActivity.class);
-                startActivity(intent);
+                startActivity(AbaoActivity.class);
             } else if (pos == 6) {
                 AuthFlow flow = AuthFlow.start(this);
                 flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
@@ -118,8 +118,7 @@ public class SampleListActivity extends AppCompatActivity {
 //                flow.setScope("openid");
                 flow.setSkipConsent(true);
             } else if (pos == 9) {
-                Intent intent = new Intent(SampleListActivity.this, AuthingWebViewActivity.class);
-                startActivity(intent);
+                startActivity(AuthingWebViewActivity.class);
             } else if (pos == 10) {
                 Authing.init(SampleListActivity.this, "61c173ada0e3aec651b1a1d1");
                 AuthFlow.start(this);
@@ -129,11 +128,16 @@ public class SampleListActivity extends AppCompatActivity {
             } else if (pos == 13) {
                 biometric = true;
                 AuthFlow.start(this);
-            } else if (pos == 14) {
-                Intent intent = new Intent(SampleListActivity.this, AndroidAuthActivity.class);
-                startActivity(intent);
+            } else if (pos == 15) {
+                Intent intent = new Intent(SampleListActivity.this, LoginByPushNotificationActivity.class);
+                startActivityForResult(intent, RC_LOGIN);
             }
         });
+    }
+
+    private void startActivity(Class<?> cls){
+        Intent intent = new Intent(SampleListActivity.this, cls);
+        startActivity(intent);
     }
 
     @Override
@@ -143,10 +147,7 @@ public class SampleListActivity extends AppCompatActivity {
             if (biometric) {
                 startBiometric();
             } else {
-                Intent intent = new Intent(this, MainActivity.class);
-                UserInfo userInfo = (UserInfo) data.getSerializableExtra("user");
-                intent.putExtra("user", userInfo);
-                startActivity(intent);
+                gotoMain();
             }
         }
     }
@@ -168,8 +169,7 @@ public class SampleListActivity extends AppCompatActivity {
             public void onAuthenticationSucceeded(
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                Intent intent = new Intent(SampleListActivity.this, MainActivity.class);
-                startActivity(intent);
+                gotoMain();
             }
 
             @Override
@@ -214,6 +214,7 @@ public class SampleListActivity extends AppCompatActivity {
     }
 
     private void gotoMain() {
+        new Push().registerDevice(this);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

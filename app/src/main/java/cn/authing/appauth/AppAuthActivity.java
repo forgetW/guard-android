@@ -33,7 +33,7 @@ public class AppAuthActivity extends AppCompatActivity {
 
     private static final String TAG = "AppAuthActivity";
 
-    private static final String REDIRECT_URL = "cn.guard://authing.cn/redirect";
+    private static String REDIRECT_URL = "cn.guard://authing.cn/redirect";
 
     private static final int RC_AUTH = 1000;
     private static final int RC_END = 1001;
@@ -55,6 +55,9 @@ public class AppAuthActivity extends AppCompatActivity {
         if (Authing.getCurrentUser() == null){
             btn.startLoadingVisualEffect();
             Authing.getPublicConfig(config -> {
+                if (config != null && config.getRedirectUris().size() > 0) {
+                    REDIRECT_URL = config.getRedirectUris().get(0);
+                }
                 String identifier = config.getIdentifier();
                 Uri authEndpoint = Uri.parse(Authing.getScheme() + "://" + identifier + "." + Authing.getHost() + "/oidc/auth");
                 Uri tokenEndpoint = Uri.parse(Authing.getScheme() + "://" + identifier + "." + Authing.getHost() + "/oidc/token");
@@ -86,7 +89,7 @@ public class AppAuthActivity extends AppCompatActivity {
                 Intent browserIntent = new Intent();
                 browserIntent.setAction("android.intent.action.VIEW");
                 //browserIntent.setPackage("com.android.chrome");
-                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/u?app_id=" + Authing.getAppId() + "&back_app_url=" + REDIRECT_URL;
+                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/u?app_id=" + Authing.getAppId() + "&back_app_url=cn.guard://appauth/redirect";
                 Uri content_url = Uri.parse(url);
                 browserIntent.setData(content_url);
                 startActivity(browserIntent);
@@ -184,4 +187,22 @@ public class AppAuthActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String action = intent.getAction();
+        if(Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            Log.d(TAG, "onNewIntent uri = " + uri);
+            if (uri != null) {
+                boolean isAccountDeleted = uri.getBooleanQueryParameter("is_account_deleted", false);
+                if (isAccountDeleted){
+                    Safe.logoutUser(Authing.getCurrentUser());
+                    Authing.setCurrentUser(null);
+                }
+            }
+        }
+    }
+
 }

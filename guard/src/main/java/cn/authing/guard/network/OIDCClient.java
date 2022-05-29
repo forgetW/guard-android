@@ -1,7 +1,6 @@
 package cn.authing.guard.network;
 
 import android.net.Uri;
-import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -16,6 +15,7 @@ import cn.authing.guard.Authing;
 import cn.authing.guard.Callback;
 import cn.authing.guard.data.Config;
 import cn.authing.guard.data.UserInfo;
+import cn.authing.guard.util.ALog;
 import cn.authing.guard.util.Const;
 import cn.authing.guard.util.PKCE;
 import cn.authing.guard.util.Util;
@@ -26,7 +26,7 @@ import okhttp3.RequestBody;
 
 public class OIDCClient {
 
-    private static final String TAG = "AuthClientInternal";
+    private static final String TAG = "OIDCClient";
 
     public static void buildAuthorizeUrl(AuthRequest authRequest, Callback<String> callback) {
         Authing.getPublicConfig(config -> {
@@ -38,6 +38,7 @@ public class OIDCClient {
     }
 
     public static String buildAuthorizeUrl(Config config, AuthRequest authRequest) {
+        String secret = authRequest.getClientSecret();
         return Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/auth?_authing_lang="
                 + Util.getLangHeader()
                 + "&app_id=" + Authing.getAppId()
@@ -48,14 +49,14 @@ public class OIDCClient {
                 + "&scope=" + authRequest.getScope()
                 + "&prompt=consent"
                 + "&state=" + authRequest.getState()
-                + "&code_challenge=" + authRequest.getCodeChallenge()
-                + "&code_challenge_method=" + PKCE.getCodeChallengeMethod();
+                + (secret == null ? "&code_challenge=" + authRequest.getCodeChallenge() + "&code_challenge_method=" + PKCE.getCodeChallengeMethod() : "");
     }
 
     static void prepareLogin(Config config, @NotNull AuthCallback<AuthRequest> callback) {
         new Thread() {
             @Override
             public void run() {
+                long now = System.currentTimeMillis();
                 AuthRequest authData = new AuthRequest();
                 if (config.getRedirectUris().size() > 0) {
                     authData.setRedirectURL(config.getRedirectUris().get(0));
@@ -71,21 +72,6 @@ public class OIDCClient {
                         + "&state=" + authData.getState()
                         + "&code_challenge=" + authData.getCodeChallenge()
                         + "&code_challenge_method=" + PKCE.getCodeChallengeMethod();
-
-//                &client_id=dfb7ffcb782f4be7bb4d659dc9c9a005&nonce=g5QJFNjvg9           &redirect_uri=https://console.authing.cn/console/get-started/dfb7ffcb782f4be7bb4d659dc9c9a005&response_type=code&scope=openid profile email phone username address offline_access role extended_fields&prompt=consent&state=C1QvoxFi7f&code_challenge=4k8ak2gmKBKEnHdSHviz7zobvFn_CB6s7UIzOVDHims&code_challenge_method=S256
-//                &client_id=withub                          &nonce=UAFbBRWabiFYacjdgeAxn&redirect_uri=https://zhdj.nmgdj.gov.cn/api/v3/oauth/code&response_type=code&scope=openid email profile phone address offline_access&prompt=consent&state=5GOBcgTJG&code_challenge=PWXlkgl4D_9GbOEebxHCH1HyYMHUlglxhh4JHOJx5Y8&code_challenge_method=S256
-//                String url = Authing.getScheme() + "://zhdj.nmgdj.gov.cn/oidc/auth?_authing_lang="
-//                        + Util.getLangHeader()
-//                        + "&app_id=" + Authing.getAppId()
-//                        + "&client_id=withub"
-//                        + "&nonce=UAFbBRWabiFYacjdgeAxn"
-//                        + "&redirect_uri=https://zhdj.nmgdj.gov.cn/api/v3/oauth/code&response_type=code"
-//                        + "&scope=openid email profile phone address offline_access"
-//                        + "&prompt=consent"
-//                        + "&state=5GOBcgTJG"
-//                        + "&code_challenge=" + authData.getCodeChallenge()
-//                        + "&code_challenge_method=" + PKCE.getCodeChallengeMethod();
-
                 Request.Builder builder = new Request.Builder();
                 builder.url(url);
 
@@ -104,11 +90,13 @@ public class OIDCClient {
                         String[] split = location.split("\\?");
                         String uuid = Uri.parse(split[0]).getLastPathSegment();
                         authData.setUuid(uuid);
+                        long delta = System.currentTimeMillis() - now;
+                        ALog.d(TAG, "prepareLogin cost:" + delta + "ms");
                         callback.call(200, "", authData);
                     } else {
                         String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
-                        Log.w(TAG, "OIDC prepare login failed. " + response.code() + " message:" + s);
-                        callback.call(response.code(), s, null);
+                        ALog.w(TAG, "OIDC prepare login failed. " + response.code() + " message:" + s);
+                        callback.call(response.code(), s,null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -118,13 +106,13 @@ public class OIDCClient {
     }
 
     public static void registerByEmail(String email, String password, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.registerByEmail(authRequest, email, password, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void registerByPhoneCode(String phone, String vCode, String password, @NotNull AuthCallback<UserInfo> callback) {
@@ -132,13 +120,13 @@ public class OIDCClient {
     }
 
     public static void registerByPhoneCode(String phoneCountryCode, String phone, String vCode, String password, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.registerByPhoneCode(authRequest, phoneCountryCode, phone, vCode, password, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByPhoneCode(String phone, String vCode, @NotNull AuthCallback<UserInfo> callback) {
@@ -146,87 +134,95 @@ public class OIDCClient {
     }
 
     public static void loginByPhoneCode(String phoneCountryCode, String phone, String vCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.loginByPhoneCode(authRequest, phoneCountryCode, phone, vCode, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByEmailCode(String email, String vCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.loginByEmailCode(authRequest, email, vCode, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByAccount(String account, String password, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        long now = System.currentTimeMillis();
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
-                AuthClient.loginByAccount(authRequest, account, password, callback);
+                AuthClient.loginByAccount(authRequest, account, password, ((c, m, data) -> {
+                    ALog.d(TAG, "OIDCClient.loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
+                    callback.call(c, m, data);
+                }));
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByOneAuth(String account, String password, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        long now = System.currentTimeMillis();
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
-                AuthClient.loginByOneAuth(authRequest, account, password, callback);
+                AuthClient.loginByOneAuth(authRequest, account, password, (AuthCallback<UserInfo>) (c, m, data) -> {
+                    ALog.d(TAG, "OIDCClient.loginByOneAuth cost:" + (System.currentTimeMillis() - now) + "ms");
+                    callback.call(c, m, data);
+                });
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByWechat(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.loginByWechat(authRequest, authCode, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByWecom(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.loginByWecom(authRequest, authCode, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByAlipay(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.loginByAlipay(authRequest, authCode, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void loginByLark(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.loginByLark(authRequest, authCode, callback);
             } else {
                 callback.call(code, message, null);
             }
-        })));
+        }));
     }
 
     public static void oidcInteraction(AuthRequest authData, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig((config -> {
+        Authing.getPublicConfig(config -> {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/interaction/oidc/" + authData.getUuid() + "/login";
                 String body = "token=" + authData.getToken();
@@ -235,10 +231,11 @@ public class OIDCClient {
                 e.printStackTrace();
                 callback.call(500, "Exception", null);
             }
-        }));
+        });
     }
 
     private static void _oidcInteraction(String url, AuthRequest authData, String body, @NotNull AuthCallback<UserInfo> callback) {
+        long now = System.currentTimeMillis();
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         RequestBody requestBody = RequestBody.create(body, Const.FORM);
@@ -257,14 +254,15 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
-            if (response.code() == 302 || response.code() == 303) {
+            ALog.d(TAG, "_oidcInteraction cost:" + (System.currentTimeMillis() - now) + "ms");
+            if (response.code() == 302) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 oidcLogin(location, authData, callback);
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
-                Log.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s, null);
+                ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
+                callback.call(response.code(), s,null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -272,6 +270,7 @@ public class OIDCClient {
     }
 
     public static void oidcLogin(String url, AuthRequest authData, @NotNull AuthCallback<UserInfo> callback) {
+        long now = System.currentTimeMillis();
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         String cookie = CookieManager.getCookie();
@@ -288,7 +287,8 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
-            if (response.code() == 302 || response.code() == 303) {
+            ALog.d(TAG, "oidcLogin cost:" + (System.currentTimeMillis() - now) + "ms");
+            if (response.code() == 302) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 Uri uri = Uri.parse(location);
@@ -305,8 +305,8 @@ public class OIDCClient {
                 }
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
-                Log.w(TAG, "oidcLogin failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s, null);
+                ALog.w(TAG, "oidcLogin failed. " + response.code() + " message:" + s);
+                callback.call(response.code(), s,null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -315,6 +315,7 @@ public class OIDCClient {
     }
 
     private static void _oidcInteractionScopeConfirm(String url, AuthRequest authData, @NotNull AuthCallback<UserInfo> callback) {
+        long now = System.currentTimeMillis();
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         String body = authData.getScopesAsConsentBody();
@@ -334,14 +335,16 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
+            ALog.d(TAG, "_oidcInteractionScopeConfirm cost:" + (System.currentTimeMillis() - now) + "ms");
+            if (response.code() == 302) {
             if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 oidcLogin(location, authData, callback);
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
-                Log.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
                 callback.call(response.code(), s, null);
+                ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -349,17 +352,21 @@ public class OIDCClient {
     }
 
     public static void authByCode(String code, AuthRequest authRequest, @NotNull AuthCallback<UserInfo> callback) {
+        long now = System.currentTimeMillis();
         Authing.getPublicConfig(config -> {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
-                String body = "client_id=" + Authing.getAppId()
+                String secret = authRequest.getClientSecret();
+                String body = "client_id="+Authing.getAppId()
                         + "&grant_type=authorization_code"
                         + "&code=" + code
                         + "&scope=" + authRequest.getScope()
                         + "&prompt=" + "consent"
-                        + "&code_verifier=" + authRequest.getCodeVerifier()
+                        + (secret == null ? "&code_verifier=" + authRequest.getCodeVerifier() : "&client_secret=" + secret)
                         + "&redirect_uri=" + URLEncoder.encode(authRequest.getRedirectURL(), "utf-8");
                 Guardian.authRequest(url, "post", body, (data) -> {
+                Guardian.authRequest(url, "post", body, (data)-> {
+                    ALog.d(TAG, "authByCode cost:" + (System.currentTimeMillis() - now) + "ms");
                     if (data.getCode() == 200) {
                         try {
                             UserInfo userInfo = UserInfo.createUserInfo(new UserInfo(), data.getData());
@@ -388,6 +395,7 @@ public class OIDCClient {
     }
 
     public static void _getUserInfoByAccessToken(UserInfo userInfo, @NotNull AuthCallback<UserInfo> callback) {
+        long now = System.currentTimeMillis();
         Authing.getPublicConfig(config -> {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/me";
@@ -399,6 +407,7 @@ public class OIDCClient {
                 Call call = client.newCall(request);
                 okhttp3.Response response;
                 response = call.execute();
+                ALog.d(TAG, "getUserInfoByAccessToken cost:" + (System.currentTimeMillis() - now) + "ms");
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                 if (response.code() == 200) {
                     Response resp = new Response();
@@ -413,8 +422,8 @@ public class OIDCClient {
                         callback.call(500, s, null);
                     }
                 } else {
-                    Log.w(TAG, "_getUserInfoByAccessToken failed. " + response.code() + " message:" + s);
-                    callback.call(response.code(), s, null);
+                    ALog.w(TAG, "_getUserInfoByAccessToken failed. " + response.code() + " message:" + s);
+                    callback.call(response.code(), s,null);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -447,5 +456,12 @@ public class OIDCClient {
                 callback.call(500, "Exception", null);
             }
         });
+    }
+
+    public static void getAuthCode(@NotNull AuthCallback<UserInfo> callback) {
+        Authing.getPublicConfig(config -> OIDCClient.prepareLogin(config, (code, message, authRequest) -> {
+            authRequest.setToken(Authing.getCurrentUser().getIdToken());
+            oidcInteraction(authRequest, callback);
+        }));
     }
 }
