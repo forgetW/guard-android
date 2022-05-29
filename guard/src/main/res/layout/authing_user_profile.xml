@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <cn.authing.guard.profile.UserProfileContainer
+            <cn.withub.guard.profile.UserProfileContainer
                 android:id="@+id/user_profile_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content">
             </LinearLayout>
 
-            <cn.authing.guard.profile.GoDeveloperButton
+            <cn.withub.guard.profile.GoDeveloperButton
                 android:textAppearance="@null"
                 android:layout_marginTop="8dp"
                 android:background="#FFF"
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp" />
 
-            <cn.authing.guard.internal.LoadingButton
+            <cn.withub.guard.internal.LoadingButton
                 android:id="@+id/btn_logout"
                 android:stateListAnimator="@null"
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 android:textSize="16sp"
                 android:text="@string/authing_logout"/>
 
-            <cn.authing.guard.internal.LoadingButton
+            <cn.withub.guard.internal.LoadingButton
                 android:id="@+id/btn_delete"
                 android:stateListAnimator="@null"
                 android:layout_width="match_parent"

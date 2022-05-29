@@ -92,7 +92,7 @@ Authing.init(context, appId);
 
 
 ```xml
-<cn.authing.guard.WeComLoginButton
+<cn.withub.guard.WeComLoginButton
     android:id="@+id/btn_wecom_login"
     android:layout_width="44dp"
     android:layout_height="44dp"

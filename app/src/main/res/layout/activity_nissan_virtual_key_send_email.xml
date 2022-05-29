@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/authing_form_start_end_margin"
     android:orientation="vertical"
     android:background="#13172c"
-    tools:context=".nissan.NissanVirtualKeySendEmailActivity">
+    tools:context="cn.withub.nissan.NissanVirtualKeySendEmailActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         android:text="Email"
         android:textColor="@color/white"/>
 
-    <cn.authing.guard.AccountEditText
+    <cn.withub.guard.AccountEditText
         android:id="@+id/nvk_et_email"
         android:background="@drawable/nissan_edit_text_bg"
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
         app:errorEnabled="true"
         android:hint="Your email"/>
 
-    <cn.authing.guard.internal.LoadingButton
+    <cn.withub.guard.internal.LoadingButton
         android:id="@+id/btn_reset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

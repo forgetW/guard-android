@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import cn.authing.guard.activity.AuthActivity;
+import cn.withub.guard.activity.AuthActivity;
 
 public class DeepLinkActivity extends AuthActivity {
 

@@ -4,7 +4,7 @@
 
 ## 布局文件使用方式
 ```xml
-<cn.authing.guard.AccountEditText
+<cn.withub.guard.AccountEditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
 ```

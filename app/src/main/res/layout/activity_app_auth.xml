@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        tools:context=".appauth.AppAuthActivity">
+        tools:context="cn.withub.appauth.AppAuthActivity">
 
         <Button
             android:id="@+id/btn_user_profile"
@@ -35,7 +35,7 @@
             android:text="@string/authing_logout" />
     </LinearLayout>
 
-    <cn.authing.guard.internal.LoadingButton
+    <cn.withub.guard.internal.LoadingButton
         android:id="@+id/btn_loading"
         android:layout_width="56dp"
         android:layout_height="56dp"

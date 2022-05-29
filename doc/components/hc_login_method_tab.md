@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.LoginMethodTab
+<cn.withub.guard.LoginMethodTab
     android:layout_width="match_parent"
     android:layout_height="52dp" />
 ```

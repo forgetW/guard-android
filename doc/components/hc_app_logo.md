@@ -2,7 +2,7 @@
 
 ## 布局文件使用方式
 ```xml
-<cn.authing.guard.AppLogo
+<cn.withub.guard.AppLogo
     android:layout_width="48dp"
     android:layout_height="48dp"/>
 ```

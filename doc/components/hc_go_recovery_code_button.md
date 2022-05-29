@@ -2,7 +2,7 @@
 
 ## 布局文件使用方式
 ```xml
-<cn.authing.guard.mfa.GoRecoveryButton
+<cn.withub.guard.mfa.GoRecoveryButton
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
 ```

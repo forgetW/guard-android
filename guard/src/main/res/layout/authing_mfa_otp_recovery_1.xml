@@ -22,7 +22,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/authing_use_recovery_code_tip" />
 
-    <cn.authing.guard.mfa.RecoveryCodeEditText
+    <cn.withub.guard.mfa.RecoveryCodeEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/authing_edit_text_layout_background"
@@ -44,13 +44,13 @@
             android:text="@string/authing_recovery_code_saved" />
     </LinearLayout>
 
-    <cn.authing.guard.ErrorTextView
+    <cn.withub.guard.ErrorTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textColor="@color/authing_error" />
 
-    <cn.authing.guard.mfa.MFARecoveryButton
+    <cn.withub.guard.mfa.MFARecoveryButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

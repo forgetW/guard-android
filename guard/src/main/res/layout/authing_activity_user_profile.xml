@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment_user_profile"
-        android:name="cn.authing.guard.activity.UserProfileFragment"
+        android:name="cn.withub.guard.activity.UserProfileFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

@@ -23,7 +23,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/authing_bind_email_tip" />
 
-    <cn.authing.guard.EmailEditText
+    <cn.withub.guard.EmailEditText
         android:background="@drawable/authing_edit_text_layout_background"
         app:leftIconDrawable="@drawable/ic_authing_email"
         app:errorEnabled="true"
@@ -31,13 +31,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <cn.authing.guard.ErrorTextView
+    <cn.withub.guard.ErrorTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textColor="@color/authing_error" />
 
-    <cn.authing.guard.mfa.MFAEmailButton
+    <cn.withub.guard.mfa.MFAEmailButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/authing_button_background"
@@ -51,7 +51,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/authing_other_mfa" />
 
-    <cn.authing.guard.mfa.MFAListView
+    <cn.withub.guard.mfa.MFAListView
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -74,7 +74,7 @@ Good news is that the content of this WXEntryActivity is really simple, since we
 ```java
 package com.example.myapp.wxapi;
 
-import cn.authing.guard.social.wechat.WXCallbackActivity;
+import cn.withub.guard.social.wechat.WXCallbackActivity;
 
 public class WXEntryActivity extends WXCallbackActivity {
 }
@@ -91,7 +91,7 @@ public class WXEntryActivity extends WXCallbackActivity {
 Next, we recommend to use our UI component, all you need to do is 'place' it on the layout xml where you think appropriate, you can also create an instance of this component via code
 
 ```xml
-<cn.authing.guard.WechatLoginButton
+<cn.withub.guard.WechatLoginButton
     android:id="@+id/btn_wechat_login"
     android:layout_width="44dp"
     android:layout_height="44dp"

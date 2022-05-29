@@ -39,7 +39,7 @@
                 android:text="Email"
                 android:textColor="@color/white"/>
 
-            <cn.authing.guard.AccountEditText
+            <cn.withub.guard.AccountEditText
                 android:background="@drawable/nissan_edit_text_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 android:text="Password"
                 android:textColor="@color/white"/>
 
-            <cn.authing.guard.PasswordEditText
+            <cn.withub.guard.PasswordEditText
                 android:background="@drawable/nissan_edit_text_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 android:text="Password help >"
                 android:textColor="#7ACAFF"/>
 
-            <cn.authing.guard.LoginButton
+            <cn.withub.guard.LoginButton
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:text="Don't have an account?"
                 android:textColor="@color/white"/>
 
-            <cn.authing.guard.GoRegisterButton
+            <cn.withub.guard.GoRegisterButton
                 android:id="@+id/btn_goto_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

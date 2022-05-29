@@ -39,7 +39,7 @@
                 android:textColor="@color/black"
                 android:text="国家/地区"/>
 
-            <cn.authing.guard.CountryCodePicker
+            <cn.withub.guard.CountryCodePicker
                 android:id="@+id/ccp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -82,7 +82,7 @@
                 android:textColor="@color/black"
                 android:text="手机号"/>
 
-            <cn.authing.guard.PhoneNumberEditText
+            <cn.withub.guard.PhoneNumberEditText
                 android:id="@+id/pnet_input"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

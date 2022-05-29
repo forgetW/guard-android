@@ -22,14 +22,14 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/authing_phone"/>
 
-        <cn.authing.guard.PhoneNumberEditText
+        <cn.withub.guard.PhoneNumberEditText
             android:id="@+id/et_phone"
             android:background="@drawable/authing_edit_text_layout_background"
             app:errorEnabled="true"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <cn.authing.guard.CountryCodePicker
+            <cn.withub.guard.CountryCodePicker
                 android:id="@+id/ccp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -38,7 +38,7 @@
                 android:layout_marginEnd="4dp"
                 android:textSize="16sp"
                 android:textColor="#6D7784" />
-        </cn.authing.guard.PhoneNumberEditText>
+        </cn.withub.guard.PhoneNumberEditText>
 
 
         <LinearLayout
@@ -48,14 +48,14 @@
             android:layout_marginTop="8dp"
             android:clipChildren="false"
             android:gravity="center_vertical">
-            <cn.authing.guard.VerifyCodeEditText
+            <cn.withub.guard.VerifyCodeEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/authing_edit_text_layout_background"
                 app:errorEnabled="false"
                 app:leftIconDrawable="@drawable/ic_authing_shield_check"/>
-            <cn.authing.guard.GetVerifyCodeButton
+            <cn.withub.guard.GetVerifyCodeButton
                 android:stateListAnimator="@null"
                 android:background="@drawable/authing_get_code_button_background"
                 android:layout_width="wrap_content"
@@ -66,13 +66,13 @@
                 android:textColor="@color/authing_get_verify_code_button_text_color" />
         </LinearLayout>
 
-        <cn.authing.guard.ErrorTextView
+        <cn.withub.guard.ErrorTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp" />
 
-        <cn.authing.guard.profile.ModifyPhoneNumberButton
+        <cn.withub.guard.profile.ModifyPhoneNumberButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

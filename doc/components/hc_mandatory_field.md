@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.MandatoryField
+<cn.withub.guard.MandatoryField
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
 ```

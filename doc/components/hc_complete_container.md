@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.complete.UserInfoCompleteContainer
+<cn.withub.guard.complete.UserInfoCompleteContainer
     android:layout_weight="1"
     android:layout_width="match_parent"
     android:layout_height="0dp" />

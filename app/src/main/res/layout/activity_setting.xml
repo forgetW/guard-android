@@ -9,7 +9,7 @@
     android:clipToPadding="false"
     android:paddingStart="@dimen/authing_form_start_end_margin"
     android:paddingEnd="@dimen/authing_form_start_end_margin"
-    tools:context=".SettingActivity">
+    tools:context="cn.withub.SettingActivity">
 
     <TextView
         android:layout_marginTop="64dp"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="Scheme：" />
 
-    <cn.authing.guard.internal.EditTextLayout
+    <cn.withub.guard.internal.EditTextLayout
         android:layout_marginTop="8dp"
         android:id="@+id/et_scheme"
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:text="Host：" />
 
-    <cn.authing.guard.internal.EditTextLayout
+    <cn.withub.guard.internal.EditTextLayout
         android:layout_marginTop="8dp"
         android:id="@+id/et_host"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:text="Authing App ID：" />
 
-    <cn.authing.guard.internal.EditTextLayout
+    <cn.withub.guard.internal.EditTextLayout
         android:layout_marginTop="8dp"
         android:id="@+id/et_appid"
         android:layout_width="match_parent"

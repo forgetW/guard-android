@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.CountryCodePicker
+<cn.withub.guard.CountryCodePicker
     android:id="@+id/ccp"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"

@@ -9,11 +9,11 @@ import com.huawei.hms.common.ApiException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import cn.authing.guard.Authing;
-import cn.authing.guard.Callback;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.util.ALog;
-import cn.authing.guard.util.Const;
+import cn.withub.guard.Authing;
+import cn.withub.guard.Callback;
+import cn.withub.guard.data.UserInfo;
+import cn.withub.guard.util.ALog;
+import cn.withub.guard.util.Const;
 import cn.authing.push.Push;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;

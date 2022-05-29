@@ -3,21 +3,21 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.LoginContainer
+<cn.withub.guard.LoginContainer
     app:type="accountPassword"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <cn.authing.guard.AccountEditText
+    <cn.withub.guard.AccountEditText
         app:leftIconDrawable="@drawable/ic_authing_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <cn.authing.guard.PasswordEditText
+    <cn.withub.guard.PasswordEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftIconDrawable="@drawable/ic_authing_password"
         app:clearAllEnabled="false"
         android:layout_marginTop="32dp"/>
-</cn.authing.guard.LoginContainer>
+</cn.withub.guard.LoginContainer>
 ```
 
 ## 效果如下

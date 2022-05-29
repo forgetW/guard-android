@@ -25,7 +25,7 @@
         android:text="输入 Theragun 刚刚发送到您手机的 4 位代码"
         android:layout_marginTop="16dp" />
 
-    <cn.authing.guard.VerifyCodeEditText
+    <cn.withub.guard.VerifyCodeEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -34,13 +34,13 @@
         app:boxHeight="66dp"
         app:boxSpacing="16dp"/>
 
-    <cn.authing.guard.ErrorTextView
+    <cn.withub.guard.ErrorTextView
         android:id="@+id/tv_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
 
-    <cn.authing.guard.LoginButton
+    <cn.withub.guard.LoginButton
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

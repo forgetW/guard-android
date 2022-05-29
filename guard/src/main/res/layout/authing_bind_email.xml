@@ -22,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/authing_email"/>
 
-        <cn.authing.guard.EmailEditText
+        <cn.withub.guard.EmailEditText
             android:id="@+id/et_email"
             android:background="@drawable/authing_edit_text_layout_background"
             app:leftIconDrawable="@drawable/ic_authing_email"
@@ -38,14 +38,14 @@
             android:layout_marginTop="8dp"
             android:clipChildren="false"
             android:gravity="center_vertical">
-            <cn.authing.guard.VerifyCodeEditText
+            <cn.withub.guard.VerifyCodeEditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/authing_edit_text_layout_background"
                 app:errorEnabled="false"
                 app:leftIconDrawable="@drawable/ic_authing_shield_check"/>
-            <cn.authing.guard.GetEmailCodeButton
+            <cn.withub.guard.GetEmailCodeButton
                 app:loadingLocation="over"
                 android:stateListAnimator="@null"
                 android:background="@drawable/authing_get_code_button_background"
@@ -57,13 +57,13 @@
                 android:textColor="@color/authing_get_verify_code_button_text_color" />
         </LinearLayout>
 
-        <cn.authing.guard.ErrorTextView
+        <cn.withub.guard.ErrorTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp" />
 
-        <cn.authing.guard.profile.ModifyEmailButton
+        <cn.withub.guard.profile.ModifyEmailButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

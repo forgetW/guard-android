@@ -1,4 +1,5 @@
 plugins {
+//    id 'com.android.library'
     id 'com.android.application'
     id 'com.huawei.agconnect'
 }
@@ -7,7 +8,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "cn.authing.guard"
+        applicationId "cn.withub.guard"
         minSdk 24
         targetSdk 31
         versionCode 1
@@ -54,7 +55,7 @@ dependencies {
     implementation project(':guard')
     implementation project(':scanner')
     implementation project(':otp')
-    implementation project(':push')
+//    implementation project(':push')
 
     // 通过网易云盾实现一键登录
     implementation 'io.github.yidun:quicklogin:3.1.1'
@@ -64,7 +65,6 @@ dependencies {
 
     // 支付宝登录
     implementation files('libs/alipaysdk.aar')
-
     // 企业微信
     implementation files('libs/lib_wwapi-2.0.12.11.aar')
 

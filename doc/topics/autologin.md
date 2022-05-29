@@ -25,8 +25,8 @@ Authing.getCurrentUser()
 结合过往经验，以下是包含 *自动登录/品牌展示/跳转登录* 逻辑的完整闪屏页代码。其中 MainActivity 需要被替换成应用 App 登录成功后的主页。
 
 ```java
-import static cn.authing.guard.activity.AuthActivity.OK;
-import static cn.authing.guard.activity.AuthActivity.RC_LOGIN;
+import static cn.withub.guard.activity.AuthActivity.OK;
+import static cn.withub.guard.activity.AuthActivity.RC_LOGIN;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,9 +37,9 @@ import android.os.Handler;
 
 import java.util.Objects;
 
-import cn.authing.guard.Authing;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.flow.AuthFlow;
+import cn.withub.guard.Authing;
+import cn.withub.guard.data.UserInfo;
+import cn.withub.guard.flow.AuthFlow;
 
 public class SplashActivity extends AppCompatActivity {
 

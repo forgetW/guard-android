@@ -25,7 +25,7 @@ Authing.init(this, "your_authing_app_id"); // 'this' is your Application or init
 5. 在处理登录的布局文件里面使用我们封装的 WebAuthView：
 
 ```xml
-<cn.authing.guard.WebAuthView
+<cn.withub.guard.WebAuthView
     android:id="@+id/wv_auth"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

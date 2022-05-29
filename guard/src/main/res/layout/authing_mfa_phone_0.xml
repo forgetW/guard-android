@@ -24,13 +24,13 @@
         android:gravity="center_horizontal"
         android:text="@string/authing_bind_phone_tip" />
 
-    <cn.authing.guard.PhoneNumberEditText
+    <cn.withub.guard.PhoneNumberEditText
         android:background="@drawable/authing_edit_text_layout_background"
         app:errorEnabled="true"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <cn.authing.guard.CountryCodePicker
+        <cn.withub.guard.CountryCodePicker
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingStart="12dp"
@@ -38,15 +38,15 @@
             android:layout_marginEnd="4dp"
             android:textSize="16sp"
             android:textColor="#6D7784" />
-    </cn.authing.guard.PhoneNumberEditText>
+    </cn.withub.guard.PhoneNumberEditText>
 
-    <cn.authing.guard.ErrorTextView
+    <cn.withub.guard.ErrorTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textColor="@color/authing_error" />
 
-    <cn.authing.guard.mfa.MFAPhoneButton
+    <cn.withub.guard.mfa.MFAPhoneButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/authing_button_background"
@@ -60,7 +60,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/authing_other_mfa" />
 
-    <cn.authing.guard.mfa.MFAListView
+    <cn.withub.guard.mfa.MFAListView
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

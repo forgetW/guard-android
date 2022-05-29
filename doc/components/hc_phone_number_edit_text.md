@@ -5,7 +5,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.PhoneNumberEditText
+<cn.withub.guard.PhoneNumberEditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
 ```

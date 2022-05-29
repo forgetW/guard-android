@@ -6,7 +6,7 @@
     android:clipChildren="false"
     android:orientation="vertical">
 
-    <cn.authing.guard.AccountEditText
+    <cn.withub.guard.AccountEditText
         android:layout_marginTop="64dp"
         android:layout_marginStart="@dimen/authing_form_start_end_margin"
         android:layout_marginEnd="@dimen/authing_form_start_end_margin"
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <cn.authing.guard.ErrorTextView
+    <cn.withub.guard.ErrorTextView
         android:layout_marginStart="@dimen/authing_form_start_end_margin"
         android:layout_marginEnd="@dimen/authing_form_start_end_margin"
         android:layout_width="match_parent"

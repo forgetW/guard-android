@@ -21,13 +21,13 @@
         android:layout_marginTop="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <cn.authing.guard.MandatoryField
+        <cn.withub.guard.MandatoryField
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="First name"
             android:textColor="@color/white"/>
-        <cn.authing.guard.MandatoryField
+        <cn.withub.guard.MandatoryField
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -68,14 +68,14 @@
             android:layout_height="42dp" />
     </LinearLayout>
 
-    <cn.authing.guard.MandatoryField
+    <cn.withub.guard.MandatoryField
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Email"
         android:textColor="@color/white"/>
 
-    <cn.authing.guard.AccountEditText
+    <cn.withub.guard.AccountEditText
         android:id="@+id/nvk_et_email"
         android:background="@drawable/nissan_edit_text_bg"
         android:layout_width="match_parent"
@@ -88,7 +88,7 @@
         app:errorEnabled="true"
         android:hint="Email"/>
 
-    <cn.authing.guard.MandatoryField
+    <cn.withub.guard.MandatoryField
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -100,7 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:gravity="center_vertical">
-        <cn.authing.guard.CountryCodePicker
+        <cn.withub.guard.CountryCodePicker
             android:background="@drawable/nissan_edit_text_bg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -109,7 +109,7 @@
             android:paddingEnd="8dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/white"/>
-        <cn.authing.guard.PhoneNumberEditText
+        <cn.withub.guard.PhoneNumberEditText
             android:id="@+id/nvk_et_phone"
             android:background="@drawable/nissan_edit_text_bg"
             android:layout_width="match_parent"

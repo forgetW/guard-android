@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.WebAuthView
+<cn.withub.guard.WebAuthView
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 ```

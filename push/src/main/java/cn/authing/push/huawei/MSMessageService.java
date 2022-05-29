@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.huawei.hms.push.HmsMessageService;
 
-import cn.authing.guard.util.ALog;
+import cn.withub.guard.util.ALog;
 
 public class MSMessageService extends HmsMessageService {
 

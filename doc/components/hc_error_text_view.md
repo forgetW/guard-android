@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.ErrorTextView
+<cn.withub.guard.ErrorTextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
 ```

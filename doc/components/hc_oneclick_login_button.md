@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.oneclick.OneClickAuthButton
+<cn.withub.guard.oneclick.OneClickAuthButton
     android:background="@drawable/authing_button_background"
     android:textColor="@color/white"
     android:layout_width="match_parent"

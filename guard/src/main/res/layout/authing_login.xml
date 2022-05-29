@@ -13,7 +13,7 @@
         android:clipChildren="false"
         android:orientation="vertical">
 
-        <cn.authing.guard.AppLogo
+        <cn.withub.guard.AppLogo
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
@@ -24,20 +24,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_gravity="center_horizontal">
-            <cn.authing.guard.AppName
+            <cn.withub.guard.AppName
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <cn.authing.guard.LoginMethodTab
+        <cn.withub.guard.LoginMethodTab
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="28dp"
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
             android:layout_marginEnd="@dimen/authing_form_start_end_margin" />
 
-        <cn.authing.guard.LoginContainer
+        <cn.withub.guard.LoginContainer
             app:type="phoneCode"
             android:clipChildren="false"
             android:layout_width="match_parent"
@@ -45,12 +45,12 @@
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
             android:layout_marginEnd="@dimen/authing_form_start_end_margin"
             android:layout_marginTop="14dp">
-            <cn.authing.guard.PhoneNumberEditText
+            <cn.withub.guard.PhoneNumberEditText
                 android:background="@null"
                 app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <cn.authing.guard.CountryCodePicker
+                <cn.withub.guard.CountryCodePicker
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingStart="12dp"
@@ -58,21 +58,21 @@
                     android:layout_marginEnd="4dp"
                     android:textSize="16sp"
                     android:textColor="#6D7784" />
-            </cn.authing.guard.PhoneNumberEditText>
+            </cn.withub.guard.PhoneNumberEditText>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:clipChildren="false"
                 android:gravity="center_vertical">
-                <cn.authing.guard.VerifyCodeEditText
+                <cn.withub.guard.VerifyCodeEditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
                     app:errorEnabled="false"
                     app:leftIconDrawable="@drawable/ic_authing_shield_check"/>
-                <cn.authing.guard.GetVerifyCodeButton
+                <cn.withub.guard.GetVerifyCodeButton
                     android:stateListAnimator="@null"
                     android:background="@drawable/authing_get_code_button_background"
                     android:layout_width="wrap_content"
@@ -82,9 +82,9 @@
                     android:paddingEnd="4dp"
                     android:textColor="@color/authing_get_verify_code_button_text_color" />
             </LinearLayout>
-        </cn.authing.guard.LoginContainer>
+        </cn.withub.guard.LoginContainer>
 
-        <cn.authing.guard.LoginContainer
+        <cn.withub.guard.LoginContainer
             app:type="emailCode"
             android:clipChildren="false"
             android:layout_width="match_parent"
@@ -93,7 +93,7 @@
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
             android:layout_marginEnd="@dimen/authing_form_start_end_margin"
             android:layout_marginTop="14dp">
-            <cn.authing.guard.EmailEditText
+            <cn.withub.guard.EmailEditText
                 app:leftIconDrawable="@drawable/ic_authing_email"
                 android:background="@null"
                 app:errorEnabled="true"
@@ -105,14 +105,14 @@
                 android:layout_marginTop="4dp"
                 android:clipChildren="false"
                 android:gravity="center_vertical">
-                <cn.authing.guard.VerifyCodeEditText
+                <cn.withub.guard.VerifyCodeEditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
                     app:errorEnabled="false"
                     app:leftIconDrawable="@drawable/ic_authing_shield_check"/>
-                <cn.authing.guard.GetEmailCodeButton
+                <cn.withub.guard.GetEmailCodeButton
                     android:stateListAnimator="@null"
                     android:background="@drawable/authing_get_code_button_background"
                     android:layout_width="wrap_content"
@@ -122,9 +122,9 @@
                     android:paddingEnd="4dp"
                     android:textColor="@color/authing_get_verify_code_button_text_color" />
             </LinearLayout>
-        </cn.authing.guard.LoginContainer>
+        </cn.withub.guard.LoginContainer>
 
-        <cn.authing.guard.LoginContainer
+        <cn.withub.guard.LoginContainer
             app:type="accountPassword"
             android:clipChildren="false"
             android:visibility="gone"
@@ -133,13 +133,13 @@
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
             android:layout_marginEnd="@dimen/authing_form_start_end_margin"
             android:layout_marginTop="14dp">
-            <cn.authing.guard.AccountEditText
+            <cn.withub.guard.AccountEditText
                 app:leftIconDrawable="@drawable/ic_authing_user"
                 app:errorEnabled="true"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-            <cn.authing.guard.PasswordEditText
+            <cn.withub.guard.PasswordEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -147,43 +147,43 @@
                 app:clearAllEnabled="false"
                 app:errorEnabled="false"
                 android:layout_marginTop="4dp"/>
-            <cn.authing.guard.CaptchaContainer
+            <cn.withub.guard.CaptchaContainer
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:visibility="gone"
                 android:clipChildren="false"
                 android:gravity="center_vertical">
-                <cn.authing.guard.CaptchaCodeEditText
+                <cn.withub.guard.CaptchaCodeEditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
                     app:errorEnabled="false"
                     app:leftIconDrawable="@drawable/ic_authing_shield_check"/>
-                <cn.authing.guard.CaptchaImageView
+                <cn.withub.guard.CaptchaImageView
                     android:background="@drawable/authing_edit_text_background_normal"
                     android:layout_width="126dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="4dp" />
-            </cn.authing.guard.CaptchaContainer>
-        </cn.authing.guard.LoginContainer>
+            </cn.withub.guard.CaptchaContainer>
+        </cn.withub.guard.LoginContainer>
 
-        <cn.authing.guard.ErrorTextView
+        <cn.withub.guard.ErrorTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
             android:layout_marginEnd="@dimen/authing_form_start_end_margin"
             android:layout_marginTop="4dp"/>
 
-        <cn.authing.guard.PrivacyConfirmBox
+        <cn.withub.guard.PrivacyConfirmBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
             android:layout_marginEnd="@dimen/authing_form_start_end_margin"
             android:layout_marginTop="4dp" />
 
-        <cn.authing.guard.LoginButton
+        <cn.withub.guard.LoginButton
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/authing_form_start_end_margin"
             android:layout_marginEnd="@dimen/authing_form_start_end_margin" >
-            <cn.authing.guard.GoForgotPasswordButton
+            <cn.withub.guard.GoForgotPasswordButton
                 android:id="@+id/tv_reset_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -208,7 +208,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-            <cn.authing.guard.GoRegisterButton
+            <cn.withub.guard.GoRegisterButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
@@ -223,7 +223,7 @@
             android:minHeight="16dp"
             android:layout_weight="1"/>
 
-        <cn.authing.guard.internal.ContinueWithTextView
+        <cn.withub.guard.internal.ContinueWithTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/authing_3rd_login"
@@ -231,12 +231,12 @@
             android:textColor="#DDD"
             android:layout_marginBottom="10dp" />
 
-        <cn.authing.guard.social.SocialLoginListView
+        <cn.withub.guard.social.SocialLoginListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp" />
 
-        <cn.authing.guard.feedback.GoFeedbackButton
+        <cn.withub.guard.feedback.GoFeedbackButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

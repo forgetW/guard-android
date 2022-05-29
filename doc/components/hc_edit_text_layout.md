@@ -17,7 +17,7 @@
 
 可以通过 *hint_mode* 属性来控制，如：
 ```xml
-<cn.authing.guard.AccountEditText
+<cn.withub.guard.AccountEditText
     app:hintMode="animated" />
 ```
 
@@ -31,7 +31,7 @@
 如果不需要“全部删除”按钮，可以通过 *clearAllEnabled* 属性来控制。如：
 
 ```xml
-<cn.authing.guard.AccountEditText
+<cn.withub.guard.AccountEditText
     app:clearAllEnabled="false" />
 ```
 

@@ -5,7 +5,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.EmailLabel
+<cn.withub.guard.EmailLabel
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>
 ```

@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.AppName
+<cn.withub.guard.AppName
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>
 ```

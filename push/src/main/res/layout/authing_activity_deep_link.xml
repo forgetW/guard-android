@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <cn.authing.guard.internal.CircularAnimatedView
+    <cn.withub.guard.internal.CircularAnimatedView
         android:id="@+id/loading"
         android:layout_width="80dp"
         android:layout_height="80dp"

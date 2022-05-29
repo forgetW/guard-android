@@ -26,20 +26,20 @@
             android:layout_height="wrap_content"
 
             android:text="@string/authing_code_sent_to" />
-        <cn.authing.guard.PhoneLabel
+        <cn.withub.guard.PhoneLabel
             android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <cn.authing.guard.VerifyCodeEditText
+    <cn.withub.guard.VerifyCodeEditText
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:codeMode="frame"/>
 
-    <cn.authing.guard.GetVerifyCodeButton
+    <cn.withub.guard.GetVerifyCodeButton
         android:layout_gravity="center_horizontal"
         android:background="@null"
         android:layout_width="wrap_content"
@@ -47,13 +47,13 @@
         android:layout_marginTop="16dp"
         android:textColor="@color/authing_get_verify_code_button_text_color" />
 
-    <cn.authing.guard.ErrorTextView
+    <cn.withub.guard.ErrorTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textColor="@color/authing_error" />
 
-    <cn.authing.guard.mfa.MFAPhoneButton
+    <cn.withub.guard.mfa.MFAPhoneButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/authing_button_background"
@@ -68,7 +68,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/authing_other_mfa" />
 
-    <cn.authing.guard.mfa.MFAListView
+    <cn.withub.guard.mfa.MFAListView
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

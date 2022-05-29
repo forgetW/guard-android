@@ -1,0 +1,31 @@
+package cn.withub.guard.handler.register;
+
+import cn.withub.guard.RegisterButton;
+import cn.withub.guard.util.ALog;
+
+public class RegisterRequestManager {
+
+    private final AbsRegisterHandler mFirstRegisterHandler;
+    private final EmailRegisterHandler mEmailRegisterHandler;
+
+    public RegisterRequestManager(RegisterButton registerButton, IRegisterRequestCallBack callBack){
+        mEmailRegisterHandler = new EmailRegisterHandler(registerButton, callBack);
+        PhoneCodeRegisterHandler phoneCodeRegisterHandler = new PhoneCodeRegisterHandler(registerButton, callBack);
+        phoneCodeRegisterHandler.setNextHandler(mEmailRegisterHandler);
+        mFirstRegisterHandler = phoneCodeRegisterHandler;
+    }
+
+    public void requestRegister(){
+        if (null == mFirstRegisterHandler){
+            ALog.e("RegisterRequestManager", "init register handler error");
+            return;
+        }
+        mFirstRegisterHandler.requestRegister();
+    }
+
+    public void setEmail(String email){
+        if (null != mEmailRegisterHandler){
+            mEmailRegisterHandler.setEmail(email);
+        }
+    }
+}

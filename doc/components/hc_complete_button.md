@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.complete.UserInfoCompleteButton
+<cn.withub.guard.complete.UserInfoCompleteButton
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/authing_submit"

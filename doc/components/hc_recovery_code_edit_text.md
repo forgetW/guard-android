@@ -4,7 +4,7 @@
 
 ## 布局文件使用方式
 ```xml
-<cn.authing.guard.mfa.RecoveryCodeEditText
+<cn.withub.guard.mfa.RecoveryCodeEditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/authing_edit_text_layout_background"

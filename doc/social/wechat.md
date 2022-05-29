@@ -68,7 +68,7 @@ com.example.myapp
 ```java
 package com.example.myapp.wxapi;
 
-import cn.authing.guard.social.wechat.WXCallbackActivity;
+import cn.withub.guard.social.wechat.WXCallbackActivity;
 
 public class WXEntryActivity extends WXCallbackActivity {
 }
@@ -85,7 +85,7 @@ public class WXEntryActivity extends WXCallbackActivity {
 接下来，如果使用我们提供的微信登录按钮，则在布局文件里面加上（当然也可以用代码初始化）：
 
 ```xml
-<cn.authing.guard.WechatLoginButton
+<cn.withub.guard.WechatLoginButton
     android:id="@+id/btn_wechat_login"
     android:layout_width="44dp"
     android:layout_height="44dp"

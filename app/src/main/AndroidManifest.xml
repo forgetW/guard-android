@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="cn.authing">
+    package="cn.withub">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,44 +10,44 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
-        android:name=".App"
+        android:name="cn.withub.App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Guard">
         <activity
-            android:name=".push.LoginByPushNotificationActivity"
+            android:name="cn.withub.push.LoginByPushNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".scan.ScanAuthActivity"
+            android:name="cn.withub.scan.ScanAuthActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingActivity"
+            android:name="cn.withub.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".ChangePasswordActivity"
+            android:name="cn.withub.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".nissan.NissanVirtualKeyResetPasswordActivity"
+            android:name="cn.withub.nissan.NissanVirtualKeyResetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".nissan.NissanVirtualKeySendEmailActivity"
+            android:name="cn.withub.nissan.NissanVirtualKeySendEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".nissan.NissanVirtualKeySignupTwoActivity"
+            android:name="cn.withub.nissan.NissanVirtualKeySignupTwoActivity"
             android:exported="false" />
         <activity
-            android:name=".nissan.NissanVirtualKeySignupOneActivity"
+            android:name="cn.withub.nissan.NissanVirtualKeySignupOneActivity"
             android:exported="false" />
         <activity
-            android:name=".nissan.NissanVirtualKeyAuthActivity"
+            android:name="cn.withub.nissan.NissanVirtualKeyAuthActivity"
             android:exported="false" />
         <activity
-            android:name=".abao.AbaoVerifyCodeActivity"
+            android:name="cn.withub.abao.AbaoVerifyCodeActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name="cn.withub.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,38 +56,38 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SampleListActivity"
+            android:name="cn.withub.SampleListActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".MainActivity"
+            android:name="cn.withub.MainActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".AndroidAuthActivity"
+            android:name="cn.withub.AndroidAuthActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".oneclick.OneClickActivity"
+            android:name="cn.withub.oneclick.OneClickActivity"
             android:exported="false" />
         <activity
-            android:name=".wechat.WechatAuthActivity"
+            android:name="cn.withub.wechat.WechatAuthActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".theragun.TheragunAuthActivity"
+            android:name="cn.withub.theragun.TheragunAuthActivity"
             android:exported="false" />
         <activity
-            android:name=".theragun.TheragunVerifyCodeActivity"
+            android:name="cn.withub.theragun.TheragunVerifyCodeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".abao.AbaoActivity"
+            android:name="cn.withub.abao.AbaoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".appauth.AppAuthActivity"
+            android:name="cn.withub.appauth.AppAuthActivity"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
@@ -120,7 +120,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".webview.AuthingWebViewActivity"
+            android:name="cn.withub.webview.AuthingWebViewActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -135,11 +135,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".authenticator.AuthenticatorActivity"
+            android:name="cn.withub.authenticator.AuthenticatorActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".guard.wxapi.WXEntryActivity"
+            android:name="cn.withub.guard.wxapi.WXEntryActivity"
             android:exported="true" />
     </application>
 

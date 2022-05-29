@@ -3,7 +3,7 @@
 ## 布局文件使用方式
 
 ```xml
-<cn.authing.guard.mfa.MFAEmailButton
+<cn.withub.guard.mfa.MFAEmailButton
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/authing_button_background"

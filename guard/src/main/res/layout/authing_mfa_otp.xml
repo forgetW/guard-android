@@ -22,7 +22,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/authing_security_code_tip" />
 
-    <cn.authing.guard.VerifyCodeEditText
+    <cn.withub.guard.VerifyCodeEditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -31,13 +31,13 @@
         app:digit="6"
         app:hyphen="true" />
 
-    <cn.authing.guard.ErrorTextView
+    <cn.withub.guard.ErrorTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textColor="@color/authing_error" />
 
-    <cn.authing.guard.mfa.MFAOTPButton
+    <cn.withub.guard.mfa.MFAOTPButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/authing_lost_security_code" />
-        <cn.authing.guard.mfa.GoRecoveryButton
+        <cn.withub.guard.mfa.GoRecoveryButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -68,7 +68,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/authing_other_mfa" />
 
-    <cn.authing.guard.mfa.MFAListView
+    <cn.withub.guard.mfa.MFAListView
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

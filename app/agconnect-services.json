@@ -27,7 +27,7 @@
 		"project_id":"99536292102284345",
 		"app_id":"106247535",
 		"api_key":"DAEDANrTwtktkGkyARcCRQ+WvK+Kj6oN9HpV/6zKy6LjDXGvCAXyo2ghH3tUpvbM8YHJiQy/LfD1Z/ZF4hqiOoQRrSriT5h8dNqf9g==",
-		"package_name":"cn.authing.guard"
+		"package_name":"cn.withub.guard"
 	},
 	"oauth_client":{
 		"client_id":"106247535",
@@ -35,17 +35,17 @@
 	},
 	"app_info":{
 		"app_id":"106247535",
-		"package_name":"cn.authing.guard"
+		"package_name":"cn.withub.guard"
 	},
 	"configuration_version":"3.0",
 	"appInfos":[
 		{
-			"package_name":"cn.authing.guard",
+			"package_name":"cn.withub.guard",
 			"client":{
 				"app_id":"106247535"
 			},
 			"app_info":{
-				"package_name":"cn.authing.guard",
+				"package_name":"cn.withub.guard",
 				"app_id":"106247535"
 			},
 			"oauth_client":{

@@ -21,14 +21,14 @@
             android:textSize="24sp"
             android:text="@string/authing_feedback"/>
 
-        <cn.authing.guard.MandatoryField
+        <cn.withub.guard.MandatoryField
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/authing_contact_info"
             app:asteriskPosition="left"/>
 
-        <cn.authing.guard.AccountEditText
+        <cn.withub.guard.AccountEditText
             android:background="@drawable/authing_edit_text_layout_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/authing_related_issue" />
 
-        <cn.authing.guard.feedback.IssueLayout
+        <cn.withub.guard.feedback.IssueLayout
             android:layout_marginTop="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -52,7 +52,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/authing_feedback_description" />
 
-        <cn.authing.guard.feedback.FeedbackDescriptionEditText
+        <cn.withub.guard.feedback.FeedbackDescriptionEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -67,7 +67,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/authing_feedback_screenshot" />
 
-        <cn.authing.guard.feedback.ImagePickerView
+        <cn.withub.guard.feedback.ImagePickerView
             android:id="@+id/gv_image_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,13 +78,13 @@
             android:verticalSpacing="4dp"
             android:layout_marginTop="4dp" />
 
-        <cn.authing.guard.ErrorTextView
+        <cn.withub.guard.ErrorTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp" />
 
-        <cn.authing.guard.feedback.FeedbackSubmitButton
+        <cn.withub.guard.feedback.FeedbackSubmitButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"

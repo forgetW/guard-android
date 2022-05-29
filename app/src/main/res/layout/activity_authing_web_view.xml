@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".webview.AuthingWebViewActivity">
+    tools:context="cn.withub.webview.AuthingWebViewActivity">
 
-    <cn.authing.guard.WebAuthView
+    <cn.withub.guard.WebAuthView
         android:id="@+id/wv_auth"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

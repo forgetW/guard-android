@@ -24,14 +24,14 @@
                 android:textSize="16sp"
                 android:layout_gravity="center_horizontal"/>
 
-            <cn.authing.guard.MandatoryField
+            <cn.withub.guard.MandatoryField
                 android:layout_marginTop="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New password"
                 android:textColor="@color/white"/>
 
-            <cn.authing.guard.PasswordEditText
+            <cn.withub.guard.PasswordEditText
                 android:id="@+id/nvk_et_pwd"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/nissan_edit_text_bg"
@@ -96,14 +96,14 @@
                     android:text="- At least 1 special character"/>
             </LinearLayout>
 
-            <cn.authing.guard.MandatoryField
+            <cn.withub.guard.MandatoryField
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Confirm password"
                 android:textColor="@color/white"/>
 
-            <cn.authing.guard.PasswordConfirmEditText
+            <cn.withub.guard.PasswordConfirmEditText
                 android:id="@+id/nvk_et_pwd_confirm"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/nissan_edit_text_bg"
@@ -123,12 +123,12 @@
                 android:text="*:Mandatory fields"
                 android:textColor="#ddd"/>
 
-            <cn.authing.guard.ErrorTextView
+            <cn.withub.guard.ErrorTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"/>
 
-            <cn.authing.guard.PrivacyConfirmBox
+            <cn.withub.guard.PrivacyConfirmBox
                 android:layout_marginTop="24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                 app:linkTextColor="#3071b9"
                 android:textColor="@color/white"/>
 
-            <cn.authing.guard.RegisterButton
+            <cn.withub.guard.RegisterButton
                 android:id="@+id/btn_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

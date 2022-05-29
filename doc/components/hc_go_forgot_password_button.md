@@ -2,7 +2,7 @@
 
 ## 布局文件使用方式
 ```xml
-<cn.authing.guard.GoForgotPasswordButton
+<cn.withub.guard.GoForgotPasswordButton
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
 ```
