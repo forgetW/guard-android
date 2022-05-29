@@ -78,6 +78,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements TextWat
 
     @Override
     public void afterTextChanged(Editable s) {
-        et.getEditText().setText(Util.encryptPassword(s.toString()));
+        et.getEditText().setText(Util.rsaEncryptPassword(s.toString()));
     }
 }

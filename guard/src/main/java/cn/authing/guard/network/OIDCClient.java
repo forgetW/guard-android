@@ -60,10 +60,9 @@ public class OIDCClient {
                 if (config.getRedirectUris().size() > 0) {
                     authData.setRedirectURL(config.getRedirectUris().get(0));
                 }
-                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/auth?_authing_lang="
-                        + Util.getLangHeader()
-                        + "&app_id=" + Authing.getAppId()
-                        + "&client_id=" + Authing.getAppId()
+                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/auth?"
+                        + "app_id=" + Authing.getAppId()
+                        + "&client_id=" + authData.getClient_id()
                         + "&nonce=" + authData.getNonce()
                         + "&redirect_uri=" + authData.getRedirectURL()
                         + "&response_type=" + authData.getResponse_type()
@@ -72,6 +71,21 @@ public class OIDCClient {
                         + "&state=" + authData.getState()
                         + "&code_challenge=" + authData.getCodeChallenge()
                         + "&code_challenge_method=" + PKCE.getCodeChallengeMethod();
+
+//                &client_id=dfb7ffcb782f4be7bb4d659dc9c9a005&nonce=g5QJFNjvg9           &redirect_uri=https://console.authing.cn/console/get-started/dfb7ffcb782f4be7bb4d659dc9c9a005&response_type=code&scope=openid profile email phone username address offline_access role extended_fields&prompt=consent&state=C1QvoxFi7f&code_challenge=4k8ak2gmKBKEnHdSHviz7zobvFn_CB6s7UIzOVDHims&code_challenge_method=S256
+//                &client_id=withub                          &nonce=UAFbBRWabiFYacjdgeAxn&redirect_uri=https://zhdj.nmgdj.gov.cn/api/v3/oauth/code&response_type=code&scope=openid email profile phone address offline_access&prompt=consent&state=5GOBcgTJG&code_challenge=PWXlkgl4D_9GbOEebxHCH1HyYMHUlglxhh4JHOJx5Y8&code_challenge_method=S256
+//                String url = Authing.getScheme() + "://zhdj.nmgdj.gov.cn/oidc/auth?_authing_lang="
+//                        + Util.getLangHeader()
+//                        + "&app_id=" + Authing.getAppId()
+//                        + "&client_id=withub"
+//                        + "&nonce=UAFbBRWabiFYacjdgeAxn"
+//                        + "&redirect_uri=https://zhdj.nmgdj.gov.cn/api/v3/oauth/code&response_type=code"
+//                        + "&scope=openid email profile phone address offline_access"
+//                        + "&prompt=consent"
+//                        + "&state=5GOBcgTJG"
+//                        + "&code_challenge=" + authData.getCodeChallenge()
+//                        + "&code_challenge_method=" + PKCE.getCodeChallengeMethod();
+
                 Request.Builder builder = new Request.Builder();
                 builder.url(url);
 
@@ -84,16 +98,17 @@ public class OIDCClient {
                 okhttp3.Response response;
                 try {
                     response = call.execute();
-                    if (response.code() == 302) {
+                    if (response.code() == 302 || response.code() == 303) {
                         CookieManager.addCookies(response);
                         String location = response.header("location");
-                        String uuid = Uri.parse(location).getLastPathSegment();
+                        String[] split = location.split("\\?");
+                        String uuid = Uri.parse(split[0]).getLastPathSegment();
                         authData.setUuid(uuid);
                         callback.call(200, "", authData);
                     } else {
                         String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                         Log.w(TAG, "OIDC prepare login failed. " + response.code() + " message:" + s);
-                        callback.call(response.code(), s,null);
+                        callback.call(response.code(), s, null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -242,14 +257,14 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
-            if (response.code() == 302) {
+            if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 oidcLogin(location, authData, callback);
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                 Log.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s,null);
+                callback.call(response.code(), s, null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -273,7 +288,7 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
-            if (response.code() == 302) {
+            if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 Uri uri = Uri.parse(location);
@@ -291,11 +306,11 @@ public class OIDCClient {
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                 Log.w(TAG, "oidcLogin failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s,null);
+                callback.call(response.code(), s, null);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            callback.call(500, e.toString(),null);
+            callback.call(500, e.toString(), null);
         }
     }
 
@@ -319,14 +334,14 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
-            if (response.code() == 302) {
+            if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
                 String location = response.header("location");
                 oidcLogin(location, authData, callback);
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                 Log.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s,null);
+                callback.call(response.code(), s, null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -337,14 +352,14 @@ public class OIDCClient {
         Authing.getPublicConfig(config -> {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
-                String body = "client_id="+Authing.getAppId()
+                String body = "client_id=" + Authing.getAppId()
                         + "&grant_type=authorization_code"
                         + "&code=" + code
                         + "&scope=" + authRequest.getScope()
                         + "&prompt=" + "consent"
                         + "&code_verifier=" + authRequest.getCodeVerifier()
                         + "&redirect_uri=" + URLEncoder.encode(authRequest.getRedirectURL(), "utf-8");
-                Guardian.authRequest(url, "post", body, (data)-> {
+                Guardian.authRequest(url, "post", body, (data) -> {
                     if (data.getCode() == 200) {
                         try {
                             UserInfo userInfo = UserInfo.createUserInfo(new UserInfo(), data.getData());
@@ -395,11 +410,11 @@ public class OIDCClient {
                         AuthClient.createUserInfoFromResponse(userInfo, resp, callback);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        callback.call(500, s,null);
+                        callback.call(500, s, null);
                     }
                 } else {
                     Log.w(TAG, "_getUserInfoByAccessToken failed. " + response.code() + " message:" + s);
-                    callback.call(response.code(), s,null);
+                    callback.call(response.code(), s, null);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -415,7 +430,7 @@ public class OIDCClient {
                 String body = "client_id=" + Authing.getAppId()
                         + "&grant_type=refresh_token"
                         + "&refresh_token=" + refreshToken;
-                Guardian.authRequest(url, "post", body, (data)-> {
+                Guardian.authRequest(url, "post", body, (data) -> {
                     if (data.getCode() == 200) {
                         UserInfo userInfo = Authing.getCurrentUser();
                         if (userInfo == null) {

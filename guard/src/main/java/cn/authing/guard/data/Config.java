@@ -11,6 +11,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.authing.guard.Authing;
+import cn.authing.guard.network.AuthRequest;
+
 public class Config {
 
     public interface ConfigCallback {
@@ -62,12 +65,12 @@ public class Config {
             JSONObject loginTabs = data.getJSONObject("loginTabs");
             JSONArray loginTabList = loginTabs.getJSONArray("list");
             List<String> loginTab = toStringList(loginTabList);
-            if (loginTab.contains("phone-code")){
+            if (loginTab.contains("phone-code")) {
                 if (data.has("verifyCodeTabConfig")) {
                     JSONObject verifyCodeTabConfig = data.getJSONObject("verifyCodeTabConfig");
                     JSONArray enabledLoginMethods = verifyCodeTabConfig.getJSONArray("enabledLoginMethods");
                     List<String> enabledLoginMethodsList = toStringList(enabledLoginMethods);
-                    if (!enabledLoginMethodsList.isEmpty()){
+                    if (!enabledLoginMethodsList.isEmpty()) {
                         loginTab.remove("phone-code");
                         loginTab.addAll(enabledLoginMethodsList);
                     }
@@ -101,11 +104,21 @@ public class Config {
         }
 
         if (data.has("complateFiledsPlace")) {
-            config.setCompleteFieldsPlace(toStringList(data.getJSONArray("complateFiledsPlace")));
+            try {
+                JSONArray complateFiledsPlace = data.getJSONArray("complateFiledsPlace");
+                config.setCompleteFieldsPlace(toStringList(complateFiledsPlace));
+            } catch (JSONException jsonException) {
+                config.setCompleteFieldsPlace(new ArrayList<>());
+            }
         }
 
         if (data.has("extendsFields")) {
-            config.setExtendedFields(toExtendedFields(data.getJSONArray("extendsFields")));
+            try {
+                config.setExtendedFields(toExtendedFields(data.getJSONArray("extendsFields")));
+            } catch (JSONException jsonException) {
+                config.setExtendedFields(new ArrayList<>());
+            }
+
         }
 
         if (data.has("redirectUris")) {
@@ -114,8 +127,39 @@ public class Config {
 
         if (data.has("internationalSmsConfig") && !data.isNull("internationalSmsConfig")) {
             JSONObject internationalSmsConfig = data.getJSONObject("internationalSmsConfig");
-            if (internationalSmsConfig.has("enabled")){
+            if (internationalSmsConfig.has("enabled")) {
                 config.setInternationalSmsEnable(internationalSmsConfig.getBoolean("enabled"));
+            }
+        }
+
+        if (data.has("oidcConfig")) {
+            JSONObject jsonObject = data.getJSONObject("oidcConfig");
+            if (jsonObject.has("client_id")) {
+                String client_id = jsonObject.getString("client_id");
+                Authing.setClientId(client_id);
+            }
+
+            if (jsonObject.has("redirect_uris")) {
+                JSONArray redirect_uris = jsonObject.getJSONArray("redirect_uris");
+                config.setRedirectUris(toStringList(redirect_uris));
+            }
+
+            if (jsonObject.has("response_types")) {
+                JSONArray response_types = jsonObject.getJSONArray("response_types");
+                Authing.setResponseTypes(toStringList(response_types));
+            }
+
+            if (jsonObject.has("scope")) {
+                String scope = jsonObject.getString("scope");
+                Authing.setScope(scope);
+            }
+        }
+
+        if (data.has("encryption")) {
+            JSONObject jsonObject = data.getJSONObject("encryption");
+            if (jsonObject.has("publicKey")) {
+                String publicKey = jsonObject.getString("publicKey");
+                Authing.setPublicKey(publicKey);
             }
         }
         return config;
@@ -295,7 +339,7 @@ public class Config {
         for (SocialConfig c : configs) {
             String provider = c.getType();
             if (type.equalsIgnoreCase(provider)) {
-                switch (fieldName){
+                switch (fieldName) {
                     case "connectionId":
                         value = c.getId();
                         break;

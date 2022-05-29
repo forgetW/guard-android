@@ -24,7 +24,7 @@ public class AuthRequest {
     private String token;
 
     public AuthRequest() {
-        redirect_url = "https://console.authing.cn/console/get-started/" + Authing.getAppId();
+        redirect_url = "";
         Authing.getPublicConfig(config -> {
             if (config != null && config.getRedirectUris().size() > 0) {
                 redirect_url = config.getRedirectUris().get(0);
@@ -33,10 +33,12 @@ public class AuthRequest {
             }
         });
 
-        client_id = Authing.getAppId();
+        client_id = Authing.getClientId();
         nonce = Util.randomString(10);
         response_type = "code";
-        scope = "openid profile email phone username address offline_access role extended_fields";
+
+//        scope = "openid profile email phone username address offline_access role extended_fields";
+        scope = Authing.getScope() != null ? Authing.getScope() : "openid profile email phone offline_access";
         state = Util.randomString(10);
         _authing_lang = Util.getLangHeader();
         codeVerifier = PKCE.generateCodeVerifier();

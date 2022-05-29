@@ -43,7 +43,7 @@ public class AuthClient {
 
     public static void registerByEmail(AuthRequest authData, String email, String password, @NotNull AuthCallback<UserInfo> callback) {
         try {
-            String encryptPassword = Util.encryptPassword(password);
+            String encryptPassword = Util.rsaEncryptPassword(password);
             JSONObject body = new JSONObject();
             body.put("email", email);
             body.put("password", encryptPassword);
@@ -62,7 +62,7 @@ public class AuthClient {
 
     public static void registerByUserName(String username, String password, @NotNull AuthCallback<UserInfo> callback) {
         try {
-            String encryptPassword = Util.encryptPassword(password);
+            String encryptPassword = Util.rsaEncryptPassword(password);
             JSONObject body = new JSONObject();
             body.put("username", username);
             body.put("password", encryptPassword);
@@ -90,7 +90,7 @@ public class AuthClient {
             }
             body.put("phone", phone);
             if (!Util.isNull(password)) {
-                String encryptPassword = Util.encryptPassword(password);
+                String encryptPassword = Util.rsaEncryptPassword(password);
                 body.put("password", encryptPassword);
             }
             body.put("code", code);
@@ -192,27 +192,36 @@ public class AuthClient {
 
     public static void loginByAccount(AuthRequest authData, String account, String password, @NotNull AuthCallback<UserInfo> callback) {
         try {
-            String encryptPassword = Util.encryptPassword(password);
+            String encryptPassword = Util.sm2EncryptPassword(password);
             JSONObject body = new JSONObject();
             body.put("account", account);
             body.put("password", encryptPassword);
+            newInsert(body, authData);
             Guardian.post("/api/v2/login/account", body, (data)-> {
                 if (data.getCode() == 200 || data.getCode() == EC_MFA_REQUIRED) {
                     Safe.saveAccount(account);
-//                        Safe.savePassword(password);
+                    Safe.savePassword(password);
                 }
 
                 if (authData == null) {
                     createUserInfoFromResponse(data, callback);
                 } else {
-                    createUserInfoFromResponse(data, (c, m, d)->{
-                        if (c == 200) {
-                            authData.setToken(d.getIdToken());
-                            OIDCClient.oidcInteraction(authData, callback);
-                        } else {
-                            callback.call(c, m, d);
-                        }
-                    });
+                    UserInfo userInfo = new UserInfo();
+                    try {
+                        UserInfo userInfo2 = UserInfo.createUserInfo(userInfo, data.getData());
+                        authData.setToken(userInfo2.getIdToken());
+                        OIDCClient.oidcInteraction(authData, callback);
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+//                    createUserInfoFromResponse(data, (c, m, d)->{
+//                        if (c == 200) {
+//                            authData.setToken(d.getIdToken());
+//                            OIDCClient.oidcInteraction(authData, callback);
+//                        } else {
+//                            callback.call(c, m, d);
+//                        }
+//                    });
                 }
             });
         } catch (Exception e) {
@@ -221,9 +230,53 @@ public class AuthClient {
         }
     }
 
+    private static void newInsert(JSONObject body, AuthRequest authData) throws JSONException {
+        AuthRequest authRequest = new AuthRequest();
+        body.put("autoRegister", false);
+        body.put("withCustomData", true);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("key", "app_id");
+        jsonObject1.put("value", Authing.getAppId());
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("key", "uuid");
+        jsonObject2.put("value", authData.getUuid() == null ? "aGIh1an1s9PTuifSC0_w4" : authData.getUuid());
+        JSONObject jsonObject3 = new JSONObject();
+        jsonObject3.put("key", "finish_login_url");
+        jsonObject3.put("value", authRequest.getFinish_login_url() == null ? "/interaction/oidc/"+authData.getUuid()+"/login" : authRequest.getFinish_login_url());
+        JSONObject jsonObject4 = new JSONObject();
+        jsonObject4.put("key", "client_id");
+        jsonObject4.put("value", authRequest.getClient_id());
+        JSONObject jsonObject5 = new JSONObject();
+        jsonObject5.put("key", "nonce");
+        jsonObject5.put("value", authRequest.getNonce());
+        JSONObject jsonObject6 = new JSONObject();
+        jsonObject6.put("key", "redirect_uri");
+        jsonObject6.put("value", authRequest.getRedirectURL());
+        JSONObject jsonObject7 = new JSONObject();
+        jsonObject7.put("key", "response_type");
+        jsonObject7.put("value", authRequest.getResponse_type());
+        JSONObject jsonObject8 = new JSONObject();
+        jsonObject8.put("key", "scope");
+        jsonObject8.put("value", authRequest.getScope());
+        JSONObject jsonObject9 = new JSONObject();
+        jsonObject9.put("key", "state");
+        jsonObject9.put("value", authRequest.getState());
+        jsonArray.put(jsonObject1);
+        jsonArray.put(jsonObject2);
+        jsonArray.put(jsonObject3);
+        jsonArray.put(jsonObject4);
+        jsonArray.put(jsonObject5);
+        jsonArray.put(jsonObject6);
+        jsonArray.put(jsonObject7);
+        jsonArray.put(jsonObject8);
+        jsonArray.put(jsonObject9);
+        body.put("customData", jsonArray);
+    }
+
     public static void loginByLDAP(String username, String password, @NotNull AuthCallback<UserInfo> callback) {
         try {
-            String encryptPassword = Util.encryptPassword(password);
+            String encryptPassword = Util.rsaEncryptPassword(password);
             JSONObject body = new JSONObject();
             body.put("username", username);
             body.put("password", encryptPassword);
@@ -241,7 +294,7 @@ public class AuthClient {
 
     public static void loginByAD(String username, String password, @NotNull AuthCallback<UserInfo> callback) {
         try {
-            String encryptPassword = Util.encryptPassword(password);
+            String encryptPassword = Util.rsaEncryptPassword(password);
             JSONObject body = new JSONObject();
             body.put("username", username);
             body.put("password", encryptPassword);
@@ -306,7 +359,7 @@ public class AuthClient {
             }
             body.put("phone", phone);
             body.put("code", code);
-            body.put("newPassword", Util.encryptPassword(newPassword));
+            body.put("newPassword", Util.rsaEncryptPassword(newPassword));
             String endpoint = "/api/v2/password/reset/sms";
             Guardian.post(endpoint, body, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));
         } catch (Exception e) {
@@ -320,7 +373,7 @@ public class AuthClient {
             JSONObject body = new JSONObject();
             body.put("email", emailAddress);
             body.put("code", code);
-            body.put("newPassword", Util.encryptPassword(newPassword));
+            body.put("newPassword", Util.rsaEncryptPassword(newPassword));
             String endpoint = "/api/v2/password/reset/email";
             Guardian.post(endpoint, body, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));
         } catch (Exception e) {
@@ -333,7 +386,7 @@ public class AuthClient {
         try {
             JSONObject body = new JSONObject();
             body.put("token", token);
-            body.put("password", Util.encryptPassword(newPassword));
+            body.put("password", Util.rsaEncryptPassword(newPassword));
             String endpoint = "/api/v2/users/password/reset-by-first-login-token";
             Guardian.post(endpoint, body, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));
         } catch (Exception e) {
@@ -842,9 +895,9 @@ public class AuthClient {
     public static void updatePassword(String newPassword, String oldPassword, @NotNull AuthCallback<JSONObject> callback) {
         try {
             JSONObject body = new JSONObject();
-            body.put("newPassword", Util.encryptPassword(newPassword));
+            body.put("newPassword", Util.rsaEncryptPassword(newPassword));
             if (oldPassword != null) {
-                body.put("oldPassword", Util.encryptPassword(oldPassword));
+                body.put("oldPassword", Util.rsaEncryptPassword(oldPassword));
             }
             String endpoint = "/api/v2/password/update";
             Guardian.post(endpoint, body, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));

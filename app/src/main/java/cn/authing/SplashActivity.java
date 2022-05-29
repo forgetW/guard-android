@@ -10,6 +10,7 @@ import android.widget.Toast;
 import java.util.Objects;
 
 import cn.authing.guard.Authing;
+import cn.authing.guard.data.Safe;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -35,6 +36,9 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             Authing.autoLogin((code, message, userInfo) -> next(2));
         }
+
+        Safe.saveAccount("13600000000");
+        Safe.savePassword("13600000000");
     }
 
     private void next(int f) {

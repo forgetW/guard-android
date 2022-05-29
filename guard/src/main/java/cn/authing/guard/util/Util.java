@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.KeyFactory;
+import java.security.KeyPair;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
@@ -49,6 +51,11 @@ import cn.authing.guard.data.Country;
 import cn.authing.guard.data.Safe;
 import cn.authing.guard.data.UserInfo;
 import cn.authing.guard.flow.AuthFlow;
+import cn.hutool.core.util.HexUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.SmUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.SM2;
 
 public class Util {
 
@@ -60,8 +67,23 @@ public class Util {
         return px / context.getResources().getDisplayMetrics().density;
     }
 
-    public static String encryptPassword(String password) {
-        if (isNull(password)){
+    public static String sm2EncryptPassword(String password) {
+        if (isNull(password)) {
+            return null;
+        }
+        try {
+            String publicKey = Authing.getPublicKey();
+            SM2 sm2 = SmUtil.sm2(null, publicKey);
+            // 公钥加密，私钥解密
+            String cipherText = sm2.encryptHex(password, KeyType.PublicKey);
+            return cipherText;
+        } catch (Exception e) {
+            return "{\"2020\":\"" + e + "\"}";
+        }
+    }
+
+    public static String rsaEncryptPassword(String password) {
+        if (isNull(password)) {
             return null;
         }
         try {
@@ -81,17 +103,17 @@ public class Util {
     public static List<Integer> intDigits(int i) {
         int temp = i;
         ArrayList<Integer> array = new ArrayList<>();
-        do{
+        do {
             array.add(0, temp % 10);
             temp /= 10;
-        } while  (temp > 0);
+        } while (temp > 0);
         return array;
     }
 
     public static List<View> findAllViewByClass(View current, Class<?> T) {
         View view = current.getRootView();
         List<View> result = new ArrayList<>();
-        _findAllViewByClass((ViewGroup)view, T, result);
+        _findAllViewByClass((ViewGroup) view, T, result);
         return result;
     }
 
@@ -99,7 +121,7 @@ public class Util {
         for (int i = 0; i < parent.getChildCount(); i++) {
             View child = parent.getChildAt(i);
             if (child instanceof ViewGroup) {
-                _findAllViewByClass((ViewGroup)child, T, result);
+                _findAllViewByClass((ViewGroup) child, T, result);
             }
 
             if (child.getClass().equals(T)) {
@@ -114,14 +136,14 @@ public class Util {
 
     public static View findViewByClass(View current, Class<?> T, boolean onlyVisible) {
         View view = current.getRootView();
-        return findChildViewByClass((ViewGroup)view, T, onlyVisible);
+        return findChildViewByClass((ViewGroup) view, T, onlyVisible);
     }
 
     public static View findChildViewByClass(ViewGroup parent, Class<?> T, boolean onlyVisible) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             View child = parent.getChildAt(i);
             if (child instanceof ViewGroup && (!onlyVisible || child.isShown())) {
-                View result = findChildViewByClass((ViewGroup)child, T, onlyVisible);
+                View result = findChildViewByClass((ViewGroup) child, T, onlyVisible);
                 if (result != null) {
                     return result;
                 }
@@ -138,7 +160,7 @@ public class Util {
         String account = null;
         View v = findViewByClass(current, AccountEditText.class);
         if (v != null) {
-            AccountEditText editText = (AccountEditText)v;
+            AccountEditText editText = (AccountEditText) v;
             account = editText.getText().toString();
         }
         if (TextUtils.isEmpty(account)) {
@@ -154,7 +176,7 @@ public class Util {
         String phone = null;
         View v = findViewByClass(current, PhoneNumberEditText.class);
         if (v != null) {
-            PhoneNumberEditText editText = (PhoneNumberEditText)v;
+            PhoneNumberEditText editText = (PhoneNumberEditText) v;
             phone = editText.getText().toString();
         }
         if (TextUtils.isEmpty(phone)) {
@@ -182,7 +204,7 @@ public class Util {
         String phoneCountryCode = null;
         View v = findViewByClass(current, CountryCodePicker.class);
         if (v != null) {
-            phoneCountryCode = ((CountryCodePicker)v).getCountryCode();
+            phoneCountryCode = ((CountryCodePicker) v).getCountryCode();
         }
         if (TextUtils.isEmpty(phoneCountryCode)) {
             return getPhoneCountryCodeByCache(current.getContext());
@@ -209,7 +231,7 @@ public class Util {
         String password = null;
         View v = findViewByClass(current, PasswordEditText.class);
         if (v != null) {
-            PasswordEditText editText = (PasswordEditText)v;
+            PasswordEditText editText = (PasswordEditText) v;
             password = editText.getText().toString();
         }
         if (TextUtils.isEmpty(password)) {
@@ -221,19 +243,19 @@ public class Util {
     public static String getVerifyCode(View current) {
         View v = findViewByClass(current, VerifyCodeEditText.class);
         if (v != null) {
-            VerifyCodeEditText editText = (VerifyCodeEditText)v;
+            VerifyCodeEditText editText = (VerifyCodeEditText) v;
             return editText.getText().toString();
         }
         return null;
     }
 
     public static void setErrorText(View view, String text) {
-        view.post(()->{
+        view.post(() -> {
             View v = Util.findViewByClass(view, ErrorTextView.class);
             if (v == null) {
                 return;
             }
-            ErrorTextView errorView = (ErrorTextView)v;
+            ErrorTextView errorView = (ErrorTextView) v;
             errorView.setText(text);
             if (TextUtils.isEmpty(text)) {
                 v.setVisibility(View.INVISIBLE);
@@ -283,9 +305,9 @@ public class Util {
         return null;
     }
 
-    public static int getThemeAccentColor (final Context context) {
-        final TypedValue value = new TypedValue ();
-        context.getTheme().resolveAttribute (R.attr.colorAccent, value, true);
+    public static int getThemeAccentColor(final Context context) {
+        final TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
         return value.data;
     }
 
@@ -299,7 +321,7 @@ public class Util {
         seed = asciiUpperCase + asciiLowerCase + digits;
         seedLength = seed.length();
         StringBuilder sb = new StringBuilder();
-        for (int i = 0;i < length;++i) {
+        for (int i = 0; i < length; ++i) {
             sb.append(seed.charAt(rand.nextInt(seedLength)));
         }
         return sb.toString();
@@ -329,7 +351,7 @@ public class Util {
         return countries;
     }
 
-    public static boolean isCn(){
+    public static boolean isCn() {
         String lang = Locale.getDefault().getLanguage();
         return !Util.isNull(lang) && lang.contains("zh");
     }
@@ -356,7 +378,7 @@ public class Util {
                 + "(\\d{1,2}|(0|1)\\" + "d{2}|2[0-4]\\d|25[0-5])";
 
         Pattern ip_pattern = Pattern.compile(numRange);
-        Matcher match= ip_pattern.matcher(name);
+        Matcher match = ip_pattern.matcher(name);
         return match.matches();
     }
 
@@ -364,7 +386,8 @@ public class Util {
         if (isIp(Authing.getHost())) {
             return Authing.getHost();
         } else if (config != null) {
-            String appHost = config.getIdentifier() + "." + Authing.getHost();
+//            String appHost = config.getIdentifier() + "." + Authing.getHost();
+            String appHost = Authing.getHost();
             String ssoHost = config.getRequestHostname();
             return Util.isNull(ssoHost) ? appHost : ssoHost;
         } else {
@@ -375,15 +398,17 @@ public class Util {
 
     public static List<String> toStringList(JSONArray array) throws JSONException {
         List<String> list = new ArrayList<>();
-        int size = array.length();
-        for (int i = 0; i < size; i++) {
-            list.add((array.getString(i)));
+        if (array != null) {
+            int size = array.length();
+            for (int i = 0; i < size; i++) {
+                list.add((array.getString(i)));
+            }
         }
         return list;
     }
 
-    public static void setStatusBarColor(Activity activity, int colorResId){
-        if (null == activity){
+    public static void setStatusBarColor(Activity activity, int colorResId) {
+        if (null == activity) {
             return;
         }
         Window window = activity.getWindow();

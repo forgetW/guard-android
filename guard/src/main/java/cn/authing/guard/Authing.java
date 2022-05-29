@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -28,9 +29,40 @@ public class Authing {
 
     private static Context sAppContext;
     private static String scheme = "https";
-    private static String sHost = "authing.cn"; // for private deployment
-    private static String sPublicKey = DEF_PUBLIC_KEY;
+    //https://zhdj.nmgdj.gov.cn/api/v2/applications/这里替换为appid/public-config
+    private static String sHost = "zhdj.nmgdj.gov.cn"; // for private deployment
+    private static String sPublicKey = "";
     private static String sAppId;
+
+    public static List<String> getResponseTypes() {
+        return responseTypes;
+    }
+
+    public static void setResponseTypes(List<String> responseTypes) {
+        Authing.responseTypes = responseTypes;
+    }
+
+    private static List<String> responseTypes;
+
+    public static String getScope() {
+        return scope;
+    }
+
+    public static void setScope(String scope) {
+        Authing.scope = scope;
+    }
+
+    private static String scope;
+
+    public static String getClientId() {
+        return client_id;
+    }
+
+    public static void setClientId(String client_id) {
+        Authing.client_id = client_id;
+    }
+
+    private static String client_id;
     private static boolean isGettingConfig;
     private static Config publicConfig;
     private static final Queue<Config.ConfigCallback> listeners = new ConcurrentLinkedQueue<>();
@@ -152,9 +184,9 @@ public class Authing {
 
     private static void _requestPublicConfig() {
         String host = sHost;
-        if (!Util.isIp(sHost)) {
-            host = "console." + sHost;
-        }
+//        if (!Util.isIp(sHost)) {
+//            host = "console." + sHost;
+//        }
         String url = scheme + "://" + host + "/api/v2/applications/" + sAppId + "/public-config";
         Guardian.request(null, url, "get", null, (response)->{
             try {

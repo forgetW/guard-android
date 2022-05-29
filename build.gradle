@@ -5,8 +5,15 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.1"
+        classpath "com.android.tools.build:gradle:4.1.0"
 
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.18.0'
+    }
+}
+allprojects {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
     }
 }

@@ -54,6 +54,9 @@ public class SocialLoginListView extends LinearLayout {
                     return;
                 }
                 List<SocialConfig> socialConfigs = config.getSocialConfigs();
+                if (socialConfigs == null) {
+                    return;
+                }
                 for (int i = 0, n = socialConfigs.size();i < n;++i) {
                     SocialConfig sc = socialConfigs.get(i);
                     String type = sc.getType();

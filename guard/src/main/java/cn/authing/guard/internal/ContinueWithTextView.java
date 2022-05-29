@@ -6,7 +6,10 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import java.util.List;
+
 import cn.authing.guard.Authing;
+import cn.authing.guard.data.SocialConfig;
 
 public class ContinueWithTextView extends androidx.appcompat.widget.AppCompatTextView {
     public ContinueWithTextView(Context context) {
@@ -20,7 +23,7 @@ public class ContinueWithTextView extends androidx.appcompat.widget.AppCompatTex
     public ContinueWithTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         Authing.getPublicConfig(config -> {
-            if (config == null || config.getSocialConfigs().size() == 0) {
+            if (config == null || null == config.getSocialConfigs() || config.getSocialConfigs().size() == 0) {
                 setVisibility(View.GONE);
             }
         });

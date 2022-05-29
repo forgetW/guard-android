@@ -74,16 +74,16 @@ public class Guardian {
         builder.url(url);
         if (config != null) {
             if (config.getUserPoolId() != null){
-                builder.addHeader("x-authing-userpool-id", config.getUserPoolId());
+                builder.addHeader("x--userpool-id", config.getUserPoolId());
             }
             if (!Util.isNull(config.getUserAgent())){
                 builder.removeHeader("User-Agent");
                 builder.addHeader("User-Agent", config.getUserAgent());
             }
         }
-        builder.addHeader("x-authing-app-id", Authing.getAppId());
-        builder.addHeader("x-authing-request-from", "guard-android" + SDK_VERSION);
-        builder.addHeader("x-authing-lang", Util.getLangHeader());
+        builder.addHeader("x--app-id", Authing.getAppId());
+        builder.addHeader("x--request-from", "guard-android" + SDK_VERSION);
+        builder.addHeader("x--lang", Util.getLangHeader());
         UserInfo currentUser = Authing.getCurrentUser();
         if (currentUser != null) {
             String token = currentUser.getIdToken();
@@ -205,8 +205,8 @@ public class Guardian {
     public static void _authRequest(String url, String method, String body, @NotNull GuardianCallback callback) {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
-        builder.addHeader("x-authing-request-from", "Guard@Android@" + SDK_VERSION);
-        builder.addHeader("x-authing-lang", Util.getLangHeader());
+        builder.addHeader("x--request-from", "Guard@Android@" + SDK_VERSION);
+        builder.addHeader("x--lang", Util.getLangHeader());
         if (method.equalsIgnoreCase("post")) {
             MediaType type = (body.startsWith("{") || body.startsWith("[")) && (body.endsWith("]") || body.endsWith("}")) ? Const.JSON : Const.FORM;
             RequestBody requestBody = RequestBody.create(body, type);
