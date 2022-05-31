@@ -18,7 +18,7 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         EditTextLayout etScheme = findViewById(R.id.et_scheme);
-        etScheme.getEditText().setText(App.loadScheme(this));
+        etScheme.getEditText().setText(XConfig.loadScheme(this));
 
         EditTextLayout etHost = findViewById(R.id.et_host);
         etHost.getEditText().setText(Authing.getHost());
@@ -32,9 +32,9 @@ public class SettingActivity extends AppCompatActivity {
             String host = etHost.getText().toString();
             String appid = etAppId.getText().toString();
 
-            App.saveScheme(this, schema);
-            App.saveHost(this, host);
-            App.saveAppId(this, appid);
+            XConfig.saveScheme(this, schema);
+            XConfig.saveHost(this, host);
+            XConfig.saveAppId(this, appid);
 
             Authing.setScheme(schema);
             Authing.setHost(host);
@@ -56,9 +56,9 @@ public class SettingActivity extends AppCompatActivity {
             etHost.getEditText().setText(host);
             etAppId.getEditText().setText(appid);
 
-            App.saveScheme(this, scheme);
-            App.saveHost(this, host);
-            App.saveAppId(this, appid);
+            XConfig.saveScheme(this, scheme);
+            XConfig.saveHost(this, host);
+            XConfig.saveAppId(this, appid);
 
             Toast.makeText(SettingActivity.this, "Restored", Toast.LENGTH_SHORT).show();
         });

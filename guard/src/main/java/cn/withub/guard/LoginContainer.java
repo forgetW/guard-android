@@ -7,8 +7,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import cn.withub.guard.analyze.Analyzer;
-
 public class LoginContainer extends LinearLayout {
 
     public enum LoginType {
@@ -37,7 +35,7 @@ public class LoginContainer extends LinearLayout {
 
         setOrientation(VERTICAL);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.LoginContainer);
-        int t = array.getInt(R.styleable.LoginContainer_type,0);
+        int t = array.getInt(R.styleable.LoginContainer_typeGuard,0);
         if (t == 0) {
             type = LoginType.EByPhoneCode;
         } else if (t == 1) {

@@ -39,7 +39,7 @@
             android:layout_marginEnd="@dimen/authing_form_start_end_margin" />
 
         <cn.withub.guard.RegisterContainer
-            app:type="phoneCodePassword"
+            app:typeGuard="phoneCodePassword"
             android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
         </cn.withub.guard.RegisterContainer>
 
         <cn.withub.guard.RegisterContainer
-            app:type="emailPassword"
+            app:typeGuard="emailPassword"
             android:clipChildren="false"
             android:visibility="invisible"
             android:layout_width="match_parent"

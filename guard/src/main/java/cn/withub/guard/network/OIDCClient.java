@@ -427,7 +427,8 @@ public class OIDCClient {
                     }
                 } else {
                     ALog.w(TAG, "_getUserInfoByAccessToken failed. " + response.code() + " message:" + s);
-                    callback.call(response.code(), s, null);
+                    callback.call(response.code(), s, userInfo);
+//                    callback.call(response.code(), s, null);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

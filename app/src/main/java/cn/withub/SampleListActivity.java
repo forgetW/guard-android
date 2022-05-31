@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,8 @@ import cn.withub.guard.Authing;
 import cn.withub.guard.container.AuthContainer;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
+import cn.withub.guard.network.AuthClient;
+import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.oneclick.OneClick;
 import cn.withub.oneclick.OneClickActivity;
 import cn.withub.push.LoginByPushNotificationActivity;
@@ -59,6 +62,7 @@ public class SampleListActivity extends AppCompatActivity {
             "生物二次验证",
             "Authenticator",
             "Login by push notification",
+            "自建测试",
     };
 
     @Override
@@ -131,8 +135,20 @@ public class SampleListActivity extends AppCompatActivity {
             } else if (pos == 15) {
                 Intent intent = new Intent(SampleListActivity.this, LoginByPushNotificationActivity.class);
                 startActivityForResult(intent, RC_LOGIN);
+            }else if (pos == 16) {
+                final AuthFlow flow = new AuthFlow();
+                flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
+                if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+                    AuthClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
+                } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+                    OIDCClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
+                }
             }
         });
+    }
+
+    protected void fireCallback(int code, String message, UserInfo userInfo) {
+        Log.e("fireCallback", "fireCallback: ");
     }
 
     private void startActivity(Class<?> cls){

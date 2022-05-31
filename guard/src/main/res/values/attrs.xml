@@ -4,7 +4,7 @@
     <attr name="textColor" format="reference|color" />
     <attr name="text" format="reference|string" />
     <attr name="textSize" format="dimension" />
-    <attr name="type" format="enum" >
+    <attr name="typeGuard" format="enum" >
         <enum name="phoneCode" value="0"/>
         <enum name="accountPassword" value="1"/>
         <enum name="phoneCodePassword" value="2"/>
@@ -28,11 +28,11 @@
     </declare-styleable>
 
     <declare-styleable name="LoginContainer">
-        <attr name="type" />
+        <attr name="typeGuard" />
     </declare-styleable>
 
     <declare-styleable name="RegisterContainer">
-        <attr name="type" />
+        <attr name="typeGuard" />
     </declare-styleable>
 
     <declare-styleable name="EditTextLayout">

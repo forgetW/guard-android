@@ -25,7 +25,7 @@
 
     <cn.withub.guard.LoginContainer
         android:id="@+id/cl_phone"
-        app:type="phoneCode"
+        app:typeGuard="phoneCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -69,7 +69,7 @@
 
     <cn.withub.guard.LoginContainer
         android:id="@+id/cl_account_password"
-        app:type="accountPassword"
+        app:typeGuard="accountPassword"
         android:visibility="invisible"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

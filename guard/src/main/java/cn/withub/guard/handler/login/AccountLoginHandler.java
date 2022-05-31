@@ -21,12 +21,18 @@ public class AccountLoginHandler extends AbsLoginHandler {
 
     @Override
     protected boolean login() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }).start();
         View accountET = Util.findViewByClass(loginButton, AccountEditText.class);
         View passwordET = Util.findViewByClass(loginButton, PasswordEditText.class);
         if (accountET != null && accountET.isShown() && passwordET != null && passwordET.isShown()) {
             final String account = ((AccountEditText) accountET).getText().toString();
-            final String password = "13600000000";
-//            final String password = ((PasswordEditText) passwordET).getText().toString();
+//            final String password = "13600000000";
+            final String password = ((PasswordEditText) passwordET).getText().toString();
             if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
                 fireCallback(accountET.getContext().getString(R.string.authing_account_or_password_empty));
                 return false;

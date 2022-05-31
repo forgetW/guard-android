@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/authing_form_start_end_margin" />
 
         <cn.withub.guard.LoginContainer
-            app:type="phoneCode"
+            app:typeGuard="phoneCode"
             android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         </cn.withub.guard.LoginContainer>
 
         <cn.withub.guard.LoginContainer
-            app:type="emailCode"
+            app:typeGuard="emailCode"
             android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
         </cn.withub.guard.LoginContainer>
 
         <cn.withub.guard.LoginContainer
-            app:type="accountPassword"
+            app:typeGuard="accountPassword"
             android:clipChildren="false"
             android:visibility="gone"
             android:layout_width="match_parent"

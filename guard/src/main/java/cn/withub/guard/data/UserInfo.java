@@ -106,6 +106,16 @@ public class UserInfo implements Serializable {
     private String firstTimeLoginToken;
     private String recoveryCode;
 
+    public TokenModel getTokenModel() {
+        return tokenModel;
+    }
+
+    public void setTokenModel(TokenModel tokenModel) {
+        this.tokenModel = tokenModel;
+    }
+
+    private TokenModel tokenModel;
+
     public String getId() {
         return id == null ? getSub() : id;
     }
@@ -259,7 +269,7 @@ public class UserInfo implements Serializable {
     }
 
     public String getPicture() {
-        return picture != null? picture : photo;
+        return picture != null ? picture : photo;
     }
 
     public void setPicture(String picture) {
@@ -267,7 +277,7 @@ public class UserInfo implements Serializable {
     }
 
     public String getPhoto() {
-        return photo != null? photo : picture;
+        return photo != null ? photo : picture;
     }
 
     public void setPhoto(String photo) {
@@ -525,6 +535,35 @@ public class UserInfo implements Serializable {
             return null;
         }
 
+        TokenModel tokenModel = new TokenModel();
+
+        if (data.has("id_token")) {
+            String id_token = data.getString("id_token");
+            tokenModel.setId_token(id_token);
+        }
+        if (data.has("access_token")) {
+            String access_token = data.getString("access_token");
+            tokenModel.setAccess_token(access_token);
+        }
+        if (data.has("expires_in")) {
+            int expires_in = data.getInt("expires_in");
+            tokenModel.setExpires_in(expires_in);
+        }
+        if (data.has("refresh_token")) {
+            String refresh_token = data.getString("refresh_token");
+            tokenModel.setRefresh_token(refresh_token);
+        }
+        if (data.has("scope")) {
+            String scope = data.getString("scope");
+            tokenModel.setScope(scope);
+        }
+        if (data.has("token_type")) {
+            String token_type = data.getString("token_type");
+            tokenModel.setToken_type(token_type);
+        }
+
+        userInfo.setTokenModel(tokenModel);
+
         if (data.has("id")) {
             String id = data.getString("id");
             userInfo.setId(id);
@@ -604,6 +643,7 @@ public class UserInfo implements Serializable {
         if (data.has("token")) {
             String token = data.getString("token");
             userInfo.setIdToken(token);
+
         }
         if (data.has("photo")) {
             String s = data.getString("photo");
@@ -703,7 +743,7 @@ public class UserInfo implements Serializable {
             }
             userInfo.setRoles(roles);
         }
-        userInfo.parseTokens(data);
+        userInfo.parseTokens(data, tokenModel);
         return userInfo;
     }
 
@@ -817,6 +857,26 @@ public class UserInfo implements Serializable {
     }
 
     public void parseTokens(JSONObject obj) {
+        try {
+            if (obj.has("access_token")) {
+                String s = obj.getString("access_token");
+                setAccessToken(s);
+
+            }
+            if (obj.has("id_token")) {
+                String s = obj.getString("id_token");
+                setIdToken(s);
+            }
+            if (obj.has("refresh_token")) {
+                String s = obj.getString("refresh_token");
+                setRefreshToken(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void parseTokens(JSONObject obj, TokenModel tokenModel) {
         try {
             if (obj.has("access_token")) {
                 String s = obj.getString("access_token");

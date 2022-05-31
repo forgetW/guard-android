@@ -205,7 +205,7 @@ public class AuthClient {
                 ALog.d(TAG, "loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
                 if (data.getCode() == 200 || data.getCode() == EC_MFA_REQUIRED) {
                     Safe.saveAccount(account);
-                    Safe.savePassword(password);
+                    //Safe.savePassword(password);
                 }
 
                 startOidcInteraction(authData, data, callback);

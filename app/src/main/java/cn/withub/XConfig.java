@@ -1,13 +1,18 @@
 package cn.withub;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+
 import cn.withub.guard.Authing;
 import cn.withub.guard.oneclick.OneClick;
+import cn.withub.guard.social.Lark;
+import cn.withub.guard.social.WeCom;
 
+import static android.content.Context.MODE_PRIVATE;
 
-public class App extends android.app.Application {
+public class XConfig {
 
     public static final String SP_NAME = "SP_AUTHING_GUARD";
 
@@ -45,18 +50,15 @@ public class App extends android.app.Application {
         return sp.getString(SP_KEY_APPID, "dfb7ffcb782f4be7bb4d659dc9c9a005");
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
+    public static void init(Application application) {
         // one click
         OneClick.bizId = "74ae90bd84f74b69a88b578bbbbcdcfd";
 
-        String schema = loadScheme(this);
-        String host = loadHost(this);
-        String appid = loadAppId(this);
+        String schema = loadScheme(application);
+        String host = loadHost(application);
+        String appid = loadAppId(application);
         Authing.setScheme(schema);
         Authing.setHost(host);
-        Authing.init(getApplicationContext(), appid);
+        Authing.init(application, appid);
     }
 }
