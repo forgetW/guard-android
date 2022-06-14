@@ -2,6 +2,7 @@ package cn.withub.guard.data;
 
 import android.text.TextUtils;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -535,34 +536,7 @@ public class UserInfo implements Serializable {
             return null;
         }
 
-        TokenModel tokenModel = new TokenModel();
-
-        if (data.has("id_token")) {
-            String id_token = data.getString("id_token");
-            tokenModel.setId_token(id_token);
-        }
-        if (data.has("access_token")) {
-            String access_token = data.getString("access_token");
-            tokenModel.setAccess_token(access_token);
-        }
-        if (data.has("expires_in")) {
-            int expires_in = data.getInt("expires_in");
-            tokenModel.setExpires_in(expires_in);
-        }
-        if (data.has("refresh_token")) {
-            String refresh_token = data.getString("refresh_token");
-            tokenModel.setRefresh_token(refresh_token);
-        }
-        if (data.has("scope")) {
-            String scope = data.getString("scope");
-            tokenModel.setScope(scope);
-        }
-        if (data.has("token_type")) {
-            String token_type = data.getString("token_type");
-            tokenModel.setToken_type(token_type);
-        }
-
-        userInfo.setTokenModel(tokenModel);
+        paseTokenModel(userInfo, data);
 
         if (data.has("id")) {
             String id = data.getString("id");
@@ -743,8 +717,41 @@ public class UserInfo implements Serializable {
             }
             userInfo.setRoles(roles);
         }
-        userInfo.parseTokens(data, tokenModel);
+        userInfo.parseTokens(data);
         return userInfo;
+    }
+
+    @NotNull
+    private static TokenModel paseTokenModel(UserInfo userInfo, JSONObject data) throws JSONException {
+        TokenModel tokenModel = new TokenModel();
+
+        if (data.has("id_token")) {
+            String id_token = data.getString("id_token");
+            tokenModel.setId_token(id_token);
+        }
+        if (data.has("access_token")) {
+            String access_token = data.getString("access_token");
+            tokenModel.setAccess_token(access_token);
+        }
+        if (data.has("expires_in")) {
+            int expires_in = data.getInt("expires_in");
+            tokenModel.setExpires_in(expires_in);
+        }
+        if (data.has("refresh_token")) {
+            String refresh_token = data.getString("refresh_token");
+            tokenModel.setRefresh_token(refresh_token);
+        }
+        if (data.has("scope")) {
+            String scope = data.getString("scope");
+            tokenModel.setScope(scope);
+        }
+        if (data.has("token_type")) {
+            String token_type = data.getString("token_type");
+            tokenModel.setToken_type(token_type);
+        }
+
+        userInfo.setTokenModel(tokenModel);
+        return tokenModel;
     }
 
     public String getMappedData(String key) {
@@ -871,27 +878,29 @@ public class UserInfo implements Serializable {
                 String s = obj.getString("refresh_token");
                 setRefreshToken(s);
             }
+
+            paseTokenModel(this, obj);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void parseTokens(JSONObject obj, TokenModel tokenModel) {
-        try {
-            if (obj.has("access_token")) {
-                String s = obj.getString("access_token");
-                setAccessToken(s);
-            }
-            if (obj.has("id_token")) {
-                String s = obj.getString("id_token");
-                setIdToken(s);
-            }
-            if (obj.has("refresh_token")) {
-                String s = obj.getString("refresh_token");
-                setRefreshToken(s);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void parseTokens(JSONObject obj, TokenModel tokenModel) {
+//        try {
+//            if (obj.has("access_token")) {
+//                String s = obj.getString("access_token");
+//                setAccessToken(s);
+//            }
+//            if (obj.has("id_token")) {
+//                String s = obj.getString("id_token");
+//                setIdToken(s);
+//            }
+//            if (obj.has("refresh_token")) {
+//                String s = obj.getString("refresh_token");
+//                setRefreshToken(s);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

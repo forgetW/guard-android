@@ -73,6 +73,7 @@ public class OIDCClient {
                         + "&code_challenge=" + authData.getCodeChallenge()
                         + "&code_challenge_method=" + PKCE.getCodeChallengeMethod();
                 Request.Builder builder = new Request.Builder();
+                builder.addHeader("x-device-id", "Android");
                 builder.url(url);
 
                 Request request = builder.build();
@@ -237,6 +238,7 @@ public class OIDCClient {
     private static void _oidcInteraction(String url, AuthRequest authData, String body, @NotNull AuthCallback<UserInfo> callback) {
         long now = System.currentTimeMillis();
         Request.Builder builder = new Request.Builder();
+        builder.addHeader("x-device-id", "Android");
         builder.url(url);
         RequestBody requestBody = RequestBody.create(body, Const.FORM);
         builder.post(requestBody);
@@ -273,6 +275,7 @@ public class OIDCClient {
         long now = System.currentTimeMillis();
         Request.Builder builder = new Request.Builder();
         builder.url(url);
+        builder.addHeader("x-device-id", "Android");
         String cookie = CookieManager.getCookie();
         if (!Util.isNull(cookie)) {
             builder.addHeader("cookie", cookie);
@@ -405,6 +408,7 @@ public class OIDCClient {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/me";
                 Request.Builder builder = new Request.Builder();
                 builder.url(url);
+                builder.addHeader("x-device-id", "Android");
                 builder.addHeader("Authorization", "Bearer " + userInfo.getAccessToken());
                 Request request = builder.build();
                 OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -437,8 +441,7 @@ public class OIDCClient {
         });
     }
 
-    public static void getNewAccessTokenByRefreshToken(String
-                                                               refreshToken, @NotNull AuthCallback<UserInfo> callback) {
+    public static void getNewAccessTokenByRefreshToken(String refreshToken, @NotNull AuthCallback<UserInfo> callback) {
         Authing.getPublicConfig(config -> {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";

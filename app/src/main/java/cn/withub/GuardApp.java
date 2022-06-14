@@ -59,6 +59,7 @@ public class GuardApp extends android.app.Application {
 //        Authing.setHost(host);
 //        Authing.init(getApplicationContext(), appid);
 
-        XConfig.init(this);
+//        XConfig.init(this);
+        new XConfig().init(this);
     }
 }

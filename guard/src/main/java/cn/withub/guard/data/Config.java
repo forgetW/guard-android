@@ -136,7 +136,9 @@ public class Config {
             JSONObject jsonObject = data.getJSONObject("oidcConfig");
             if (jsonObject.has("client_id")) {
                 String client_id = jsonObject.getString("client_id");
-                Authing.setClientId(client_id);
+                if (Authing.getClientId() == null || (Authing.getClientId().equals(""))) {
+                    Authing.setClientId(client_id);
+                }
             }
 
             if (jsonObject.has("redirect_uris")) {

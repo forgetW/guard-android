@@ -81,6 +81,7 @@ public class Guardian {
                 builder.addHeader("User-Agent", config.getUserAgent());
             }
         }
+        builder.addHeader("x-device-id", "Android");
         builder.addHeader("x-app-id", Authing.getAppId());
         builder.addHeader("x-request-from", "guard-android" + SDK_VERSION);
         builder.addHeader("x-lang", Util.getLangHeader());
@@ -204,6 +205,7 @@ public class Guardian {
     public static void _authRequest(String url, String method, String body, @NotNull GuardianCallback callback) {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
+        builder.addHeader("x-device-id", "Android");
         builder.addHeader("x-request-from", "Guard@Android@" + SDK_VERSION);
         builder.addHeader("x-lang", Util.getLangHeader());
         builder.addHeader("Content-Type", "application/x-www-form-urlencoded");

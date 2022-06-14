@@ -85,7 +85,7 @@ public class SampleListActivity extends AppCompatActivity {
                 return;
             }
 
-            if (null != Authing.getCurrentUser()){
+            if (null != Authing.getCurrentUser()) {
                 gotoMain();
                 return;
             }
@@ -135,14 +135,18 @@ public class SampleListActivity extends AppCompatActivity {
             } else if (pos == 15) {
                 Intent intent = new Intent(SampleListActivity.this, LoginByPushNotificationActivity.class);
                 startActivityForResult(intent, RC_LOGIN);
-            }else if (pos == 16) {
-                final AuthFlow flow = new AuthFlow();
-                flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
-                if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
-                    AuthClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
-                } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
-                    OIDCClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
-                }
+            } else if (pos == 16) {
+
+                String clientId = Authing.getClientId();
+
+                Authing.autoLogin(this::fireCallback);
+//                final AuthFlow flow = new AuthFlow();
+//                flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
+//                if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+//                    AuthClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
+//                } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+//                    OIDCClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
+//                }
             }
         });
     }
@@ -151,7 +155,7 @@ public class SampleListActivity extends AppCompatActivity {
         Log.e("fireCallback", "fireCallback: ");
     }
 
-    private void startActivity(Class<?> cls){
+    private void startActivity(Class<?> cls) {
         Intent intent = new Intent(SampleListActivity.this, cls);
         startActivity(intent);
     }
