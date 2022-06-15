@@ -137,16 +137,16 @@ public class SampleListActivity extends AppCompatActivity {
                 startActivityForResult(intent, RC_LOGIN);
             } else if (pos == 16) {
 
-                String clientId = Authing.getClientId();
-
-                Authing.autoLogin(this::fireCallback);
-//                final AuthFlow flow = new AuthFlow();
-//                flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
-//                if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
-//                    AuthClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
-//                } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
-//                    OIDCClient.loginByAccount("13600000000", "13600000000", this::fireCallback);
-//                }
+//                String clientId = Authing.getClientId();
+//
+//                Authing.autoLogin(this::fireCallback);
+                final AuthFlow flow = new AuthFlow();
+                flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
+                if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+                    AuthClient.loginByAccount("17782091322", "13600000000", this::fireCallback);
+                } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+                    OIDCClient.loginByAccount("17782091322", "13600000000", this::fireCallback);
+                }
             }
         });
     }

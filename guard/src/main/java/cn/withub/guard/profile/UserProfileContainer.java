@@ -30,7 +30,7 @@ import cn.withub.guard.data.Application;
 import cn.withub.guard.data.ImageLoader;
 import cn.withub.guard.data.Organization;
 import cn.withub.guard.data.Resource;
-import cn.withub.guard.data.Role;
+import cn.withub.guard.data.RoleBak;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
@@ -42,7 +42,7 @@ public class UserProfileContainer extends LinearLayout {
     private static final int AVATAR_MARGIN = (AVATAR_LAYOUT_HEIGHT - AVATAR_HEIGHT) / 2;
     private static final int TEXT_LAYOUT_HEIGHT = 48;
 
-    private List<Role> roles;
+    private List<RoleBak> roles;
     private List<Application> applications;
     private List<Resource> resources;
     private List<Organization[]> organizations;

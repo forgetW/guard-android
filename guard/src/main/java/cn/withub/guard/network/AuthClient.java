@@ -21,7 +21,7 @@ import cn.withub.guard.data.Application;
 import cn.withub.guard.data.MFAData;
 import cn.withub.guard.data.Organization;
 import cn.withub.guard.data.Resource;
-import cn.withub.guard.data.Role;
+import cn.withub.guard.data.RoleBak;
 import cn.withub.guard.data.Safe;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.util.ALog;
@@ -595,11 +595,11 @@ public class AuthClient {
         }
     }
 
-    public static void listRoles(@NotNull AuthCallback<List<Role>> callback) {
+    public static void listRoles(@NotNull AuthCallback<List<RoleBak>> callback) {
         listRoles(null, callback);
     }
 
-    public static void listRoles(String namespace, @NotNull AuthCallback<List<Role>> callback) {
+    public static void listRoles(String namespace, @NotNull AuthCallback<List<RoleBak>> callback) {
         try {
             String endpoint = "/api/v2/users/me/roles"
                     + (TextUtils.isEmpty(namespace) ? "" : "?namespace=" + namespace);
@@ -607,10 +607,10 @@ public class AuthClient {
                 if (data.getCode() == 200) {
                     try {
                         JSONArray array = data.getData().getJSONArray("data");
-                        List<Role> roles = Role.parse(array);
+                        List<RoleBak> roles = RoleBak.parse(array);
                         UserInfo userInfo = Authing.getCurrentUser();
                         if (userInfo != null) {
-                            userInfo.setRoles(roles);
+                            userInfo.setRoleBaks(roles);
                         }
                         callback.call(data.getCode(), data.getMessage(), roles);
                     } catch (JSONException e) {
@@ -1035,6 +1035,7 @@ public class AuthClient {
             try {
                 UserInfo userInfo = UserInfo.createUserInfo(data.getData());
                 String token = userInfo.getIdToken();
+                authData.setUserInfo(userInfo);
                 authData.setToken(token);
                 OIDCClient.oidcInteraction(authData, callback);
             } catch (JSONException e) {

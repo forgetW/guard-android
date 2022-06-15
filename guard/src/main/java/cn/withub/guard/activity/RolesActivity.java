@@ -14,13 +14,13 @@ import java.util.List;
 
 import cn.withub.guard.Authing;
 import cn.withub.guard.R;
-import cn.withub.guard.data.Role;
+import cn.withub.guard.data.RoleBak;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.util.Util;
 
 public class RolesActivity extends BaseAuthActivity {
 
-    private List<Role> roles;
+    private List<RoleBak> roles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class RolesActivity extends BaseAuthActivity {
 
         UserInfo userInfo = Authing.getCurrentUser();
         if (userInfo != null) {
-            roles = userInfo.getRoles();
+            roles = userInfo.getRoleBaks();
         }
 
         if (roles != null) {
@@ -63,7 +63,7 @@ public class RolesActivity extends BaseAuthActivity {
                 view = LayoutInflater.from(RolesActivity.this).inflate(R.layout.authing_role_item, parent, false);
             }
 
-            Role role = roles.get(position);
+            RoleBak role = roles.get(position);
             TextView tvCode = view.findViewById(R.id.tv_role_code);
             tvCode.setText(role.getCode());
             TextView tvNS = view.findViewById(R.id.tv_role_namespace);

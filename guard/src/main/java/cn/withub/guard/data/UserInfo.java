@@ -2,6 +2,8 @@ package cn.withub.guard.data;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,7 +96,28 @@ public class UserInfo implements Serializable {
     private String phoneCountryCode;
     private boolean phone_number_verified;
     private List<CustomData> customData = new ArrayList<>();
-    private List<Role> roles;
+    private List<RoleBak> roleBaks;
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+
+    public String getPosts() {
+        return posts;
+    }
+
+    public void setPosts(String posts) {
+        this.posts = posts;
+    }
+
+    private String posts;
+    private String roles;
+
     private List<Application> applications;
     private List<Resource> resources;
     private List<Organization[]> organizations;
@@ -438,12 +461,12 @@ public class UserInfo implements Serializable {
         }
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<RoleBak> getRoleBaks() {
+        return roleBaks;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoleBaks(List<RoleBak> roleBaks) {
+        this.roleBaks = roleBaks;
     }
 
     public List<Application> getApplications() {
@@ -709,16 +732,30 @@ public class UserInfo implements Serializable {
         }
         if (data.has("role")) {
             List<String> list = Util.toStringList(data.getJSONArray("role"));
-            List<Role> roles = new ArrayList<>();
+            List<RoleBak> roles = new ArrayList<>();
             for (String s : list) {
-                Role role = new Role();
+                RoleBak role = new RoleBak();
                 role.setCode(s);
                 roles.add(role);
             }
-            userInfo.setRoles(roles);
+            userInfo.setRoleBaks(roles);
         }
+
+        paseCustomData(userInfo, data);
+
         userInfo.parseTokens(data);
         return userInfo;
+    }
+
+    private static void paseCustomData(UserInfo userInfo, JSONObject data) throws JSONException {
+        if(data.has("roles")){
+            String rolesData = data.getString("roles");
+            userInfo.setRoles(rolesData);
+        }
+        if(data.has("posts")){
+            String postsData = data.getString("posts");
+            userInfo.setPosts(postsData);
+        }
     }
 
     @NotNull

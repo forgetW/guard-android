@@ -376,8 +376,11 @@ public class OIDCClient {
                     ALog.d(TAG, "authByCode cost:" + (System.currentTimeMillis() - now) + "ms");
                     if (data.getCode() == 200) {
                         try {
-                            UserInfo userInfo = UserInfo.createUserInfo(new UserInfo(), data.getData());
-                            OIDCClient.getUserInfoByAccessToken(userInfo, callback);
+                            UserInfo user = authRequest.getUserInfo() != null ? authRequest.getUserInfo() : new UserInfo();
+                            UserInfo userInfo = UserInfo.createUserInfo(user, data.getData());
+
+                            callback.call(data.getCode(), data.getMessage(), userInfo);
+//                            OIDCClient.getUserInfoByAccessToken(userInfo, callback);  老蒋说不需要  先干掉
                         } catch (JSONException e) {
                             e.printStackTrace();
                             callback.call(500, "Cannot parse data into UserInfo", null);

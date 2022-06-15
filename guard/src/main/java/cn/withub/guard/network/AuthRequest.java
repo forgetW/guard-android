@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.withub.guard.Authing;
+import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.PKCE;
 import cn.withub.guard.util.Util;
@@ -21,6 +22,16 @@ public class AuthRequest {
     private String _authing_lang;
     private String codeVerifier;
     private String codeChallenge;
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    private UserInfo userInfo;
 
     private String token;
 

@@ -1,18 +1,75 @@
 package cn.withub.guard.data;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Role implements Serializable {
+
+    /**
+     * roleName : 系统管理员
+     * roleCode : system
+     * id : f235c9a3a5d9494cacade6b52b75c323
+     * userId : f89bc94986954d3db84c1c0e4ad49504
+     * roleId : system
+     * tenantId : nmg
+     * createdBy :
+     * createdAt : 2022-06-11T07:41:25.111Z
+     * updatedBy : null
+     * updatedAt : 2022-06-11T07:41:25.112Z
+     * deletedBy : null
+     * deletedAt : 0
+     * lockedBy : null
+     * lockedAt : null
+     * ownerId : null
+     * version : 0
+     * sort :
+     * remark :
+     * startTime : 2022-06-08T08:14:18.000Z
+     * endTime : null
+     * level : 5
+     * orgScope : null
+     * mdApps : []
+     */
+
+    private String roleName;
+    private String roleCode;
     private String id;
-    private String code;
-    private String description;
-    private String namespace;
+    private String userId;
+    private String roleId;
+    private String tenantId;
+    private String createdBy;
+    private String createdAt;
+    private String updatedBy;
+    private String updatedAt;
+    private String deletedBy;
+    private int deletedAt;
+    private String lockedBy;
+    private String lockedAt;
+    private String ownerId;
+    private int version;
+    private String sort;
+    private String remark;
+    private String startTime;
+    private String endTime;
+    private int level;
+    private String orgScope;
+    private List<?> mdApps;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
 
     public String getId() {
         return id;
@@ -22,50 +79,163 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
-    public String getNamespace() {
-        return namespace;
+    public String getTenantId() {
+        return tenantId;
     }
 
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
-    public static List<Role> parse(JSONArray array) throws JSONException {
-        List<Role> list = new ArrayList<>();
-        int size = array.length();
-        for (int i = 0; i < size; i++) {
-            Role role = new Role();
-            JSONObject obj = array.getJSONObject(i);
-            if (obj.has("id")) {
-                role.setId(obj.getString("id"));
-            }
-            if (obj.has("code")) {
-                role.setCode(obj.getString("code"));
-            }
-            if (obj.has("description")) {
-                role.setDescription(obj.getString("description"));
-            }
-            if (obj.has("namespace")) {
-                role.setNamespace(obj.getString("namespace"));
-            }
-            list.add(role);
-        }
-        return list;
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Object getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Object getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public int getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(int deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public Object getLockedBy() {
+        return lockedBy;
+    }
+
+    public void setLockedBy(String lockedBy) {
+        this.lockedBy = lockedBy;
+    }
+
+    public Object getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(String lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
+    public Object getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public Object getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public Object getOrgScope() {
+        return orgScope;
+    }
+
+    public void setOrgScope(String orgScope) {
+        this.orgScope = orgScope;
+    }
+
+    public List<?> getMdApps() {
+        return mdApps;
+    }
+
+    public void setMdApps(List<?> mdApps) {
+        this.mdApps = mdApps;
     }
 }
