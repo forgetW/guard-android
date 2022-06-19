@@ -379,6 +379,7 @@ public class OIDCClient {
                             UserInfo user = authRequest.getUserInfo() != null ? authRequest.getUserInfo() : new UserInfo();
                             UserInfo userInfo = UserInfo.createUserInfo(user, data.getData());
 
+                            Authing.saveUser(user);
                             callback.call(data.getCode(), data.getMessage(), userInfo);
 //                            OIDCClient.getUserInfoByAccessToken(userInfo, callback);  老蒋说不需要  先干掉
                         } catch (JSONException e) {

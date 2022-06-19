@@ -1,6 +1,8 @@
 package cn.withub.guard.data;
 
-public class TokenModel {
+import java.io.Serializable;
+
+public class TokenModel implements Serializable {
     String access_token;
 
     public String getRefresh_token() {

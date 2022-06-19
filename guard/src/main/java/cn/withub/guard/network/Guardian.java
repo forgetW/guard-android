@@ -81,6 +81,9 @@ public class Guardian {
                 builder.addHeader("User-Agent", config.getUserAgent());
             }
         }
+        if (Authing.getClientId() != null) {
+            builder.addHeader("x-tenant-id", Authing.getClientId());
+        }
         builder.addHeader("x-device-id", "Android");
         builder.addHeader("x-app-id", Authing.getAppId());
         builder.addHeader("x-request-from", "guard-android" + SDK_VERSION);

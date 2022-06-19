@@ -127,9 +127,11 @@ public class AuthClient {
             if (!Util.isNull(phoneCountryCode)) {
                 body.put("phoneCountryCode", phoneCountryCode);
             }
+            body.put("scene", "login");
+
             Guardian.post("/api/v2/sms/send", body, (data)-> {
                 if (data.getCode() == 200) {
-                    GlobalCountDown.start(phone+phoneCountryCode);
+                    GlobalCountDown.start(phone + phoneCountryCode);
                 }
                 callback.call(data.getCode(), data.getMessage(), null);
             });
@@ -149,18 +151,24 @@ public class AuthClient {
 
     public static void loginByPhoneCode(AuthRequest authData, String phoneCountryCode, String phone, String code, @NotNull AuthCallback<UserInfo> callback) {
         try {
+            if (authData == null) {
+                authData = new AuthRequest();
+            }
             JSONObject body = new JSONObject();
             if (!Util.isNull(phoneCountryCode)){
                 body.put("phoneCountryCode", phoneCountryCode);
             }
             body.put("phone", phone);
             body.put("code", code);
+            body.put("autoRegister", false);
+            newCustomDataInsert(body);
+            AuthRequest finalAuthData = authData;
             Guardian.post("/api/v2/login/phone-code", body, (data)-> {
                 if (data.getCode() == 200 || data.getCode() == EC_MFA_REQUIRED) {
                     Safe.saveAccount(phone);
                     Safe.savePhoneCountryCode(phoneCountryCode);
                 }
-                startOidcInteraction(authData, data, callback);
+                startOidcInteraction(finalAuthData, data, callback);
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,7 +208,7 @@ public class AuthClient {
             JSONObject body = new JSONObject();
             body.put("account", account);
             body.put("password", encryptPassword);
-            newInsert(body, authData);
+            newCustomDataInsert(body);
             Guardian.post("/api/v2/login/account", body, (data)-> {
                 ALog.d(TAG, "loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
                 if (data.getCode() == 200 || data.getCode() == EC_MFA_REQUIRED) {
@@ -216,7 +224,7 @@ public class AuthClient {
         }
     }
 
-    private static void newInsert(JSONObject body, AuthRequest authData) throws JSONException {
+    private static void newCustomDataInsert(JSONObject body) throws JSONException {
         AuthRequest authRequest = new AuthRequest();
         body.put("autoRegister", false);
         body.put("withCustomData", true);
@@ -226,10 +234,10 @@ public class AuthClient {
         jsonObject1.put("value", Authing.getAppId());
         JSONObject jsonObject2 = new JSONObject();
         jsonObject2.put("key", "uuid");
-        jsonObject2.put("value", authData.getUuid() == null ? "aGIh1an1s9PTuifSC0_w4" : authData.getUuid());
+        jsonObject2.put("value", authRequest.getUuid() == null ? "aGIh1an1s9PTuifSC0_w4" : authRequest.getUuid());
         JSONObject jsonObject3 = new JSONObject();
         jsonObject3.put("key", "finish_login_url");
-        jsonObject3.put("value", authRequest.getFinish_login_url() == null ? "/interaction/oidc/"+authData.getUuid()+"/login" : authRequest.getFinish_login_url());
+        jsonObject3.put("value", authRequest.getFinish_login_url() == null ? "/interaction/oidc/"+authRequest.getUuid()+"/login" : authRequest.getFinish_login_url());
         JSONObject jsonObject4 = new JSONObject();
         jsonObject4.put("key", "client_id");
         jsonObject4.put("value", authRequest.getClient_id());
