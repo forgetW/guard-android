@@ -943,6 +943,21 @@ public class AuthClient {
         }
     }
 
+    public static void logout(@NotNull AuthCallback<?> callback, boolean addCookie) {
+        try {
+            String endpoint = "/api/v2/logout?app_id=" + Authing.getAppId();
+            Guardian.get(endpoint, addCookie, (data)-> {
+                Safe.logoutUser(Authing.getCurrentUser());
+                Authing.setCurrentUser(null);
+                CookieManager.removeAllCookies();
+                callback.call(data.getCode(), data.getMessage(), null);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.call(500, "Exception", null);
+        }
+    }
+
     public static void deleteAccount(AuthCallback<JSONObject> callback) {
         try {
             String endpoint = "/api/v2/users/delete";

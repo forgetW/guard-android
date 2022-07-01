@@ -40,6 +40,15 @@ public class Config {
     private List<String> redirectUris = new ArrayList<>();
     private boolean internationalSmsEnable;
     private String userAgent;
+    private boolean addCookie;
+
+    public boolean isAddCookie() {
+        return addCookie;
+    }
+
+    public void setAddCookie(boolean addCookie) {
+        this.addCookie = addCookie;
+    }
 
     public static Config parse(JSONObject data) throws JSONException {
         Config config = new Config();

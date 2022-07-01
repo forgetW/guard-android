@@ -15,19 +15,23 @@ public class MainActivity extends UserProfileActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        logoutButton.setOnClickListener(v -> logout());
-        deleteButton.setOnClickListener(v -> delete());
+        if (logoutButton != null) {
+            logoutButton.setOnClickListener(v -> logout());
+        }
+        if (deleteButton != null) {
+            deleteButton.setOnClickListener(v -> delete());
+        }
     }
 
     private void logout() {
         long now = System.currentTimeMillis();
 //        Push.unregister(this, ((ok, msg) -> {
 //            ALog.d("MainActivity", "Push.unregister cost:" + (System.currentTimeMillis() - now));
-//            AuthClient.logout((code, message, data)->{
-//                Intent intent = new Intent(this, SampleListActivity.class);
-//                startActivity(intent);
-//                finish();
-//            });
+            AuthClient.logout((code, message, data)->{
+                Intent intent = new Intent(this, SampleListActivity.class);
+                startActivity(intent);
+                finish();
+            });
 //        }));
     }
 

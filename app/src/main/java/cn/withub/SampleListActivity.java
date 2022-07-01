@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -62,7 +63,10 @@ public class SampleListActivity extends AppCompatActivity {
             "生物二次验证",
             "Authenticator",
             "Login by push notification",
-            "自建测试",
+            "帐号密码登录",
+            "发送验证码",
+            "验证码登录",
+            "登出",
     };
 
     @Override
@@ -84,7 +88,10 @@ public class SampleListActivity extends AppCompatActivity {
                 startActivity(AuthenticatorActivity.class);
                 return;
             }
-
+            else if(pos == 19){
+                AuthClient.logout(this::fireCallback, true);
+                return;
+            }
             if (null != Authing.getCurrentUser()) {
                 gotoMain();
                 return;
@@ -147,12 +154,23 @@ public class SampleListActivity extends AppCompatActivity {
                 } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
                     OIDCClient.loginByAccount("17782091322", "13600000000", this::fireCallback);
                 }
+            }else if(pos == 17){
+                AuthClient.sendSms("17723555741", this:: fireCallback);
+            }
+            else if(pos == 18){
+                EditText editTextNumber = findViewById(R.id.editTextNumber);
+                String trim = editTextNumber.getText().toString().trim();
+                OIDCClient.loginByPhoneCode("17723555741", trim, this::fireCallback);
             }
         });
     }
 
+    protected void fireCallback(int code, String message, Object o) {
+        Log.e("fireCallback", "fireCallback: " + message);
+    }
+
     protected void fireCallback(int code, String message, UserInfo userInfo) {
-        Log.e("fireCallback", "fireCallback: ");
+        Log.e("fireCallback", "fireCallback: " + message);
     }
 
     private void startActivity(Class<?> cls) {

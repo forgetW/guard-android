@@ -34,6 +34,10 @@ public class Guardian {
         void call(@NotNull Response response);
     }
 
+    public static void get(String endpoint, boolean addCookie, @NotNull GuardianCallback callback) {
+        request(endpoint, addCookie, "GET", null, callback);
+    }
+
     public static void get(String endpoint, @NotNull GuardianCallback callback) {
         request(endpoint, "GET", null, callback);
     }
@@ -49,7 +53,17 @@ public class Guardian {
     private static void request(String url, String method, String body, @NotNull GuardianCallback callback) {
         Authing.getPublicConfig(config -> new Thread() {
             public void run() {
-                 request(config, url, method, body, callback);
+                config.setAddCookie(false);
+                request(config, url, method, body, callback);
+            }
+        }.start());
+    }
+
+    public static void request(String url, boolean addCookie, String method, String body, @NotNull GuardianCallback callback) {
+        Authing.getPublicConfig(config -> new Thread() {
+            public void run() {
+                config.setAddCookie(addCookie);
+                request(config, url, method, body, callback);
             }
         }.start());
     }
@@ -73,10 +87,10 @@ public class Guardian {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         if (config != null) {
-            if (config.getUserPoolId() != null){
+            if (config.getUserPoolId() != null) {
                 builder.addHeader("x-userpool-id", config.getUserPoolId());
             }
-            if (!Util.isNull(config.getUserAgent())){
+            if (!Util.isNull(config.getUserAgent())) {
                 builder.removeHeader("User-Agent");
                 builder.addHeader("User-Agent", config.getUserAgent());
             }
@@ -84,17 +98,23 @@ public class Guardian {
         if (Authing.getClientId() != null) {
             builder.addHeader("x-tenant-id", Authing.getClientId());
         }
+        if (null != config && config.isAddCookie()) {
+            String cookie = CookieManager.getCookie();
+            if (!Util.isNull(cookie)) {
+                builder.addHeader("cookie", cookie);
+            }
+        }
         builder.addHeader("x-device-id", "Android");
         builder.addHeader("x-app-id", Authing.getAppId());
         builder.addHeader("x-request-from", "guard-android" + SDK_VERSION);
         builder.addHeader("x-lang", Util.getLangHeader());
         UserInfo currentUser = Authing.getCurrentUser();
         if (currentUser != null) {
-            String token = currentUser.getIdToken();
+            String token = currentUser.getAccessToken();
             if (!Util.isNull(token)) {
                 builder.addHeader("Authorization", "Bearer " + token);
             } else {
-                token = currentUser.getAccessToken();
+                token = currentUser.getIdToken();
                 if (!Util.isNull(token)) {
                     builder.addHeader("Authorization", "Bearer " + token);
                 }
@@ -154,7 +174,7 @@ public class Guardian {
                     try {
                         JSONObject data = json.getJSONObject("data");
                         resp.setData(data);
-                    } catch(JSONException ignored){
+                    } catch (JSONException ignored) {
                     }
 
                     try {
@@ -162,7 +182,7 @@ public class Guardian {
                         JSONObject data = new JSONObject();
                         data.put("data", array);
                         resp.setData(data);
-                    } catch(JSONException ignored){
+                    } catch (JSONException ignored) {
                     }
 
                     try {
@@ -170,7 +190,7 @@ public class Guardian {
                         JSONObject booleanResult = new JSONObject();
                         booleanResult.put("result", data);
                         resp.setData(booleanResult);
-                    } catch(JSONException ignored){
+                    } catch (JSONException ignored) {
                     }
                 } else {
                     if (!json.has("code")) {
