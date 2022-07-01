@@ -151,7 +151,7 @@ public class SampleListActivity extends AppCompatActivity {
                 if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
                     AuthClient.loginByAccount("17782091322", "13600000000", this::fireCallback);
                 } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
-                    OIDCClient.loginByAccount("17782091322", "13600000000", this::fireCallback);
+                    new OIDCClient().loginByAccount("17782091322", "13600000000", this::fireCallback);
                 }
             }else if(pos == 17){
                 AuthClient.sendSms("17723555741", this:: fireCallback);
@@ -159,7 +159,7 @@ public class SampleListActivity extends AppCompatActivity {
             else if(pos == 18){
                 EditText editTextNumber = findViewById(R.id.editTextNumber);
                 String trim = editTextNumber.getText().toString().trim();
-                OIDCClient.loginByPhoneCode("17723555741", trim, this::fireCallback);
+                new OIDCClient().loginByPhoneCode("17723555741", trim, this::fireCallback);
             }
         });
     }
