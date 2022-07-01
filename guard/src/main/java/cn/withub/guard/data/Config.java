@@ -344,6 +344,10 @@ public class Config {
         return getSocialValue(type, "schema");
     }
 
+    public String getSocialBusinessId(String type) {
+        return getSocialValue(type, "businessId");
+    }
+
     public String getSocialValue(String type, String fieldName) {
         String value = "";
         List<SocialConfig> configs = getSocialConfigs();
@@ -362,6 +366,9 @@ public class Config {
                         break;
                     case "schema":
                         value = c.getSchema();
+                        break;
+                    case "businessId":
+                        value = c.getBusinessId();
                         break;
                 }
                 break;
@@ -401,6 +408,9 @@ public class Config {
                 }
                 if (fields.has("schema")) {
                     config.setSchema(fields.getString("schema"));
+                }
+                if (fields.has("businessId")) {
+                    config.setBusinessId(fields.getString("businessId"));
                 }
             }
             list.add(config);

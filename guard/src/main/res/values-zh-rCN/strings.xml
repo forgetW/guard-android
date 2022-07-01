@@ -19,6 +19,7 @@
     <string name="authing_login_by_password">密码登录</string>
     <string name="authing_register_by_phone_code">手机号注册</string>
     <string name="authing_register_by_email">邮箱注册</string>
+    <string name="authing_register_by_email_code">邮箱验证码注册</string>
     <string name="authing_go_login">立即登录</string>
     <string name="authing_tip_no_account">没有帐号？</string>
     <string name="authing_register_now">立即注册</string>
@@ -65,6 +66,9 @@
     <string name="authing_delete_account">注销帐号</string>
     <string name="authing_biometric_title">生物认证</string>
     <string name="authing_biometric_tip">用生物信息登录</string>
+    <string name="authing_select_country_code">选择国家或地区代码</string>
+    <string name="authing_search">搜索</string>
+    <string name="authing_cancel">取消</string>
 
     <!--user profile-->
     <string name="authing_user_profile">个人中心</string>

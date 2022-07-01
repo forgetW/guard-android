@@ -11,11 +11,6 @@ import cn.withub.guard.analyze.Analyzer;
 
 public class RegisterContainer extends LinearLayout {
 
-    public enum RegisterType {
-        EByPhoneCodePassword,
-        EByEmailPassword,
-    }
-
     private RegisterType type;
 
     public RegisterContainer(Context context) {
@@ -30,6 +25,12 @@ public class RegisterContainer extends LinearLayout {
         this(context, attrs, defStyleAttr, 0);
     }
 
+    public enum RegisterType {
+        EByPhoneCodePassword,
+        EByEmailPassword,
+        EByEmailCode,
+    }
+
     public RegisterContainer(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
@@ -42,9 +43,12 @@ public class RegisterContainer extends LinearLayout {
             type = RegisterType.EByPhoneCodePassword;
         } else if (t == 3) {
             type = RegisterType.EByEmailPassword;
+        } else if (t == 4) {
+            type = RegisterType.EByEmailCode;
         }
         array.recycle();
     }
+
 
     public RegisterType getType() {
         return type;

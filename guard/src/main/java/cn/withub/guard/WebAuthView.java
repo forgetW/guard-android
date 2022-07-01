@@ -83,7 +83,7 @@ public class WebAuthView extends WebView {
                     try {
                         String authCode = Util.getAuthCode(url);
                         if (authCode != null) {
-                            OIDCClient.authByCode(authCode, authRequest, (code, message, userInfo) -> fireCallback(code, message, userInfo));
+                            new OIDCClient(authRequest).authByCode(authCode, (code, message, userInfo) -> fireCallback(code, message, userInfo));
                         } else {
                             ALog.e(TAG, url);
                             fireCallback(500, "login failed", null);
@@ -96,7 +96,7 @@ public class WebAuthView extends WebView {
                     if (getContext() instanceof AuthActivity) {
                         AuthActivity activity = (AuthActivity) getContext();
                         AuthFlow flow = (AuthFlow) activity.getIntent().getSerializableExtra(AuthActivity.AUTH_FLOW);
-                        if (flow.isSkipConsent()) {
+                        if (flow != null && flow.isSkipConsent()) {
                             skipConsent(uri);
                             return true;
                         }
@@ -136,7 +136,7 @@ public class WebAuthView extends WebView {
                     try {
                         String authCode = Util.getAuthCode(url);
                         if (authCode != null) {
-                            OIDCClient.authByCode(authCode, authRequest, (code, message, userInfo) -> fireCallback(code, message, userInfo));
+                            new OIDCClient(authRequest).authByCode(authCode, (code, message, userInfo) -> fireCallback(code, message, userInfo));
                         } else {
                             ALog.e(TAG, url);
                             fireCallback(500, "login failed", null);
@@ -184,7 +184,7 @@ public class WebAuthView extends WebView {
                 AuthFlow flow = (AuthFlow) activity.getIntent().getSerializableExtra(AuthActivity.AUTH_FLOW);
                 authRequest.setScope(flow.getScope());
             }
-            post(()-> OIDCClient.buildAuthorizeUrl(authRequest, (ok, data) -> loadUrl(data)));
+            post(()-> new OIDCClient(authRequest).buildAuthorizeUrl((ok, data) -> loadUrl(data)));
         });
     }
 

@@ -1,7 +1,5 @@
 package cn.withub.guard.analyze;
 
-import android.util.Log;
-
 import org.json.JSONObject;
 
 import cn.withub.guard.Authing;
@@ -15,7 +13,6 @@ import okhttp3.RequestBody;
 public class ComponentTask implements Runnable {
 
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private final static String TAG = "ComponentTask";
 
     private final JSONObject body;
 
@@ -37,17 +34,10 @@ public class ComponentTask implements Runnable {
         Request request = builder.build();
         OkHttpClient client = new OkHttpClient();
         Call call = client.newCall(request);
-        okhttp3.Response response;
         try {
-            response = call.execute();
-            if (response.code() != 200) {
-                Log.e(TAG, "Trace failed:" + response.code());
-            }
-            Analyzer.clearComponents();
-        } catch (Exception e){
-            Log.e(TAG, "Trace exception:" + e.toString());
-            e.printStackTrace();
-            Analyzer.clearComponents();
+            call.execute();
+        } catch (Exception ignored){
         }
+        Analyzer.clearComponents();
     }
 }

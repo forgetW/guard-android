@@ -5,7 +5,7 @@ import okhttp3.MediaType;
 public class Const {
     public final static String NS_ANDROID = "http://schemas.android.com/apk/res/android";
 
-    public static final String SDK_VERSION = "1.3.2";
+    public static final String SDK_VERSION = "1.3.5";
 
     public final static int EC_MFA_REQUIRED = 1636;
     public final static int EC_FIRST_TIME_LOGIN = 1639;
@@ -24,6 +24,7 @@ public class Const {
     public static final String EC_TYPE_ALIPAY = "alipay";
     public static final String EC_TYPE_LARK_INTERNAL = "lark-internal";
     public static final String EC_TYPE_LARK_PUBLIC = "lark-public";
+    public static final String EC_TYPE_YI_DUN = "yidun";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     public static final MediaType FORM = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");

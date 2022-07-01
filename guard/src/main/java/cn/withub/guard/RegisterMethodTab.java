@@ -79,6 +79,7 @@ public class RegisterMethodTab extends LinearLayout {
             return;
         }
 
+        boolean addDefaultTab = false;
         for (String s : tabList) {
             RegisterMethodTabItem b = new RegisterMethodTabItem(getContext());
             if ("phone".equals(s)) {
@@ -87,17 +88,24 @@ public class RegisterMethodTab extends LinearLayout {
             } else if ("email".equals(s)) {
                 b.setText(getResources().getString(R.string.authing_register_by_email));
                 b.setType(RegisterContainer.RegisterType.EByEmailPassword);
+            } else if ("emailCode".equals(s)) {
+                b.setText(getResources().getString(R.string.authing_register_by_email_code));
+                b.setType(RegisterContainer.RegisterType.EByEmailCode);
             }
 
-            if (config.getDefaultRegisterMethod().equals(s)) {
+            if (null != config.getDefaultRegisterMethod() && config.getDefaultRegisterMethod().equals(s)) {
                 b.gainFocus(null);
                 container.addView(b, 0);
+                addDefaultTab = true;
             } else {
                 b.loseFocus();
                 container.addView(b);
             }
             addClickListener(b);
             items.add(b);
+        }
+        if (!addDefaultTab && container.getChildCount() > 0) {
+            ((RegisterMethodTabItem)container.getChildAt(0)).gainFocus(null);
         }
     }
 

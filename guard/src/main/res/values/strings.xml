@@ -19,6 +19,7 @@
     <string name="authing_login_by_password">Password</string>
     <string name="authing_register_by_phone_code">Phone</string>
     <string name="authing_register_by_email">Email</string>
+    <string name="authing_register_by_email_code">Email Code</string>
     <string name="authing_go_login">Sign In Instead</string>
     <string name="authing_tip_no_account">No account?</string>
     <string name="authing_register_now">Sign up Now</string>
@@ -65,6 +66,9 @@
     <string name="authing_delete_account">Delete account</string>
     <string name="authing_biometric_title">Biometric authentication</string>
     <string name="authing_biometric_tip">Log in using your biometric credential</string>
+    <string name="authing_select_country_code">Select country/region code</string>
+    <string name="authing_search">Search</string>
+    <string name="authing_cancel">Cancel</string>
 
     <!--user profile-->
     <string name="authing_user_profile">User profile</string>
