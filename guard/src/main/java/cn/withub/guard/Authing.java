@@ -82,7 +82,6 @@ public class Authing {
         sAppContext = context.getApplicationContext();
         sAppId = appId;
         requestPublicConfig();
-        Analyzer.reportSDKUsage();
     }
 
     public static Context getAppContext() {
