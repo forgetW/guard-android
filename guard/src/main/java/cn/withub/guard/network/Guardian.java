@@ -96,7 +96,12 @@ public class Guardian {
             }
         }
         if (Authing.getClientId() != null) {
-            builder.addHeader("x-tenant-id", Authing.getClientId());
+            builder.addHeader("x-client-id", Authing.getClientId());
+        }
+        if (Authing.getTenantId() != null && !Authing.getTenantId().equals("")) {
+            builder.addHeader("x-tenant-id", Authing.getTenantId());
+        }else {
+            builder.addHeader("x-tenant-id", "nmg");
         }
         if (null != config && config.isAddCookie()) {
             String cookie = CookieManager.getCookie();
@@ -105,8 +110,7 @@ public class Guardian {
             }
         }
         builder.addHeader("x-device-id", "Android");
-        builder.addHeader("x-app-id", Authing.getAppId());
-        builder.addHeader("x-request-from", "guard-android" + SDK_VERSION);
+        builder.addHeader("x-request-from", "native-android" + SDK_VERSION);
         builder.addHeader("x-lang", Util.getLangHeader());
         UserInfo currentUser = Authing.getCurrentUser();
         if (currentUser != null) {
@@ -172,6 +176,11 @@ public class Guardian {
 
                 if (json.has("data")) {
                     try {
+                        String string = json.getString("data");
+                        resp.setMessage(resp.getMessage() + ":" + string);
+                    } catch (JSONException ignored) {
+                    }
+                    try {
                         JSONObject data = json.getJSONObject("data");
                         resp.setData(data);
                     } catch (JSONException ignored) {
@@ -228,8 +237,16 @@ public class Guardian {
     public static void _authRequest(String url, String method, String body, @NotNull GuardianCallback callback) {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
+        if (Authing.getClientId() != null) {
+            builder.addHeader("x-client-id", Authing.getClientId());
+        }
+        if (Authing.getTenantId() != null && !Authing.getTenantId().equals("")) {
+            builder.addHeader("x-tenant-id", Authing.getTenantId());
+        }else {
+            builder.addHeader("x-tenant-id", "nmg");
+        }
         builder.addHeader("x-device-id", "Android");
-        builder.addHeader("x-request-from", "Guard@Android@" + SDK_VERSION);
+        builder.addHeader("x-request-from", "Native@Android@" + SDK_VERSION);
         builder.addHeader("x-lang", Util.getLangHeader());
         builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
         if (method.equalsIgnoreCase("post")) {

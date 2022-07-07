@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +27,16 @@ import cn.withub.R;
 import cn.withub.abao.AbaoActivity;
 import cn.withub.appauth.AppAuthActivity;
 import cn.withub.authenticator.AuthenticatorActivity;
+import cn.withub.guard.AuthCallback;
 import cn.withub.guard.Authing;
 import cn.withub.guard.container.AuthContainer;
+import cn.withub.guard.data.Safe;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.oneclick.OneClick;
+import cn.withub.guard.util.ALog;
 import cn.withub.oneclick.OneClickActivity;
 import cn.withub.push.LoginByPushNotificationActivity;
 import cn.withub.scan.ScanAuthActivity;
@@ -67,6 +71,7 @@ public class SampleListActivity extends AppCompatActivity {
             "发送验证码",
             "验证码登录",
             "登出",
+            "刷新token",
     };
 
     @Override
@@ -91,6 +96,15 @@ public class SampleListActivity extends AppCompatActivity {
             else if(pos == 19){
                 AuthClient.logout(this::fireCallback, true);
                 return;
+            }
+            else if(pos == 20){
+                UserInfo currentUser = Authing.getCurrentUser();
+                if (currentUser != null) {
+                    String refreshToken = currentUser.getRefreshToken();
+                    if (!TextUtils.isEmpty(refreshToken)) {
+                        new OIDCClient().getNewAccessTokenByRefreshToken(refreshToken, this::fireCallback);
+                    }
+                }
             }
             if (null != Authing.getCurrentUser()) {
                 gotoMain();
@@ -165,11 +179,11 @@ public class SampleListActivity extends AppCompatActivity {
     }
 
     protected void fireCallback(int code, String message, Object o) {
-        Log.e("fireCallback", "fireCallback: " + message);
+        Log.e("fireCallback", "fireCallback: " + message + "--code: " + code);
     }
 
     protected void fireCallback(int code, String message, UserInfo userInfo) {
-        Log.e("fireCallback", "fireCallback: " + message);
+        Log.e("fireCallback", "fireCallback: " + message + "--code: " + code);
     }
 
     private void startActivity(Class<?> cls) {
@@ -254,4 +268,5 @@ public class SampleListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
 }

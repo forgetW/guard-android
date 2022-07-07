@@ -63,6 +63,16 @@ public class Authing {
     }
 
     private static String client_id;
+
+    public static String getTenantId() {
+        return tenant_id;
+    }
+
+    public static void setTenantId(String tenant_id) {
+        Authing.tenant_id = tenant_id;
+    }
+
+    private static String tenant_id;
     private static boolean isGettingConfig;
     private static Config publicConfig;
     private static final Queue<Config.ConfigCallback> listeners = new ConcurrentLinkedQueue<>();
@@ -188,7 +198,7 @@ public class Authing {
 //            host = "console." + sHost;
 //        }
         String url = scheme + "://" + host + "/api/v2/applications/" + sAppId + "/public-config";
-        Guardian.request(null, url, "get", null, (response)->{
+        Guardian.request(null, url, "get", null, (response) -> {
             try {
                 if (response.getCode() == 200) {
                     JSONObject data = response.getData();
@@ -208,7 +218,7 @@ public class Authing {
 
     private static void fireCallback(Config config) {
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(()->{
+        handler.post(() -> {
             publicConfig = config;
             for (Config.ConfigCallback callback : listeners) {
                 callback.call(config);

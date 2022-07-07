@@ -775,6 +775,7 @@ public class OIDCClient {
                             userInfo = new UserInfo();
                         }
                         userInfo.parseTokens(data.getData());
+                        Authing.saveUser(userInfo);
                         callback.call(data.getCode(), data.getMessage(), userInfo);
                     } else {
                         callback.call(data.getCode(), data.getMessage(), null);

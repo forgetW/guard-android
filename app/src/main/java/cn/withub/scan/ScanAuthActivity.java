@@ -57,7 +57,7 @@ public class ScanAuthActivity extends AppCompatActivity {
                 if (code == 200) {
                     setRes("login by qr code success");
                 } else {
-                    setRes(message);
+                    setRes(data1.toString());
                 }
             });
         });
@@ -102,6 +102,7 @@ public class ScanAuthActivity extends AppCompatActivity {
                         random = obj.getString("random");
                         AuthClient.markQRCodeScanned(random, (code, message, data1) -> {
                             ALog.d(TAG, "markQRCodeScanned result:" + code + " " + message);
+                            ALog.d(TAG, "markQRCodeScanned data1:" + data1);
                             if (code == 200) {
                                 setRes("marked as scanned");
                             } else {
