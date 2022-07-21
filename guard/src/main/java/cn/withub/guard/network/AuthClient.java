@@ -625,11 +625,11 @@ public class AuthClient {
         }
     }
 
-    public static void listRoles(@NotNull AuthCallback<List<RoleBak>> callback) {
+    public static void listRoles(@NotNull AuthCallback<List<Role>> callback) {
         listRoles(null, callback);
     }
 
-    public static void listRoles(String namespace, @NotNull AuthCallback<List<RoleBak>> callback) {
+    public static void listRoles(String namespace, @NotNull AuthCallback<List<Role>> callback) {
         try {
             String endpoint = "/api/v2/users/me/roles"
                     + (TextUtils.isEmpty(namespace) ? "" : "?namespace=" + namespace);
@@ -637,10 +637,10 @@ public class AuthClient {
                 if (data.getCode() == 200) {
                     try {
                         JSONArray array = data.getData().getJSONArray("data");
-                        List<RoleBak> roles = RoleBak.parse(array);
+                        List<Role> roles = Role.parse(array);
                         UserInfo userInfo = Authing.getCurrentUser();
                         if (userInfo != null) {
-                            userInfo.setRoleBaks(roles);
+                            userInfo.setRoles(roles);
                         }
                         callback.call(data.getCode(), data.getMessage(), roles);
                     } catch (JSONException e) {
