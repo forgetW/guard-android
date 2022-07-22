@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.util.AttributeSet;
+import android.view.View;
 
 import cn.withub.guard.AuthCallback;
 import cn.withub.guard.R;
@@ -15,6 +16,9 @@ import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
 import cn.withub.guard.flow.FlowHelper;
 import cn.withub.guard.util.Const;
+import cn.withub.guard.util.Util;
+import cn.withub.guard.PrivacyConfirmBox;
+
 
 public abstract class SocialLoginButton extends androidx.appcompat.widget.AppCompatImageButton {
 
@@ -66,12 +70,24 @@ public abstract class SocialLoginButton extends androidx.appcompat.widget.AppCom
         }
         backgroundDrawable = (AnimatedVectorDrawable)context.getDrawable(R.drawable.ic_authing_animated_loading_blue);
         setOnClickListener((v -> {
+            if (requiresAgreement()) {
+                return;
+            }
             setBackground(backgroundDrawable);
             backgroundDrawable.start();
             if (authenticator != null) {
                 authenticator.login(context, this::loginDone);
             }
         }));
+    }
+
+    private boolean requiresAgreement() {
+        View box = Util.findViewByClass(this, PrivacyConfirmBox.class);
+        if (box == null) {
+            return false;
+        }
+
+        return ((PrivacyConfirmBox)box).require(true);
     }
 
     public void setOnLoginListener(AuthCallback<UserInfo> callback) {
