@@ -177,8 +177,6 @@ public class OIDCClient {
         AuthClient.loginByLark(authRequest, authCode, callback);
     }
 
-    public void authByCode(String code, @NotNull AuthCallback<UserInfo> callback) {
-        long now = System.currentTimeMillis();
     public void authCodeByAccountLogin(String account, String password, @NotNull AuthCallback<AuthResult> callback) {
         long start = System.currentTimeMillis();
         Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
@@ -239,7 +237,9 @@ public class OIDCClient {
         });
     }
 
-    public void oidcInteractionCode(@NotNull AuthCallback<AuthResult> callback) {
+
+    public void authByCode(String code, @NotNull AuthCallback<UserInfo> callback) {
+        long now = System.currentTimeMillis();
         Authing.getPublicConfig(config -> {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
@@ -272,6 +272,11 @@ public class OIDCClient {
                 callback.call(500, "Exception", null);
             }
         });
+    }
+
+    public void oidcInteractionCode(@NotNull AuthCallback<AuthResult> callback) {
+        Authing.getPublicConfig(config -> {
+            try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/interaction/oidc/" + authRequest.getUuid() + "/login";
                 String body = "token=" + authRequest.getToken();
                 _oidcInteractionCode(url, body, callback);
@@ -318,43 +323,7 @@ public class OIDCClient {
         }
     }
 
-    private void _oidcInteractionCode(String url, String body, @NotNull AuthCallback<AuthResult> callback) {
-        long now = System.currentTimeMillis();
-        Request.Builder builder = new Request.Builder();
-        builder.url(url);
-        RequestBody requestBody = RequestBody.create(body, Const.FORM);
-        builder.post(requestBody);
-        String cookie = CookieManager.getCookie();
-        if (!Util.isNull(cookie)) {
-            builder.addHeader("cookie", cookie);
-        }
-
-        Request request = builder.build();
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .followRedirects(false)
-                .followSslRedirects(false)
-                .build();
-        Call call = client.newCall(request);
-        okhttp3.Response response;
-        try {
-            response = call.execute();
-            ALog.d(TAG, "_oidcInteraction cost:" + (System.currentTimeMillis() - now) + "ms");
-            if (response.code() == 302) {
-                CookieManager.addCookies(response);
-                String location = response.header("location");
-                oidcLoginCode(location, callback);
-            } else {
-                String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
-                ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s,null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void authByToken(String token, @NotNull AuthCallback<UserInfo> callback) {
+    public void authByToken(UserInfo userInfo, String token, @NotNull AuthCallback<UserInfo> callback) {
         long now = System.currentTimeMillis();
         Authing.getPublicConfig(config -> {
             try {
@@ -373,11 +342,11 @@ public class OIDCClient {
                     ALog.d(TAG, "authByToken cost:" + (System.currentTimeMillis() - now) + "ms");
                     if (data.getCode() == 200) {
                         try {
-                            UserInfo user = authRequest.getUserInfo() != null ? authRequest.getUserInfo() : new UserInfo();
-                            UserInfo userInfo = UserInfo.createUserInfo(user, data.getData());
+                            UserInfo newUserInfo = authRequest.getUserInfo() != null ? authRequest.getUserInfo() : new UserInfo();
+                            UserInfo user = UserInfo.createUserInfo(newUserInfo, data.getData());
 
                             Authing.saveUser(user);
-                            callback.call(data.getCode(), data.getMessage(), userInfo);
+                            callback.call(data.getCode(), data.getMessage(), user);
 //                            OIDCClient.getUserInfoByAccessToken(userInfo, callback);  老蒋说不需要  先干掉
                         } catch (JSONException e) {
                             e.printStackTrace();
