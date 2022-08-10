@@ -25,7 +25,7 @@ import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
 
-public class MFAEmailButton extends LoadingButton implements AuthActivity.EventListener {
+public class MFAEmailButton extends MFABaseButton implements AuthActivity.EventListener {
 
     public MFAEmailButton(@NonNull Context context) {
         this(context, null);

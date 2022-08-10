@@ -22,7 +22,7 @@ import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
 
-public class MFAOTPButton extends LoadingButton implements AuthActivity.EventListener {
+public class MFAOTPButton extends MFABaseButton implements AuthActivity.EventListener {
 
     public MFAOTPButton(@NonNull Context context) {
         this(context, null);
@@ -71,15 +71,7 @@ public class MFAOTPButton extends LoadingButton implements AuthActivity.EventLis
     private void mfaDone(int code, String message, UserInfo userInfo) {
         stopLoadingVisualEffect();
         if (code == 200) {
-            try {
-                AuthActivity activity = (AuthActivity) getContext();
-                Intent intent = new Intent();
-                intent.putExtra("user", userInfo);
-                activity.setResult(AuthActivity.OK, intent);
-                activity.finish();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            mfaOk(code, message, userInfo);
         } else {
             Util.setErrorText(this, message);
         }

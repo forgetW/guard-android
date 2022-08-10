@@ -23,7 +23,7 @@ import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
 
-public class MFARecoveryButton extends LoadingButton {
+public class MFARecoveryButton extends MFABaseButton {
 
     private String recoveryCode;
 

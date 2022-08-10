@@ -25,7 +25,7 @@ import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
 
-public class MFAPhoneButton extends LoadingButton {
+public class MFAPhoneButton extends MFABaseButton {
 
     public MFAPhoneButton(@NonNull Context context) {
         this(context, null);
