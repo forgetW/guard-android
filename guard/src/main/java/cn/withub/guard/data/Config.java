@@ -37,6 +37,7 @@ public class Config {
     private int passwordStrength;
     private List<String> completeFieldsPlace;
     private List<ExtendedField> extendedFields;
+    private JSONObject extendedFieldsI18n;
     private List<String> redirectUris = new ArrayList<>();
     private boolean internationalSmsEnable;
     private String userAgent;
@@ -128,6 +129,10 @@ public class Config {
                 config.setExtendedFields(new ArrayList<>());
             }
 
+        }
+
+        if (data.has("extendsFieldsI18n")) {
+            config.setExtendedFieldsI18n(data.getJSONObject("extendsFieldsI18n"));
         }
 
         if (data.has("redirectUris")) {
@@ -302,6 +307,14 @@ public class Config {
 
     public void setExtendedFields(List<ExtendedField> extendedFields) {
         this.extendedFields = extendedFields;
+    }
+
+    public JSONObject getExtendedFieldsI18n() {
+        return extendedFieldsI18n;
+    }
+
+    public void setExtendedFieldsI18n(JSONObject extendedFieldsI18n) {
+        this.extendedFieldsI18n = extendedFieldsI18n;
     }
 
     public List<String> getRedirectUris() {
