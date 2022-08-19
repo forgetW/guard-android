@@ -367,7 +367,7 @@ public class Config {
         for (SocialConfig c : configs) {
             String provider = c.getType();
             if (type.equalsIgnoreCase(provider)) {
-                switch (fieldName) {
+                switch (fieldName){
                     case "connectionId":
                         value = c.getId();
                         break;

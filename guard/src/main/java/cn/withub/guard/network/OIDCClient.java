@@ -345,7 +345,7 @@ public class OIDCClient {
                     ALog.d(TAG, "authByToken cost:" + (System.currentTimeMillis() - now) + "ms");
                     if (data.getCode() == 200) {
                         try {
-                            UserInfo newUserInfo = authRequest.getUserInfo() != null ? authRequest.getUserInfo() : new UserInfo();
+                            UserInfo newUserInfo = userInfo != null ? userInfo : authRequest.getUserInfo() != null ? authRequest.getUserInfo() : new UserInfo();
                             UserInfo user = UserInfo.createUserInfo(newUserInfo, data.getData());
 
                             Authing.saveUser(user);
@@ -381,7 +381,6 @@ public class OIDCClient {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/me";
                 Request.Builder builder = new Request.Builder();
                 builder.url(url);
-                builder.addHeader("x-device-id", "Android");
                 builder.addHeader("Authorization", "Bearer " + userInfo.getAccessToken());
                 Request request = builder.build();
                 OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -400,12 +399,11 @@ public class OIDCClient {
                         AuthClient.createUserInfoFromResponse(userInfo, resp, callback);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        callback.call(500, s, null);
+                        callback.call(500, s,null);
                     }
                 } else {
                     ALog.w(TAG, "_getUserInfoByAccessToken failed. " + response.code() + " message:" + s);
-                    callback.call(response.code(), s, userInfo);
-//                    callback.call(response.code(), s, null);
+                    callback.call(response.code(), s,null);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -432,7 +430,6 @@ public class OIDCClient {
                             userInfo = new UserInfo();
                         }
                         userInfo.parseTokens(data.getData());
-                        Authing.saveUser(userInfo);
                         callback.call(data.getCode(), data.getMessage(), userInfo);
                     } else {
                         callback.call(data.getCode(), data.getMessage(), null);
@@ -445,25 +442,4 @@ public class OIDCClient {
         });
     }
 
-    public void getAuthCode(@NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            this.authRequest.setToken(Authing.getCurrentUser().getIdToken());
-            oidcInteraction(callback);
-        }));
-    }
-
-    private void startOidcInteractionCode(Response response, @NotNull AuthCallback<AuthResult> callback){
-        if (response.getCode() == 200 && authRequest != null) {
-            try {
-                UserInfo userInfo = UserInfo.createUserInfo(response.getData());
-                String token = userInfo.getIdToken();
-                authRequest.setToken(token);
-                oidcInteractionCode(callback);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            callback.call(response.getCode(), response.getMessage(), null);
-        }
-    }
 }
