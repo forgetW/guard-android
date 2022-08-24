@@ -73,6 +73,7 @@ public class SampleListActivity extends AppCompatActivity {
             "登出",
             "刷新token",
             "谷歌登录"
+            "场景测试"
     };
 
     @Override
@@ -95,6 +96,10 @@ public class SampleListActivity extends AppCompatActivity {
                 return;
             }  else if (pos == 21) {//google登录
                 Intent intent = new Intent(SampleListActivity.this, SignInActivity.class);
+                startActivity(intent);
+                return;
+            } else if (pos == 22) {//google登录
+                Intent intent = new Intent(SampleListActivity.this, UTActivity.class);
                 startActivity(intent);
                 return;
             }
