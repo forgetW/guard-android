@@ -126,9 +126,9 @@ public class SampleListActivity extends AppCompatActivity {
                 Intent intent = new Intent(SampleListActivity.this, OneClickActivity.class);
                 startActivityForResult(intent, RC_LOGIN);
             } else if (pos == 2) {//手机号一键登录（纯逻辑）
-                OneClick oneClick = new OneClick(SampleListActivity.this);
                 // if you want to return refreshToken、idToken、refreshToken
-                oneClick.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
+                Authing.setAuthProtocol(Authing.AuthProtocol.EOIDC);
+                OneClick oneClick = new OneClick(SampleListActivity.this);
                 oneClick.start(((code, message, userInfo) -> {
                     if (code != 200) {
                         Toast.makeText(Authing.getAppContext(), message, Toast.LENGTH_SHORT).show();
@@ -143,8 +143,8 @@ public class SampleListActivity extends AppCompatActivity {
             } else if (pos == 5) {//阿宝说
                 startActivity(AbaoActivity.class);
             } else if (pos == 6) {//Auth Container
-                AuthFlow flow = AuthFlow.start(this);
-                flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
+                Authing.setAuthProtocol(Authing.AuthProtocol.EOIDC);
+                AuthFlow.start(this);
 //                Intent intent = new Intent(SampleListActivity.this, NissanVirtualKeyAuthActivity.class);
 //                startActivity(intent);
             } else if (pos == 8) {//Authing WebView 登录

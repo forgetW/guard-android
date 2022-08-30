@@ -21,15 +21,10 @@ public class AccountLoginHandler extends AbsLoginHandler {
 
     @Override
     protected boolean login() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        }).start();
         View accountET = Util.findViewByClass(loginButton, AccountEditText.class);
         View passwordET = Util.findViewByClass(loginButton, PasswordEditText.class);
-        if (accountET != null && accountET.isShown() && passwordET != null && passwordET.isShown()) {
+        if (accountET != null && accountET.isShown()
+                && passwordET != null && passwordET.isShown()) {
             final String account = ((AccountEditText) accountET).getText().toString();
 //            final String password = "13600000000";
             final String password = ((PasswordEditText) passwordET).getText().toString();
@@ -46,9 +41,10 @@ public class AccountLoginHandler extends AbsLoginHandler {
     }
 
     private void loginByAccount(String account, String password) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol== Authing.AuthProtocol.EInHouse) {
             AuthClient.loginByAccount(account, password, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().loginByAccount(account, password, this::fireCallback);
         }
         ALog.d(TAG, "login by account");

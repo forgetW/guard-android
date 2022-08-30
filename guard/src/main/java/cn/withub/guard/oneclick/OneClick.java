@@ -150,9 +150,10 @@ public class OneClick extends SocialAuthenticator implements Serializable {
     }
 
     private void authingLogin(String t, String ac) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol == Authing.AuthProtocol.EInHouse) {
             AuthClient.loginByOneAuth(t, ac, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().loginByOneAuth(t, ac, this::fireCallback);
         }
     }

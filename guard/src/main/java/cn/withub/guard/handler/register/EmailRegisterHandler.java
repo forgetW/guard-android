@@ -54,9 +54,10 @@ public class EmailRegisterHandler extends AbsRegisterHandler {
     }
 
     private void registerByEmail(String email, String password) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol == Authing.AuthProtocol.EInHouse) {
             AuthClient.registerByEmail(email, password, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().registerByEmail(email, password, this::fireCallback);
         }
         ALog.d(TAG, "register by email");

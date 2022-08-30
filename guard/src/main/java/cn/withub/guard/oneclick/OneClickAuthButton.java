@@ -57,10 +57,4 @@ public class OneClickAuthButton extends PrimaryButton {
         });
     }
 
-    public void setAuthProtocol(AuthContainer.AuthProtocol authProtocol){
-        if (null == oneClick){
-            oneClick = new OneClick(getContext());
-            oneClick.setAuthProtocol(authProtocol);
-        }
-    }
 }

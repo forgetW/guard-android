@@ -82,9 +82,10 @@ public class PhoneCodeLoginHandler extends AbsLoginHandler{
     }
 
     private void loginByPhoneCode(String phoneCountryCode, String phone, String verifyCode) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol == Authing.AuthProtocol.EInHouse) {
             AuthClient.loginByPhoneCode(phoneCountryCode, phone, verifyCode, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().loginByPhoneCode(phoneCountryCode, phone, verifyCode, this::fireCallback);
         }
         ALog.d(TAG, "login by phone code");

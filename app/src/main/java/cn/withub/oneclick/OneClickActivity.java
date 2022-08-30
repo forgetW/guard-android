@@ -16,6 +16,5 @@ public class OneClickActivity extends AuthActivity {
 
         // If you want to return accessToken，do like this
         OneClickAuthButton oneClickAuthButton = findViewById(R.id.one_click_btn);
-        oneClickAuthButton.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
     }
 }

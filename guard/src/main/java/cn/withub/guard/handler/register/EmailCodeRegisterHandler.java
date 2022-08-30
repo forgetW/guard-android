@@ -42,9 +42,10 @@ public class EmailCodeRegisterHandler extends AbsRegisterHandler {
     }
 
     private void registerByEmailCode(String email, String verifyCode) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol == Authing.AuthProtocol.EInHouse) {
             AuthClient.registerByEmailCode(email, verifyCode, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().registerByEmailCode(email, verifyCode, this::fireCallback);
         }
         ALog.d(TAG, "register by email code");

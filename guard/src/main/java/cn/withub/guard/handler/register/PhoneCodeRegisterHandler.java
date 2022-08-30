@@ -66,9 +66,10 @@ public class PhoneCodeRegisterHandler extends AbsRegisterHandler {
 
 
     private void registerByPhoneCode(String phoneCountryCode, String phone, String phoneCode, String password) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol == Authing.AuthProtocol.EInHouse) {
             AuthClient.registerByPhoneCode(phoneCountryCode, phone, phoneCode, password, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().registerByPhoneCode(phoneCountryCode, phone, phoneCode, password, this::fireCallback);
         }
         ALog.d(TAG, "register by phone code");

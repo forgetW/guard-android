@@ -369,14 +369,6 @@ public class AuthFlow implements Serializable {
         return this;
     }
 
-    public AuthContainer.AuthProtocol getAuthProtocol() {
-        return authProtocol;
-    }
-
-    public void setAuthProtocol(AuthContainer.AuthProtocol authProtocol) {
-        this.authProtocol = authProtocol;
-    }
-
     public String getScope() {
         return scope;
     }
