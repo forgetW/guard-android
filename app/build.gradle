@@ -12,7 +12,7 @@ android {
         targetSdk 31
         versionCode 1
         archivesBaseName = "native-$versionName"
-        versionName "1.4.0"
+        versionName "1.4.1"
     }
 
     signingConfigs {
