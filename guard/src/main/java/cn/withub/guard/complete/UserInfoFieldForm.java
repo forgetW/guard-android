@@ -65,6 +65,8 @@ public class UserInfoFieldForm extends LinearLayout {
             setFieldWithVerifyCode(f);
         } else if ("select".equals(type)) {
             setValueFromSelect(f);
+        } else if ("datetime".equals(type)) {
+            setValueFromDatePicker(f);
         }
         return f;
     }
@@ -154,5 +156,16 @@ public class UserInfoFieldForm extends LinearLayout {
                 }
             }
         }
+    }
+
+    private void setValueFromDatePicker(ExtendedField field) {
+        View view = Util.findChildViewByClass(this, DatePickerView.class, false);
+        if (view == null) {
+            return;
+        }
+
+        DatePickerView datePickerView = (DatePickerView) view;
+        String selected = datePickerView.getText();
+        field.setValue(selected);
     }
 }
