@@ -48,28 +48,22 @@ public class SocialLoginListView extends LinearLayout {
         array.recycle();
 
         if ("auto".equals(src)) {
-            StringBuilder sb = new StringBuilder();
             Authing.getPublicConfig((config -> {
                 if (config == null) {
                     return;
                 }
+                StringBuilder sb = new StringBuilder();
                 List<SocialConfig> socialConfigs = config.getSocialConfigs();
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/social/SocialLoginListView.java
                 if (socialConfigs == null) {
                     return;
                 }
                 for (int i = 0, n = socialConfigs.size();i < n;++i) {
+=======
+                for (int i = 0, n = socialConfigs.size(); i < n; ++i) {
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/social/SocialLoginListView.java
                     SocialConfig sc = socialConfigs.get(i);
-                    String type = sc.getType();
-                    if ("wechat:mobile".equals(type)) {
-                        sb.append("wechat");
-                    } else if ("alipay".equals(type)) {
-                        sb.append("alipay");
-                    } else if (Const.EC_TYPE_WECHAT_COM.equals(type)) {
-                        sb.append("wecom");
-                    } else if (Const.EC_TYPE_LARK_INTERNAL.equals(type)
-                            || Const.EC_TYPE_LARK_PUBLIC.equals(type)) {
-                        sb.append("lark");
-                    }
+                    parsSource(sb, sc);
                     if (i < n - 1) {
                         sb.append("|");
                     }
@@ -81,14 +75,32 @@ public class SocialLoginListView extends LinearLayout {
         }
     }
 
+    private void parsSource(StringBuilder sb, SocialConfig sc){
+        String type = sc.getType();
+        if (Const.EC_TYPE_WECHAT.equals(type)) {
+            sb.append("wechat");
+        } else if (Const.EC_TYPE_ALIPAY.equals(type)) {
+            sb.append("alipay");
+        } else if (Const.EC_TYPE_WECHAT_COM.equals(type)) {
+            sb.append("wecom");
+        } else if (Const.EC_TYPE_WECHAT_COM_AGENCY.equals(type)) {
+            sb.append("wecom-agency");
+        } else if (Const.EC_TYPE_LARK_INTERNAL.equals(type)
+                || Const.EC_TYPE_LARK_PUBLIC.equals(type)) {
+            sb.append("lark");
+        } else if (Const.EC_TYPE_GOOGLE.equals(type)) {
+            sb.append("google");
+        }
+    }
+
     private void setup(Context context, String s) {
         removeAllViews();
         String[] sources = s.split("\\|");
         for (String source : sources) {
-            String src = source.trim();
+            String type = source.trim();
 
             SocialLoginButton button = null;
-            switch (src) {
+            switch (type) {
                 case "wechat":
                     button = new WechatLoginButton(context);
                     break;
@@ -96,10 +108,15 @@ public class SocialLoginListView extends LinearLayout {
                     button = new AlipayLoginButton(context);
                     break;
                 case "wecom":
+                case "wecom-agency":
                     button = new WeComLoginButton(context);
+                    button.setType(type);
                     break;
                 case "lark":
                     button = new LarkLoginButton(context);
+                    break;
+                case "google":
+                    button = new GoogleLoginButton(context);
                     break;
             }
 
@@ -124,4 +141,5 @@ public class SocialLoginListView extends LinearLayout {
             }
         }
     }
+
 }

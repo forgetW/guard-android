@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.util.AttributeSet;
+import android.view.View;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/social/SocialLoginButton.java
 import cn.withub.guard.AuthCallback;
 import cn.withub.guard.R;
 import cn.withub.guard.activity.AuthActivity;
@@ -15,12 +17,24 @@ import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
 import cn.withub.guard.flow.FlowHelper;
 import cn.withub.guard.util.Const;
+=======
+import cn.authing.guard.AuthCallback;
+import cn.authing.guard.PrivacyConfirmBox;
+import cn.authing.guard.R;
+import cn.authing.guard.activity.AuthActivity;
+import cn.authing.guard.data.UserInfo;
+import cn.authing.guard.flow.AuthFlow;
+import cn.authing.guard.flow.FlowHelper;
+import cn.authing.guard.util.Const;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/social/SocialLoginButton.java
 
 public abstract class SocialLoginButton extends androidx.appcompat.widget.AppCompatImageButton {
 
     protected SocialAuthenticator authenticator;
     protected AuthCallback<UserInfo> callback;
     protected AnimatedVectorDrawable backgroundDrawable;
+    protected String type;
 
     public SocialLoginButton(Context context) {
         this(context, null);
@@ -60,27 +74,46 @@ public abstract class SocialLoginButton extends androidx.appcompat.widget.AppCom
 
     public SocialLoginButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        authenticator = createAuthenticator();
+
         if (attrs == null || attrs.getAttributeValue(NS_ANDROID, "background") == null) {
             setBackgroundResource(R.drawable.ic_authing_circle);
         }
         backgroundDrawable = (AnimatedVectorDrawable)context.getDrawable(R.drawable.ic_authing_animated_loading_blue);
         setOnClickListener((v -> {
+            if (requiresAgreement()) {
+                return;
+            }
             setBackground(backgroundDrawable);
             backgroundDrawable.start();
-            if (authenticator != null) {
-                authenticator.login(context, this::loginDone);
+            if (authenticator == null){
+                authenticator = createAuthenticator();
             }
+            authenticator.login(context, this::loginDone);
         }));
+    }
+
+    private boolean requiresAgreement() {
+        View box = Util.findViewByClass(this, PrivacyConfirmBox.class);
+        if (box == null) {
+            return false;
+        }
+
+        return ((PrivacyConfirmBox)box).require(true);
     }
 
     public void setOnLoginListener(AuthCallback<UserInfo> callback) {
         this.callback = callback;
     }
 
-    public void setAuthProtocol(AuthContainer.AuthProtocol authProtocol){
-        if (authenticator != null) {
-            authenticator.setAuthProtocol(authProtocol);
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (authenticator != null){
+            authenticator.onDetachedFromWindow();
         }
     }
 }

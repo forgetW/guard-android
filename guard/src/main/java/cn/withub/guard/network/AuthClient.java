@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 
@@ -246,6 +247,7 @@ public class AuthClient {
         }
     }
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/network/AuthClient.java
     private static void newCustomDataInsert(JSONObject body) throws JSONException {
         AuthRequest authRequest = new AuthRequest();
         body.put("autoRegister", false);
@@ -326,6 +328,8 @@ public class AuthClient {
         }
     }
 
+=======
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/network/AuthClient.java
     public static void sendResetPasswordEmail(String emailAddress, @NotNull AuthCallback<JSONObject> callback) {
         sendEmail(emailAddress, "RESET_PASSWORD", callback);
     }
@@ -452,6 +456,27 @@ public class AuthClient {
         });
     }
 
+    public static void loginByWecomAgency(String authCode, @NotNull AuthCallback<UserInfo> callback) {
+        loginByWecomAgency(null, authCode, callback);
+    }
+
+    public static void loginByWecomAgency(AuthRequest authData, String authCode, @NotNull AuthCallback<UserInfo> callback) {
+        Authing.getPublicConfig(config -> {
+            try {
+                JSONObject body = new JSONObject();
+                body.put("connId", config.getSocialConnectionId(Const.EC_TYPE_WECHAT_COM_AGENCY));
+                body.put("code", authCode);
+                String endpoint = "/api/v2/ecConn/wechat-work-agency/authByCode";
+                Guardian.post(endpoint, body, (data)-> {
+                    startOidcInteraction(authData, data, callback);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.call(500, "Exception", null);
+            }
+        });
+    }
+
     public static void loginByAlipay(String authCode, @NotNull AuthCallback<UserInfo> callback) {
         loginByAlipay(null, authCode, callback);
     }
@@ -486,6 +511,28 @@ public class AuthClient {
                 body.put("connId", connId);
                 body.put("code", authCode);
                 String endpoint = "/api/v2/ecConn/lark/authByCode";
+                Guardian.post(endpoint, body, (data)-> {
+                    startOidcInteraction(authData, data, callback);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.call(500, "Exception", null);
+            }
+        });
+    }
+
+    public static void loginByGoogle(String authCode, @NotNull AuthCallback<UserInfo> callback) {
+        loginByGoogle(null, authCode, callback);
+    }
+
+    public static void loginByGoogle(AuthRequest authData, String authCode, @NotNull AuthCallback<UserInfo> callback) {
+        Authing.getPublicConfig(config -> {
+            try {
+                JSONObject body = new JSONObject();
+                String connId = config.getSocialConnectionId(Const.EC_TYPE_GOOGLE);
+                body.put("connId", connId);
+                body.put("code", authCode);
+                String endpoint = "/api/v2/ecConn/google/authByCode";
                 Guardian.post(endpoint, body, (data)-> {
                     startOidcInteraction(authData, data, callback);
                 });
@@ -890,7 +937,8 @@ public class AuthClient {
     public static void updateProfile(JSONObject object, @NotNull AuthCallback<UserInfo> callback) {
         try {
             String endpoint = "/api/v2/users/profile/update";
-            Guardian.post(endpoint, object, (data)-> createUserInfoFromResponse(data, callback));
+            JSONObject parsedObject = Util.pareUnderLine(object);
+            Guardian.post(endpoint, parsedObject, (data)-> createUserInfoFromResponse(data, callback));
         } catch (Exception e) {
             e.printStackTrace();
             callback.call(500, "Exception", null);
@@ -1035,6 +1083,18 @@ public class AuthClient {
         }
     }
 
+    public static void cancelByScannedTicket(String ticket, @NotNull AuthCallback<JSONObject> callback) {
+        try {
+            String endpoint = "/api/v2/qrcode/cancel";
+            JSONObject body = new JSONObject();
+            body.put("random", ticket);
+            Guardian.post(endpoint, body, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.call(500, "Exception", null);
+        }
+    }
+
     public static void createUserInfoFromResponse(Response data, @NotNull AuthCallback<UserInfo> callback) {
         createUserInfoFromResponse(new UserInfo(), data, callback);
     }
@@ -1073,9 +1133,31 @@ public class AuthClient {
         }
     }
 
+    public static void checkPassword(String password, @NotNull AuthCallback<JSONObject> callback) {
+        try {
+            String encryptPassword = URLEncoder.encode(Util.encryptPassword(password), "UTF-8");
+            String endpoint = "/api/v2/users/password/check?password=" + encryptPassword;
+            Guardian.get(endpoint, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.call(500, "Exception", null);
+        }
+    }
+
+    public static void checkAccount(String paramsName, String paramsValue, @NotNull AuthCallback<JSONObject> callback) {
+        try {
+            String endpoint = "/api/v2/users/is-user-exists?" + paramsName +"=" + paramsValue;
+            Guardian.get(endpoint, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.call(500, "Exception", null);
+        }
+    }
+
     private static void startOidcInteraction(AuthRequest authData, Response data, @NotNull AuthCallback<UserInfo> callback){
         if (authData == null) {
             createUserInfoFromResponse(data, callback);
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/network/AuthClient.java
         } else if (data.getCode() == 200) {
             try {
                 UserInfo userInfo = UserInfo.createUserInfo(data.getData());
@@ -1086,8 +1168,21 @@ public class AuthClient {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+=======
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/network/AuthClient.java
         } else {
-            callback.call(data.getCode(), data.getMessage(), null);
+            if (data.getCode() == 200) {
+                try {
+                    UserInfo userInfo = UserInfo.createUserInfo(data.getData());
+                    String token = userInfo.getIdToken();
+                    authData.setToken(token);
+                    new OIDCClient(authData).authByToken(userInfo, token, callback);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+               createUserInfoFromResponse(data, callback);
+            }
         }
     }
 }

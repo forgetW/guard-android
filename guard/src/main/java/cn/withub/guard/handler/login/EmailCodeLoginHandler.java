@@ -3,6 +3,7 @@ package cn.withub.guard.handler.login;
 import android.text.TextUtils;
 import android.view.View;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/handler/login/EmailCodeLoginHandler.java
 import cn.withub.guard.EmailEditText;
 import cn.withub.guard.LoginButton;
 import cn.withub.guard.R;
@@ -12,6 +13,17 @@ import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Util;
+=======
+import cn.authing.guard.Authing;
+import cn.authing.guard.EmailEditText;
+import cn.authing.guard.LoginButton;
+import cn.authing.guard.R;
+import cn.authing.guard.VerifyCodeEditText;
+import cn.authing.guard.network.AuthClient;
+import cn.authing.guard.network.OIDCClient;
+import cn.authing.guard.util.ALog;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/handler/login/EmailCodeLoginHandler.java
 
 public class EmailCodeLoginHandler extends AbsLoginHandler{
 
@@ -63,9 +75,10 @@ public class EmailCodeLoginHandler extends AbsLoginHandler{
     }
 
     private void loginByEmailCode(String email, String verifyCode) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol == Authing.AuthProtocol.EInHouse) {
             AuthClient.loginByEmailCode(email, verifyCode, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().loginByEmailCode(email, verifyCode, this::fireCallback);
         }
         ALog.d(TAG, "login by email code");

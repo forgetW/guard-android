@@ -226,7 +226,7 @@ public class Guardian {
         }
     }
 
-    public static void authRequest(String url, String method, String body, @NotNull GuardianCallback callback) {
+    public static void authRequest(String url, String method, RequestBody body, @NotNull GuardianCallback callback) {
         new Thread() {
             public void run() {
                 _authRequest(url, method, body, callback);
@@ -234,7 +234,7 @@ public class Guardian {
         }.start();
     }
 
-    public static void _authRequest(String url, String method, String body, @NotNull GuardianCallback callback) {
+    public static void _authRequest(String url, String method, RequestBody body, @NotNull GuardianCallback callback) {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
         if (Authing.getClientId() != null) {
@@ -250,9 +250,9 @@ public class Guardian {
         builder.addHeader("x-lang", Util.getLangHeader());
         builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
         if (method.equalsIgnoreCase("post")) {
-            MediaType type = (body.startsWith("{") || body.startsWith("[")) && (body.endsWith("]") || body.endsWith("}")) ? Const.JSON : Const.FORM;
-            RequestBody requestBody = RequestBody.create(body, type);
-            builder.post(requestBody);
+            builder.post(body);
+        } else {
+            builder.get();
         }
 
         Request request = builder.build();

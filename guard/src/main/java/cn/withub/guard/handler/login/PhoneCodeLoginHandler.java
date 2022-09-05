@@ -3,6 +3,7 @@ package cn.withub.guard.handler.login;
 import android.text.TextUtils;
 import android.view.View;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/handler/login/PhoneCodeLoginHandler.java
 import cn.withub.guard.CountryCodePicker;
 import cn.withub.guard.LoginButton;
 import cn.withub.guard.PhoneNumberEditText;
@@ -13,6 +14,18 @@ import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Util;
+=======
+import cn.authing.guard.Authing;
+import cn.authing.guard.CountryCodePicker;
+import cn.authing.guard.LoginButton;
+import cn.authing.guard.PhoneNumberEditText;
+import cn.authing.guard.R;
+import cn.authing.guard.VerifyCodeEditText;
+import cn.authing.guard.network.AuthClient;
+import cn.authing.guard.network.OIDCClient;
+import cn.authing.guard.util.ALog;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/handler/login/PhoneCodeLoginHandler.java
 
 public class PhoneCodeLoginHandler extends AbsLoginHandler{
 
@@ -82,9 +95,10 @@ public class PhoneCodeLoginHandler extends AbsLoginHandler{
     }
 
     private void loginByPhoneCode(String phoneCountryCode, String phone, String verifyCode) {
-        if (getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
+        Authing.AuthProtocol authProtocol = getAuthProtocol();
+        if (authProtocol == Authing.AuthProtocol.EInHouse) {
             AuthClient.loginByPhoneCode(phoneCountryCode, phone, verifyCode, this::fireCallback);
-        } else if (getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
+        } else if (authProtocol == Authing.AuthProtocol.EOIDC) {
             new OIDCClient().loginByPhoneCode(phoneCountryCode, phone, verifyCode, this::fireCallback);
         }
         ALog.d(TAG, "login by phone code");

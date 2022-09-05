@@ -1,15 +1,13 @@
 package cn.withub.guard.network;
 
-import android.net.Uri;
-
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/network/OIDCClient.java
 import cn.withub.guard.AuthCallback;
 import cn.withub.guard.Authing;
 import cn.withub.guard.Callback;
@@ -20,7 +18,18 @@ import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Const;
 import cn.withub.guard.util.PKCE;
 import cn.withub.guard.util.Util;
+=======
+import cn.authing.guard.AuthCallback;
+import cn.authing.guard.Authing;
+import cn.authing.guard.Callback;
+import cn.authing.guard.data.Config;
+import cn.authing.guard.data.UserInfo;
+import cn.authing.guard.util.ALog;
+import cn.authing.guard.util.PKCE;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/network/OIDCClient.java
 import okhttp3.Call;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -63,6 +72,7 @@ public class OIDCClient {
                 + (secret == null ? "&code_challenge=" + authRequest.getCodeChallenge() + "&code_challenge_method=" + PKCE.getCodeChallengeMethod() : "");
     }
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/network/OIDCClient.java
     private void prepareLogin(Config config, @NotNull AuthCallback<AuthRequest> callback) {
         new Thread() {
             @Override
@@ -118,24 +128,14 @@ public class OIDCClient {
         }.start();
     }
 
+=======
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/network/OIDCClient.java
     public void registerByEmail(String email, String password, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.registerByEmail(authRequest, email, password, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.registerByEmail(authRequest, email, password, callback);
     }
 
     public void registerByEmailCode(String email, String vCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.registerByEmailCode(authRequest, email, vCode, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.registerByEmailCode(authRequest, email, vCode, callback);
     }
 
     public void registerByPhoneCode(String phone, String vCode, String password, @NotNull AuthCallback<UserInfo> callback) {
@@ -143,13 +143,7 @@ public class OIDCClient {
     }
 
     public void registerByPhoneCode(String phoneCountryCode, String phone, String vCode, String password, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.registerByPhoneCode(authRequest, phoneCountryCode, phone, vCode, password, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.registerByPhoneCode(authRequest, phoneCountryCode, phone, vCode, password, callback);
     }
 
     public void loginByPhoneCode(String phone, String vCode, @NotNull AuthCallback<UserInfo> callback) {
@@ -157,93 +151,50 @@ public class OIDCClient {
     }
 
     public void loginByPhoneCode(String phoneCountryCode, String phone, String vCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByPhoneCode(authRequest, phoneCountryCode, phone, vCode, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.loginByPhoneCode(authRequest, phoneCountryCode, phone, vCode, callback);
     }
 
     public void loginByEmailCode(String email, String vCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByEmailCode(authRequest, email, vCode, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.loginByEmailCode(authRequest, email, vCode, callback);
     }
 
     public void loginByAccount(String account, String password, @NotNull AuthCallback<UserInfo> callback) {
         long now = System.currentTimeMillis();
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByAccount(authRequest, account, password, ((c, m, data) -> {
-                    ALog.d(TAG, "OIDCClient.loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
-                    callback.call(c, m, data);
-                }));
-            } else {
-                callback.call(code, message, null);
-            }
+        AuthClient.loginByAccount(authRequest, account, password, ((c, m, data) -> {
+            ALog.d(TAG, "OIDCClient.loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
+            callback.call(c, m, data);
         }));
     }
 
     public void loginByOneAuth(String account, String password, @NotNull AuthCallback<UserInfo> callback) {
         long now = System.currentTimeMillis();
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByOneAuth(authRequest, account, password, (AuthCallback<UserInfo>) (c, m, data) -> {
-                    ALog.d(TAG, "OIDCClient.loginByOneAuth cost:" + (System.currentTimeMillis() - now) + "ms");
-                    callback.call(c, m, data);
-                });
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.loginByOneAuth(authRequest, account, password, (AuthCallback<UserInfo>) (c, m, data) -> {
+            ALog.d(TAG, "OIDCClient.loginByOneAuth cost:" + (System.currentTimeMillis() - now) + "ms");
+            callback.call(c, m, data);
+        });
     }
 
     public void loginByWechat(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByWechat(authRequest, authCode, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.loginByWechat(authRequest, authCode, callback);
     }
 
     public void loginByWecom(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByWecom(authRequest, authCode, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.loginByWecom(authRequest, authCode, callback);
+    }
+
+    public void loginByWecomAgency(String authCode, @NotNull AuthCallback<UserInfo> callback) {
+        AuthClient.loginByWecomAgency(authRequest, authCode, callback);
     }
 
     public void loginByAlipay(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByAlipay(authRequest, authCode, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.loginByAlipay(authRequest, authCode, callback);
     }
 
     public void loginByLark(String authCode, @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                AuthClient.loginByLark(authRequest, authCode, callback);
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
+        AuthClient.loginByLark(authRequest, authCode, callback);
     }
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/network/OIDCClient.java
     public void authCodeByEmailRegister(String email, String password, @NotNull AuthCallback<AuthResult> callback) {
         Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
@@ -670,6 +621,10 @@ public class OIDCClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
+=======
+    public void loginByGoogle(String authCode, @NotNull AuthCallback<UserInfo> callback) {
+        AuthClient.loginByGoogle(authRequest, authCode, callback);
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/network/OIDCClient.java
     }
 
     public void authByCode(String code, @NotNull AuthCallback<UserInfo> callback) {
@@ -678,6 +633,7 @@ public class OIDCClient {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
                 String secret = authRequest.getClientSecret();
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/network/OIDCClient.java
                 String body = "client_id=" + Authing.getClientId()
                         + "&grant_type=authorization_code"
                         + "&code=" + code
@@ -686,6 +642,18 @@ public class OIDCClient {
                         + (secret == null ? "&code_verifier=" + authRequest.getCodeVerifier() : "&client_secret=" + secret)
                         + "&redirect_uri=" + URLEncoder.encode(authRequest.getRedirectURL(), "utf-8");
                 Guardian.authRequest(url, "post", body, (data) -> {
+=======
+                RequestBody formBody = new FormBody.Builder()
+                        .add("client_id",Authing.getAppId())
+                        .add("grant_type", "authorization_code")
+                        .add("code", code)
+                        .add("scope", authRequest.getScope())
+                        .add("prompt", "consent")
+                        .add(secret == null ? "code_verifier" : "client_secret", secret == null ? authRequest.getCodeVerifier() : secret)
+                        .add("redirect_uri", authRequest.getRedirectURL())
+                        .build();
+                Guardian.authRequest(url, "post", formBody, (data)-> {
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/network/OIDCClient.java
                     ALog.d(TAG, "authByCode cost:" + (System.currentTimeMillis() - now) + "ms");
                     if (data.getCode() == 200) {
                         try {
@@ -695,6 +663,42 @@ public class OIDCClient {
                             Authing.saveUser(user);
                             callback.call(data.getCode(), data.getMessage(), userInfo);
 //                            OIDCClient.getUserInfoByAccessToken(userInfo, callback);  老蒋说不需要  先干掉
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            callback.call(500, "Cannot parse data into UserInfo", null);
+                        }
+                    } else {
+                        callback.call(data.getCode(), data.getMessage(), null);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.call(500, "Exception", null);
+            }
+        });
+    }
+
+    public void authByToken(UserInfo userInfo, String token, @NotNull AuthCallback<UserInfo> callback) {
+        long now = System.currentTimeMillis();
+        Authing.getPublicConfig(config -> {
+            try {
+                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
+                String secret = authRequest.getClientSecret();
+                RequestBody formBody = new FormBody.Builder()
+                        .add("client_id",Authing.getAppId())
+                        .add("grant_type", "http://authing.cn/oidc/grant_type/authing_token")
+                        .add("token", token)
+                        .add("scope", authRequest.getScope())
+                        .add("prompt", "consent")
+                        .add(secret == null ? "code_verifier" : "client_secret", secret == null ? authRequest.getCodeVerifier() : secret)
+                        .add("redirect_uri", authRequest.getRedirectURL())
+                        .build();
+                Guardian.authRequest(url, "post", formBody, (data)-> {
+                    ALog.d(TAG, "authByToken cost:" + (System.currentTimeMillis() - now) + "ms");
+                    if (data.getCode() == 200) {
+                        try {
+                            UserInfo newUserInfo = UserInfo.createUserInfo(userInfo == null ? new UserInfo() : userInfo, data.getData());
+                            getUserInfoByAccessToken(newUserInfo, callback);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             callback.call(500, "Cannot parse data into UserInfo", null);
@@ -763,12 +767,22 @@ public class OIDCClient {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
                 String secret = authRequest.getClientSecret();
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/network/OIDCClient.java
                 String body = "client_id=" + Authing.getAppId()
                         + "&grant_type=refresh_token"
                         + "&refresh_token=" + refreshToken
                         + (secret == null ? "&code_verifier=" + authRequest.getCodeVerifier() : "&client_secret=" + secret);
 
                 Guardian.authRequest(url, "post", body, (data) -> {
+=======
+                RequestBody formBody = new FormBody.Builder()
+                        .add("client_id",Authing.getAppId())
+                        .add("grant_type", "refresh_token")
+                        .add("refresh_token", refreshToken)
+                        .add(secret == null ? "code_verifier" : "client_secret", secret == null ? authRequest.getCodeVerifier() : secret)
+                        .build();
+                Guardian.authRequest(url, "post", formBody, (data)-> {
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/network/OIDCClient.java
                     if (data.getCode() == 200) {
                         UserInfo userInfo = Authing.getCurrentUser();
                         if (userInfo == null) {
@@ -788,25 +802,4 @@ public class OIDCClient {
         });
     }
 
-    public void getAuthCode(@NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            this.authRequest.setToken(Authing.getCurrentUser().getIdToken());
-            oidcInteraction(callback);
-        }));
-    }
-
-    private void startOidcInteractionCode(Response response, @NotNull AuthCallback<AuthResult> callback){
-        if (response.getCode() == 200 && authRequest != null) {
-            try {
-                UserInfo userInfo = UserInfo.createUserInfo(response.getData());
-                String token = userInfo.getIdToken();
-                authRequest.setToken(token);
-                oidcInteractionCode(callback);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            callback.call(response.getCode(), response.getMessage(), null);
-        }
-    }
 }

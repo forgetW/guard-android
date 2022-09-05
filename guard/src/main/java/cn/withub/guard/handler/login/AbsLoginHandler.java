@@ -2,13 +2,19 @@ package cn.withub.guard.handler.login;
 
 import android.content.Context;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/handler/login/AbsLoginHandler.java
 import cn.withub.guard.LoginButton;
 import cn.withub.guard.activity.AuthActivity;
 import cn.withub.guard.container.AuthContainer;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
+=======
+import cn.authing.guard.LoginButton;
+import cn.authing.guard.data.UserInfo;
+import cn.authing.guard.handler.BaseHandler;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/handler/login/AbsLoginHandler.java
 
-public abstract class AbsLoginHandler {
+public abstract class AbsLoginHandler extends BaseHandler {
 
     protected static final String TAG = AbsLoginHandler.class.getSimpleName();
     protected AbsLoginHandler mNextHandler;
@@ -26,8 +32,8 @@ public abstract class AbsLoginHandler {
         mNextHandler = loginHandler;
     }
 
-    protected void requestLogin(){
-        if (!login() && null != mNextHandler){
+    protected void requestLogin() {
+        if (!login() && null != mNextHandler) {
             mNextHandler.requestLogin();
         }
     }
@@ -39,19 +45,9 @@ public abstract class AbsLoginHandler {
     }
 
     protected void fireCallback(int code, String message, UserInfo userInfo) {
-        if (null != mCallBack){
+        if (null != mCallBack) {
             mCallBack.callback(code, message, userInfo);
         }
-    }
-
-    protected AuthContainer.AuthProtocol getAuthProtocol() {
-        if (!(mContext instanceof AuthActivity)) {
-            return AuthContainer.AuthProtocol.EInHouse;
-        }
-
-        AuthActivity activity = (AuthActivity) mContext;
-        AuthFlow flow = (AuthFlow) activity.getIntent().getSerializableExtra(AuthActivity.AUTH_FLOW);
-        return flow.getAuthProtocol();
     }
 
 }

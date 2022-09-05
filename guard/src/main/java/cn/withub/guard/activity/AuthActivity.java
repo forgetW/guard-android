@@ -22,12 +22,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/activity/AuthActivity.java
 import cn.withub.guard.Authing;
 import cn.withub.guard.R;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
 import cn.withub.guard.internal.CircularAnimatedView;
 import cn.withub.guard.util.Util;
+=======
+import cn.authing.guard.Authing;
+import cn.authing.guard.R;
+import cn.authing.guard.data.UserInfo;
+import cn.authing.guard.flow.AuthFlow;
+import cn.authing.guard.internal.CircularAnimatedView;
+import cn.authing.guard.social.Google;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/activity/AuthActivity.java
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -126,7 +136,12 @@ public class AuthActivity extends AppCompatActivity {
             setResult(OK, intent);
             finish();
         }
+        if (requestCode == Google.RC_SIGN_IN && data != null) {
+            data.setAction("cn.authing.guard.broadcast.GOOGLE_LOGIN");
+            sendBroadcast(data);
+        }
     }
+
 
     private void showLoading() {
         if (!Authing.isGettingConfig()) {

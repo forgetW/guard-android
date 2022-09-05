@@ -10,12 +10,20 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/flow/AuthFlow.java
 import cn.withub.guard.R;
 import cn.withub.guard.activity.AuthActivity;
 import cn.withub.guard.activity.IndexAuthActivity;
 import cn.withub.guard.activity.UserProfileActivity;
 import cn.withub.guard.container.AuthContainer;
 import cn.withub.guard.data.UserInfo;
+=======
+import cn.authing.guard.R;
+import cn.authing.guard.activity.AuthActivity;
+import cn.authing.guard.activity.IndexAuthActivity;
+import cn.authing.guard.activity.UserProfileActivity;
+import cn.authing.guard.data.UserInfo;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/flow/AuthFlow.java
 
 public class AuthFlow implements Serializable {
 
@@ -59,7 +67,7 @@ public class AuthFlow implements Serializable {
 
     private int resetPasswordFirstLoginLayoutId;
 
-    private AuthContainer.AuthProtocol authProtocol = AuthContainer.AuthProtocol.EInHouse;
+    //private AuthContainer.AuthProtocol authProtocol = AuthContainer.AuthProtocol.EInHouse;
     private String scope = "openid profile email phone username address offline_access role extended_fields";
     private boolean skipConsent;
     // save confirmed data across Guard. e.g. Phone Number, Email
@@ -367,14 +375,6 @@ public class AuthFlow implements Serializable {
     public AuthFlow setAuthCallback(Callback<UserInfo> authCallback) {
         this.authCallback = authCallback;
         return this;
-    }
-
-    public AuthContainer.AuthProtocol getAuthProtocol() {
-        return authProtocol;
-    }
-
-    public void setAuthProtocol(AuthContainer.AuthProtocol authProtocol) {
-        this.authProtocol = authProtocol;
     }
 
     public String getScope() {
