@@ -14,7 +14,6 @@ import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/mfa/MFARecoveryButton.java
 import cn.withub.guard.R;
 import cn.withub.guard.activity.AuthActivity;
 import cn.withub.guard.analyze.Analyzer;
@@ -23,15 +22,6 @@ import cn.withub.guard.flow.AuthFlow;
 import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
-=======
-import cn.authing.guard.R;
-import cn.authing.guard.activity.AuthActivity;
-import cn.authing.guard.analyze.Analyzer;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.flow.AuthFlow;
-import cn.authing.guard.network.AuthClient;
-import cn.authing.guard.util.Util;
->>>>>>> authing/master:guard/src/main/java/cn/authing/guard/mfa/MFARecoveryButton.java
 
 public class MFARecoveryButton extends MFABaseButton {
 
@@ -136,8 +126,9 @@ public class MFARecoveryButton extends MFABaseButton {
     private void done() {
         AuthActivity activity = (AuthActivity) getContext();
         AuthFlow flow = activity.getFlow();
-        UserInfo userInfo = (UserInfo) flow.getData().get(KEY_USER_INFO);
-
-        mfaOk(200, "", userInfo);
+        Intent intent = new Intent();
+        intent.putExtra("user", (UserInfo) flow.getData().get(KEY_USER_INFO));
+        activity.setResult(AuthActivity.OK, intent);
+        activity.finish();
     }
 }

@@ -14,7 +14,6 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/social/Alipay.java
 import cn.withub.guard.AuthCallback;
 import cn.withub.guard.Authing;
 import cn.withub.guard.container.AuthContainer;
@@ -24,16 +23,6 @@ import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Const;
-=======
-import cn.authing.guard.AuthCallback;
-import cn.authing.guard.Authing;
-import cn.authing.guard.data.Config;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.network.AuthClient;
-import cn.authing.guard.network.OIDCClient;
-import cn.authing.guard.util.ALog;
-import cn.authing.guard.util.Const;
->>>>>>> authing/master:guard/src/main/java/cn/authing/guard/social/Alipay.java
 
 public class Alipay extends SocialAuthenticator {
 

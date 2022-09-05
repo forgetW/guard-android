@@ -13,7 +13,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/mfa/MFAEmailButton.java
 import cn.withub.guard.EmailEditText;
 import cn.withub.guard.GetEmailCodeButton;
 import cn.withub.guard.R;
@@ -25,18 +24,6 @@ import cn.withub.guard.flow.AuthFlow;
 import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
-=======
-import cn.authing.guard.EmailEditText;
-import cn.authing.guard.GetEmailCodeButton;
-import cn.authing.guard.R;
-import cn.authing.guard.VerifyCodeEditText;
-import cn.authing.guard.activity.AuthActivity;
-import cn.authing.guard.analyze.Analyzer;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.flow.AuthFlow;
-import cn.authing.guard.network.AuthClient;
-import cn.authing.guard.util.Util;
->>>>>>> authing/master:guard/src/main/java/cn/authing/guard/mfa/MFAEmailButton.java
 
 public class MFAEmailButton extends MFABaseButton implements AuthActivity.EventListener {
 
@@ -179,7 +166,15 @@ public class MFAEmailButton extends MFABaseButton implements AuthActivity.EventL
     private void mfaDone(int code, String message, UserInfo userInfo) {
         stopLoadingVisualEffect();
         if (code == 200) {
-            mfaOk(code, message, userInfo);
+            try {
+                AuthActivity activity = (AuthActivity) getContext();
+                Intent intent = new Intent();
+                intent.putExtra("user", userInfo);
+                activity.setResult(AuthActivity.OK, intent);
+                activity.finish();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             Util.setErrorText(this, message);
         }

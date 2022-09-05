@@ -28,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
-<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/oneclick/OneClick.java
 import cn.withub.guard.AuthCallback;
 import cn.withub.guard.Authing;
 import cn.withub.guard.R;
@@ -43,21 +42,6 @@ import cn.withub.guard.social.SocialLoginListView;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Const;
 import cn.withub.guard.util.Util;
-=======
-import cn.authing.guard.AuthCallback;
-import cn.authing.guard.Authing;
-import cn.authing.guard.R;
-import cn.authing.guard.data.ImageLoader;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.flow.AuthFlow;
-import cn.authing.guard.network.AuthClient;
-import cn.authing.guard.network.OIDCClient;
-import cn.authing.guard.social.SocialAuthenticator;
-import cn.authing.guard.social.SocialLoginListView;
-import cn.authing.guard.util.ALog;
-import cn.authing.guard.util.Const;
-import cn.authing.guard.util.Util;
->>>>>>> authing/master:guard/src/main/java/cn/authing/guard/oneclick/OneClick.java
 
 public class OneClick extends SocialAuthenticator implements Serializable {
 

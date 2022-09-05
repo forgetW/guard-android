@@ -11,7 +11,6 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/social/wechat/WXCallbackActivity.java
 import cn.withub.guard.AuthCallback;
 import cn.withub.guard.Authing;
 import cn.withub.guard.container.AuthContainer;
@@ -20,15 +19,6 @@ import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.social.Wechat;
 import cn.withub.guard.util.ALog;
-=======
-import cn.authing.guard.AuthCallback;
-import cn.authing.guard.Authing;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.network.AuthClient;
-import cn.authing.guard.network.OIDCClient;
-import cn.authing.guard.social.Wechat;
-import cn.authing.guard.util.ALog;
->>>>>>> authing/master:guard/src/main/java/cn/authing/guard/social/wechat/WXCallbackActivity.java
 
 public class WXCallbackActivity extends AppCompatActivity implements IWXAPIEventHandler {
 

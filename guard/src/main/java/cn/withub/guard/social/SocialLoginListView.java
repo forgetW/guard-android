@@ -54,14 +54,10 @@ public class SocialLoginListView extends LinearLayout {
                 }
                 StringBuilder sb = new StringBuilder();
                 List<SocialConfig> socialConfigs = config.getSocialConfigs();
-<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/social/SocialLoginListView.java
                 if (socialConfigs == null) {
                     return;
                 }
                 for (int i = 0, n = socialConfigs.size();i < n;++i) {
-=======
-                for (int i = 0, n = socialConfigs.size(); i < n; ++i) {
->>>>>>> authing/master:guard/src/main/java/cn/authing/guard/social/SocialLoginListView.java
                     SocialConfig sc = socialConfigs.get(i);
                     parsSource(sb, sc);
                     if (i < n - 1) {

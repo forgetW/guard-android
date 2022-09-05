@@ -3,7 +3,6 @@ package cn.withub.guard.handler.login;
 import android.text.TextUtils;
 import android.view.View;
 
-<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/handler/login/AccountLoginHandler.java
 import cn.withub.guard.AccountEditText;
 import cn.withub.guard.Authing;
 import cn.withub.guard.LoginButton;
@@ -14,17 +13,6 @@ import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Util;
-=======
-import cn.authing.guard.AccountEditText;
-import cn.authing.guard.Authing;
-import cn.authing.guard.LoginButton;
-import cn.authing.guard.PasswordEditText;
-import cn.authing.guard.R;
-import cn.authing.guard.network.AuthClient;
-import cn.authing.guard.network.OIDCClient;
-import cn.authing.guard.util.ALog;
-import cn.authing.guard.util.Util;
->>>>>>> authing/master:guard/src/main/java/cn/authing/guard/handler/login/AccountLoginHandler.java
 
 public class AccountLoginHandler extends AbsLoginHandler {
 
