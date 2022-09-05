@@ -1,9 +1,12 @@
 package cn.withub.guard.network;
 
+import android.net.Uri;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 

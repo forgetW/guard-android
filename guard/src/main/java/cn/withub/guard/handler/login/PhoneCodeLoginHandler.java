@@ -14,6 +14,8 @@ import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Util;
 
+import static cn.withub.guard.Authing.getAuthProtocol;
+
 public class PhoneCodeLoginHandler extends AbsLoginHandler{
 
     private String phoneCountryCode;

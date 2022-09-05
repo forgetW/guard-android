@@ -21,7 +21,6 @@ import cn.withub.guard.activity.AuthActivity;
 import cn.withub.guard.analyze.Analyzer;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
-import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
 

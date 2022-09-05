@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import cn.withub.guard.Authing;
+
+import cn.withub.guard.Authing;
 import cn.withub.guard.MandatoryField;
 import cn.withub.guard.activity.AuthActivity;
 import cn.withub.guard.analyze.Analyzer;

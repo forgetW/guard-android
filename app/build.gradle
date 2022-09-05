@@ -1,4 +1,5 @@
 plugins {
+//    id 'com.android.library'
     id 'com.android.application'
     id 'com.huawei.agconnect'
 }
@@ -26,6 +27,7 @@ android {
 
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -54,7 +56,7 @@ dependencies {
     implementation project(':guard')
     implementation project(':scanner')
     implementation project(':otp')
-    implementation project(':push')
+//    implementation project(':push')
 
     // 通过网易云盾实现一键登录
     implementation 'io.github.yidun:quicklogin:3.1.1'
@@ -64,10 +66,8 @@ dependencies {
 
     // 支付宝登录
     implementation files('libs/alipaysdk.aar')
-
     // 企业微信
     implementation files('libs/lib_wwapi-2.0.12.11.aar')
-
     // 飞书
     implementation files ('libs/larksso-3.0.8.aar')
     implementation 'com.alibaba:fastjson:1.1.58.android'

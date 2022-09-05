@@ -1,6 +1,7 @@
-package cn.authing.guard.handler;
+package cn.withub.guard.handler;
 
-import cn.authing.guard.Authing;
+
+import cn.withub.guard.Authing;
 
 public class BaseHandler {
 
