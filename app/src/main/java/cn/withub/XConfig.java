@@ -77,11 +77,11 @@ public class XConfig {
 
     public void init(Application application) {
         // one click
-        OneClick.bizId = this.getKeyBizId() != null && !this.getKeyHost().equals("") ? this.getKeyBizId() : "74ae90bd84f74b69a88b578bbbbcdcfd";
+        OneClick.bizId = this.getKeyBizId() != null && !this.getKeyBizId().equals("") ? this.getKeyBizId() : "74ae90bd84f74b69a88b578bbbbcdcfd";
 
-        String schema = this.getKeySchema() != null && !this.getKeyHost().equals("") ? this.getKeySchema() : "https";
-        String host = this.getKeyHost() != null && !this.getKeyHost().equals("") ? this.getKeyHost() : "zhdj.nmgdj.gov.cn";
-        String appid = this.getKeyAppId() != null && !this.getKeyHost().equals("") ? this.getKeyAppId() : "cb803b0c95b9439bb49e5843f403e9a7";
+        String schema = this.getKeySchema() != null && !this.getKeySchema().equals("") ? this.getKeySchema() : "https";
+        String host = this.getKeyHost() != null && !this.getKeyHost().equals("") ? this.getKeyHost() : "oidc.nmgzzbdjy.com";
+        String appid = this.getKeyAppId() != null && !this.getKeyAppId().equals("") ? this.getKeyAppId() : "cb803b0c95b9439bb49e5843f403e9a7";
         Authing.setScheme(schema);
         Authing.setHost(host);
         Authing.init(application, appid);
