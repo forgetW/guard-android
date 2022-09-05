@@ -3,7 +3,6 @@ package cn.withub.guard.mfa;
 import static cn.withub.guard.util.Const.NS_ANDROID;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/mfa/MFAOTPButton.java
 import org.json.JSONException;
 
 import cn.withub.guard.R;
@@ -21,6 +21,15 @@ import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.internal.LoadingButton;
 import cn.withub.guard.network.AuthClient;
 import cn.withub.guard.util.Util;
+=======
+import cn.authing.guard.R;
+import cn.authing.guard.VerifyCodeEditText;
+import cn.authing.guard.activity.AuthActivity;
+import cn.authing.guard.analyze.Analyzer;
+import cn.authing.guard.data.UserInfo;
+import cn.authing.guard.network.AuthClient;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/mfa/MFAOTPButton.java
 
 public class MFAOTPButton extends MFABaseButton implements AuthActivity.EventListener {
 

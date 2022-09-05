@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/Authing.java
 import cn.withub.guard.analyze.Analyzer;
 import cn.withub.guard.data.Config;
 import cn.withub.guard.data.Safe;
@@ -20,6 +21,17 @@ import cn.withub.guard.network.OIDCClient;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.SystemUtil;
 import cn.withub.guard.util.Util;
+=======
+import cn.authing.guard.data.Config;
+import cn.authing.guard.data.Safe;
+import cn.authing.guard.data.UserInfo;
+import cn.authing.guard.network.AuthClient;
+import cn.authing.guard.network.Guardian;
+import cn.authing.guard.network.OIDCClient;
+import cn.authing.guard.util.ALog;
+import cn.authing.guard.util.SystemUtil;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/Authing.java
 
 public class Authing {
 

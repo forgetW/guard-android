@@ -10,12 +10,20 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+<<<<<<< HEAD:guard/src/main/java/cn/withub/guard/oneclick/OneClickAuthButton.java
 import cn.withub.guard.R;
 import cn.withub.guard.activity.AuthActivity;
 import cn.withub.guard.analyze.Analyzer;
 import cn.withub.guard.container.AuthContainer;
 import cn.withub.guard.internal.PrimaryButton;
 import cn.withub.guard.util.Util;
+=======
+import cn.authing.guard.R;
+import cn.authing.guard.activity.AuthActivity;
+import cn.authing.guard.analyze.Analyzer;
+import cn.authing.guard.internal.PrimaryButton;
+import cn.authing.guard.util.Util;
+>>>>>>> authing/master:guard/src/main/java/cn/authing/guard/oneclick/OneClickAuthButton.java
 
 public class OneClickAuthButton extends PrimaryButton {
 
