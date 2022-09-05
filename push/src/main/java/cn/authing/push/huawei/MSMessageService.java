@@ -1,4 +1,4 @@
-package cn.authing.push.huawei;
+package cn.withub.push.huawei;
 
 import android.os.Bundle;
 import android.text.TextUtils;

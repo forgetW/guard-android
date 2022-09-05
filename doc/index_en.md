@@ -9,7 +9,7 @@ Authing guard is a UI component library for identity applications. It provides s
 1. Add dependency
 
 ```groovy
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 ```
 
 2. Start guard：

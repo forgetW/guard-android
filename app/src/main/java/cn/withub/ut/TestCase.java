@@ -1,4 +1,4 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
 import android.os.Parcel;
 import android.os.Parcelable;

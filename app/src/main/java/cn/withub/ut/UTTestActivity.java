@@ -1,4 +1,4 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,9 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import cn.authing.R;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.internal.LoadingButton;
+import cn.withub.R;
+import cn.withub.guard.data.UserInfo;
+import cn.withub.guard.internal.LoadingButton;
 
 
 public class UTTestActivity extends AppCompatActivity implements IHttpCallBack {

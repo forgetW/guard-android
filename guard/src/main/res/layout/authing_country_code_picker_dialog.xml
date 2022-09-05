@@ -78,7 +78,7 @@
             android:divider="@null"
             android:listSelector="@android:color/transparent" />
 
-        <cn.authing.guard.dialog.LetterSideBar
+        <cn.withub.guard.dialog.LetterSideBar
             android:id="@+id/sb_index"
             android:layout_width="30dp"
             android:layout_height="match_parent"

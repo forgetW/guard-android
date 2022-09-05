@@ -6,7 +6,7 @@
 
 2. 设置依赖：
 ```groovy
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 implementation files('libs/alipaysdk.aar')
 ```
 

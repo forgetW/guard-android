@@ -1,4 +1,4 @@
-package cn.authing.otp;
+package cn.withub.otp;
 
 public class TOTPEntity {
     public String scheme;

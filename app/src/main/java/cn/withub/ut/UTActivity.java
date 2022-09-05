@@ -1,4 +1,4 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.authing.R;
+import cn.withub.R;
 
 public class UTActivity extends AppCompatActivity implements ExpandableListView.OnGroupClickListener, ExpandableListView.OnChildClickListener {
 

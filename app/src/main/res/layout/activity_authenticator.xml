@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment_authenticator"
-        android:name="cn.authing.otp.AuthenticatorFragment"
+        android:name="cn.withub.otp.AuthenticatorFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

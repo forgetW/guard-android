@@ -5,7 +5,7 @@
 1. 添加依赖
 
 ```groovy
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 implementation 'io.github.yidun:quicklogin:3.1.1'
 ```
 

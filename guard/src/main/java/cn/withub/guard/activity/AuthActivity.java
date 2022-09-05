@@ -27,6 +27,7 @@ import cn.withub.guard.R;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
 import cn.withub.guard.internal.CircularAnimatedView;
+import cn.withub.guard.social.Google;
 import cn.withub.guard.util.Util;
 
 public class AuthActivity extends AppCompatActivity {
@@ -127,7 +128,7 @@ public class AuthActivity extends AppCompatActivity {
             finish();
         }
         if (requestCode == Google.RC_SIGN_IN && data != null) {
-            data.setAction("cn.authing.guard.broadcast.GOOGLE_LOGIN");
+            data.setAction("cn.withub.guard.broadcast.GOOGLE_LOGIN");
             sendBroadcast(data);
         }
     }

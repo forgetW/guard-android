@@ -1,11 +1,11 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
 
-import cn.authing.R;
+import cn.withub.R;
 
 public class GroupListChild extends GroupList{
 

@@ -13,7 +13,7 @@
 3.  添加依赖
 
 ``` gradle
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 ```
 
 4. 在应用启动（如 App.java）里面调用：

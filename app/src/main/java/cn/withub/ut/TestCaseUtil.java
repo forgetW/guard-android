@@ -1,8 +1,8 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
-import cn.authing.guard.Authing;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.util.Util;
+import cn.withub.guard.Authing;
+import cn.withub.guard.data.UserInfo;
+import cn.withub.guard.util.Util;
 
 public class TestCaseUtil {
 

@@ -7,6 +7,7 @@ import cn.withub.guard.activity.AuthActivity;
 import cn.withub.guard.container.AuthContainer;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.flow.AuthFlow;
+import cn.withub.guard.handler.BaseHandler;
 
 public abstract class AbsLoginHandler extends BaseHandler {
 

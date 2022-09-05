@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import cn.withub.guard.AccountEditText;
+import cn.withub.guard.Authing;
 import cn.withub.guard.PasswordConfirmEditText;
 import cn.withub.guard.PasswordEditText;
 import cn.withub.guard.R;

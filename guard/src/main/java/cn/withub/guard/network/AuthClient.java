@@ -22,6 +22,7 @@ import cn.withub.guard.data.Application;
 import cn.withub.guard.data.MFAData;
 import cn.withub.guard.data.Organization;
 import cn.withub.guard.data.Resource;
+import cn.withub.guard.data.Role;
 import cn.withub.guard.data.RoleBak;
 import cn.withub.guard.data.Safe;
 import cn.withub.guard.data.UserInfo;
@@ -669,11 +670,11 @@ public class AuthClient {
         }
     }
 
-    public static void listRoles(@NotNull AuthCallback<List<Role>> callback) {
+    public static void listRoles(@NotNull AuthCallback<List<RoleBak>> callback) {
         listRoles(null, callback);
     }
 
-    public static void listRoles(String namespace, @NotNull AuthCallback<List<Role>> callback) {
+    public static void listRoles(String namespace, @NotNull AuthCallback<List<RoleBak>> callback) {
         try {
             String endpoint = "/api/v2/users/me/roles"
                     + (TextUtils.isEmpty(namespace) ? "" : "?namespace=" + namespace);
@@ -681,10 +682,10 @@ public class AuthClient {
                 if (data.getCode() == 200) {
                     try {
                         JSONArray array = data.getData().getJSONArray("data");
-                        List<Role> roles = Role.parse(array);
+                        List<RoleBak> roles = RoleBak.parse(array);
                         UserInfo userInfo = Authing.getCurrentUser();
                         if (userInfo != null) {
-                            userInfo.setRoles(roles);
+                            userInfo.setRoleBaks(roles);
                         }
                         callback.call(data.getCode(), data.getMessage(), roles);
                     } catch (JSONException e) {
@@ -1132,7 +1133,7 @@ public class AuthClient {
 
     public static void checkPassword(String password, @NotNull AuthCallback<JSONObject> callback) {
         try {
-            String encryptPassword = URLEncoder.encode(Util.encryptPassword(password), "UTF-8");
+            String encryptPassword = URLEncoder.encode(Util.rsaEncryptPassword(password), "UTF-8");
             String endpoint = "/api/v2/users/password/check?password=" + encryptPassword;
             Guardian.get(endpoint, (data)-> callback.call(data.getCode(), data.getMessage(), data.getData()));
         } catch (Exception e) {
@@ -1160,7 +1161,7 @@ public class AuthClient {
                 String token = userInfo.getIdToken();
                 authData.setUserInfo(userInfo);
                 authData.setToken(token);
-                new OIDCClient(authData).authByToken(token, callback);
+                new OIDCClient(authData).authByToken(userInfo, token, callback);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

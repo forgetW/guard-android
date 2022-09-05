@@ -36,6 +36,10 @@ public class OIDCClient {
         authRequest = new AuthRequest();
     }
 
+    public void loginByGoogle(String authCode, @NotNull AuthCallback<UserInfo> callback) {
+        AuthClient.loginByGoogle(authRequest, authCode, callback);
+    }
+
     public OIDCClient(AuthRequest authRequest) {
         this.authRequest = authRequest;
         if (null == authRequest){
@@ -183,65 +187,65 @@ public class OIDCClient {
         AuthClient.loginByLark(authRequest, authCode, callback);
     }
 
-    public void authCodeByAccountLogin(String account, String password, @NotNull AuthCallback<AuthResult> callback) {
-        long start = System.currentTimeMillis();
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                try {
-                    long now = System.currentTimeMillis();
-                    String encryptPassword = Util.rsaEncryptPassword(password);
-                    JSONObject body = new JSONObject();
-                    body.put("account", account);
-                    body.put("password", encryptPassword);
-                    Guardian.post("/api/v2/login/account", body, (response)-> {
-                        ALog.d(TAG, "loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
-                        startOidcInteractionCode(response, (AuthCallback<AuthResult>) (code1, message1, data) -> {
-                            ALog.d(TAG, "OIDCClient.authCodeByAccountLogin cost:" + (System.currentTimeMillis() - start) + "ms");
-                            callback.call(code1, message1, data);
-                        });
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    callback.call(500, "Exception", null);
-                }
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
-    }
+//    public void authCodeByAccountLogin(String account, String password, @NotNull AuthCallback<AuthResult> callback) {
+//        long start = System.currentTimeMillis();
+//        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
+//            if (code == 200) {
+//                try {
+//                    long now = System.currentTimeMillis();
+//                    String encryptPassword = Util.rsaEncryptPassword(password);
+//                    JSONObject body = new JSONObject();
+//                    body.put("account", account);
+//                    body.put("password", encryptPassword);
+//                    Guardian.post("/api/v2/login/account", body, (response)-> {
+//                        ALog.d(TAG, "loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
+//                        startOidcInteractionCode(response, (AuthCallback<AuthResult>) (code1, message1, data) -> {
+//                            ALog.d(TAG, "OIDCClient.authCodeByAccountLogin cost:" + (System.currentTimeMillis() - start) + "ms");
+//                            callback.call(code1, message1, data);
+//                        });
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    callback.call(500, "Exception", null);
+//                }
+//            } else {
+//                callback.call(code, message, null);
+//            }
+//        }));
+//    }
 
-    public void authCodeByWechatLogin(String authCode, @NotNull AuthCallback<AuthResult> callback) {
-        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
-            if (code == 200) {
-                try {
-                    JSONObject body = new JSONObject();
-                    body.put("connId", config.getSocialConnectionId("wechat:mobile"));
-                    body.put("code", authCode);
-                    Guardian.post("/api/v2/ecConn/wechatMobile/authByCode", body, (response)-> {
-                        startOidcInteractionCode(response, callback);
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    callback.call(500, "Exception", null);
-                }
-            } else {
-                callback.call(code, message, null);
-            }
-        }));
-    }
+//    public void authCodeByWechatLogin(String authCode, @NotNull AuthCallback<AuthResult> callback) {
+//        Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
+//            if (code == 200) {
+//                try {
+//                    JSONObject body = new JSONObject();
+//                    body.put("connId", config.getSocialConnectionId("wechat:mobile"));
+//                    body.put("code", authCode);
+//                    Guardian.post("/api/v2/ecConn/wechatMobile/authByCode", body, (response)-> {
+//                        startOidcInteractionCode(response, callback);
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    callback.call(500, "Exception", null);
+//                }
+//            } else {
+//                callback.call(code, message, null);
+//            }
+//        }));
+//    }
 
-    public void oidcInteraction( @NotNull AuthCallback<UserInfo> callback) {
-        Authing.getPublicConfig(config -> {
-            try {
-                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/interaction/oidc/" + authRequest.getUuid() + "/login";
-                String body = "token=" + authRequest.getToken();
-                _oidcInteraction(url, body, callback);
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.call(500, "Exception", null);
-            }
-        });
-    }
+//    public void oidcInteraction( @NotNull AuthCallback<UserInfo> callback) {
+//        Authing.getPublicConfig(config -> {
+//            try {
+//                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/interaction/oidc/" + authRequest.getUuid() + "/login";
+//                String body = "token=" + authRequest.getToken();
+//                _oidcInteraction(url, body, callback);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                callback.call(500, "Exception", null);
+//            }
+//        });
+//    }
 
 
     public void authByCode(String code, @NotNull AuthCallback<UserInfo> callback) {
@@ -280,54 +284,54 @@ public class OIDCClient {
         });
     }
 
-    public void oidcInteractionCode(@NotNull AuthCallback<AuthResult> callback) {
-        Authing.getPublicConfig(config -> {
-            try {
-                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/interaction/oidc/" + authRequest.getUuid() + "/login";
-                String body = "token=" + authRequest.getToken();
-                _oidcInteractionCode(url, body, callback);
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.call(500, "Exception", null);
-            }
-        });
-    }
+//    public void oidcInteractionCode(@NotNull AuthCallback<AuthResult> callback) {
+//        Authing.getPublicConfig(config -> {
+//            try {
+//                String url = Authing.getScheme() + "://" + Util.getHost(config) + "/interaction/oidc/" + authRequest.getUuid() + "/login";
+//                String body = "token=" + authRequest.getToken();
+//                _oidcInteractionCode(url, body, callback);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                callback.call(500, "Exception", null);
+//            }
+//        });
+//    }
 
-    private void _oidcInteraction(String url, String body, @NotNull AuthCallback<UserInfo> callback) {
-        long now = System.currentTimeMillis();
-        Request.Builder builder = new Request.Builder();
-        builder.addHeader("x-device-id", "Android");
-        builder.url(url);
-        RequestBody requestBody = RequestBody.create(body, Const.FORM);
-        builder.post(requestBody);
-        String cookie = CookieManager.getCookie();
-        if (!Util.isNull(cookie)) {
-            builder.addHeader("cookie", cookie);
-        }
-
-        Request request = builder.build();
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .followRedirects(false)
-                .followSslRedirects(false)
-                .build();
-        Call call = client.newCall(request);
-        okhttp3.Response response;
-        try {
-            response = call.execute();
-            ALog.d(TAG, "_oidcInteraction cost:" + (System.currentTimeMillis() - now) + "ms");
-            if (response.code() == 302 || response.code() == 303) {
-                CookieManager.addCookies(response);
-                String location = response.header("location");
-                oidcLogin(location, callback);
-            } else {
-                String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
-                ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
-                callback.call(response.code(), s, null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void _oidcInteraction(String url, String body, @NotNull AuthCallback<UserInfo> callback) {
+//        long now = System.currentTimeMillis();
+//        Request.Builder builder = new Request.Builder();
+//        builder.addHeader("x-device-id", "Android");
+//        builder.url(url);
+//        RequestBody requestBody = RequestBody.create(body, Const.FORM);
+//        builder.post(requestBody);
+//        String cookie = CookieManager.getCookie();
+//        if (!Util.isNull(cookie)) {
+//            builder.addHeader("cookie", cookie);
+//        }
+//
+//        Request request = builder.build();
+//        OkHttpClient client = new OkHttpClient().newBuilder()
+//                .followRedirects(false)
+//                .followSslRedirects(false)
+//                .build();
+//        Call call = client.newCall(request);
+//        okhttp3.Response response;
+//        try {
+//            response = call.execute();
+//            ALog.d(TAG, "_oidcInteraction cost:" + (System.currentTimeMillis() - now) + "ms");
+//            if (response.code() == 302 || response.code() == 303) {
+//                CookieManager.addCookies(response);
+//                String location = response.header("location");
+//                oidcLogin(location, callback);
+//            } else {
+//                String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
+//                ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
+//                callback.call(response.code(), s, null);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void authByToken(UserInfo userInfo, String token, @NotNull AuthCallback<UserInfo> callback) {
         long now = System.currentTimeMillis();

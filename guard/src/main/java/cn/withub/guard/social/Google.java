@@ -1,4 +1,4 @@
-package cn.authing.guard.social;
+package cn.withub.guard.social;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -16,13 +16,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import cn.authing.guard.AuthCallback;
-import cn.authing.guard.Authing;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.network.AuthClient;
-import cn.authing.guard.network.OIDCClient;
-import cn.authing.guard.util.ALog;
-import cn.authing.guard.util.Const;
+import cn.withub.guard.AuthCallback;
+import cn.withub.guard.Authing;
+import cn.withub.guard.data.UserInfo;
+import cn.withub.guard.network.AuthClient;
+import cn.withub.guard.network.OIDCClient;
+import cn.withub.guard.util.ALog;
+import cn.withub.guard.util.Const;
 
 public class Google extends SocialAuthenticator{
 
@@ -61,7 +61,7 @@ public class Google extends SocialAuthenticator{
             return;
         }
         IntentFilter intentFilter =new IntentFilter();
-        intentFilter.addAction("cn.authing.guard.broadcast.GOOGLE_LOGIN");
+        intentFilter.addAction("cn.withub.guard.broadcast.GOOGLE_LOGIN");
         googleLoginReceiver =new GoogleLoginReceiver();
         context.registerReceiver(googleLoginReceiver, intentFilter);
     }

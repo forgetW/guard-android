@@ -3,7 +3,7 @@
 1. 引入依赖
 
 ```groovy
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 ```
 
 2. 在应用启动（如 App.java）里面调用：

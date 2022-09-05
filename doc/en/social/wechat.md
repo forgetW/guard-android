@@ -51,7 +51,7 @@ There are three major steps:
 
 1. Add dependency:
 ```groovy
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.0'
 ```
 

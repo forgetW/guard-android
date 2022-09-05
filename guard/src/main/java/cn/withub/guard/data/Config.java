@@ -43,6 +43,10 @@ public class Config {
     private String userAgent;
     private boolean addCookie;
 
+    public String getSocialClientId(String type) {
+        return getSocialValue(type, "clientId");
+    }
+
     public boolean isAddCookie() {
         return addCookie;
     }

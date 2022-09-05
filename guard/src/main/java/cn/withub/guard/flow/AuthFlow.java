@@ -59,6 +59,14 @@ public class AuthFlow implements Serializable {
 
     private int resetPasswordFirstLoginLayoutId;
 
+    public AuthContainer.AuthProtocol getAuthProtocol() {
+        return authProtocol;
+    }
+
+    public void setAuthProtocol(AuthContainer.AuthProtocol authProtocol) {
+        this.authProtocol = authProtocol;
+    }
+
     private AuthContainer.AuthProtocol authProtocol = AuthContainer.AuthProtocol.EInHouse;
     private String scope = "openid profile email phone username address offline_access role extended_fields";
     private boolean skipConsent;

@@ -43,7 +43,7 @@
 
 1. 设置依赖：
 ```groovy
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.0'
 ```
 

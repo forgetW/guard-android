@@ -24,7 +24,7 @@ AppAuth 和原生的对比如下：
 ## 1. 引入依赖
 
 ```groovy
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 implementation 'net.openid:appauth:0.10.0'
 ```
 

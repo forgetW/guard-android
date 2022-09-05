@@ -1,6 +1,6 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
-import cn.authing.guard.data.UserInfo;
+import cn.withub.guard.data.UserInfo;
 
 public interface IHttpCallBack {
 

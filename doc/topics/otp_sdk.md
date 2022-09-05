@@ -5,7 +5,7 @@
 ## 添加依赖
 
 ```groovy
-implementation 'cn.authing:otp:+'
+implementation 'cn.withub:otp:+'
 ```
 
 ## 绑定帐号
@@ -49,7 +49,7 @@ TOTP.bind(this, data); // this is your context
     android:layout_height="match_parent">
     <fragment
         android:id="@+id/fragment_authenticator"
-        android:name="cn.authing.otp.AuthenticatorFragment"
+        android:name="cn.withub.otp.AuthenticatorFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

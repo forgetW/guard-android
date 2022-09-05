@@ -1,4 +1,4 @@
-package cn.authing.otp;
+package cn.withub.otp;
 
 /* (PD) 2001 The Bitzi Corporation
  * Please see http://bitzi.com/publicdomain for more info.

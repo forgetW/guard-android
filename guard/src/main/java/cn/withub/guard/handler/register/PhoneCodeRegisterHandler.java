@@ -3,6 +3,7 @@ package cn.withub.guard.handler.register;
 import android.text.TextUtils;
 import android.view.View;
 
+import cn.withub.guard.Authing;
 import cn.withub.guard.CountryCodePicker;
 import cn.withub.guard.PasswordEditText;
 import cn.withub.guard.PhoneNumberEditText;

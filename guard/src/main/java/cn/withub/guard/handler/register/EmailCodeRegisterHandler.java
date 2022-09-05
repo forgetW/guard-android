@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import cn.withub.guard.AccountEditText;
+import cn.withub.guard.Authing;
 import cn.withub.guard.RegisterButton;
 import cn.withub.guard.VerifyCodeEditText;
 import cn.withub.guard.container.AuthContainer;

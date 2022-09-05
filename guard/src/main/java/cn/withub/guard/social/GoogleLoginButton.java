@@ -1,9 +1,9 @@
-package cn.authing.guard.social;
+package cn.withub.guard.social;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import cn.authing.guard.R;
+import cn.withub.guard.R;
 
 public class GoogleLoginButton extends SocialLoginButton {
 
@@ -23,6 +23,6 @@ public class GoogleLoginButton extends SocialLoginButton {
 
     @Override
     protected SocialAuthenticator createAuthenticator() {
-        return new Google();
+        return new cn.withub.guard.social.Google();
     }
 }

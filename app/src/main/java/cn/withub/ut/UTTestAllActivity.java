@@ -1,4 +1,4 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-import cn.authing.R;
-import cn.authing.guard.data.UserInfo;
+import cn.withub.R;
+import cn.withub.guard.data.UserInfo;
 
 
 public class UTTestAllActivity extends AppCompatActivity implements IHttpCallBack {

@@ -1,4 +1,4 @@
-package cn.authing.ut;
+package cn.withub.ut;
 
 import android.text.TextUtils;
 
@@ -7,14 +7,15 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import cn.authing.guard.AuthCallback;
-import cn.authing.guard.Authing;
-import cn.authing.guard.data.Application;
-import cn.authing.guard.data.Organization;
-import cn.authing.guard.data.Resource;
-import cn.authing.guard.data.Role;
-import cn.authing.guard.data.UserInfo;
-import cn.authing.guard.network.AuthClient;
+import cn.withub.guard.AuthCallback;
+import cn.withub.guard.Authing;
+import cn.withub.guard.data.Application;
+import cn.withub.guard.data.Organization;
+import cn.withub.guard.data.Resource;
+import cn.withub.guard.data.Role;
+import cn.withub.guard.data.RoleBak;
+import cn.withub.guard.data.UserInfo;
+import cn.withub.guard.network.AuthClient;
 
 public class HttpUtil {
 
@@ -292,9 +293,9 @@ public class HttpUtil {
     }
 
     private static void listRoles(IHttpCallBack callBack) {
-        AuthClient.listRoles(new AuthCallback<List<Role>>() {
+        AuthClient.listRoles(new AuthCallback<List<RoleBak>>() {
             @Override
-            public void call(int code, String message, List<Role> data) {
+            public void call(int code, String message, List<RoleBak> data) {
                 callBack.showResult("listRoles", code, message, null);
             }
         });

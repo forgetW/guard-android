@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
-        <cn.authing.otp.CountDownPie
+        <cn.withub.otp.CountDownPie
             android:id="@+id/countdown_pie"
             android:layout_margin="8dp"
             android:layout_width="24dp"

@@ -159,12 +159,12 @@ public class UserInfoFieldForm extends LinearLayout {
     }
 
     private void setValueFromDatePicker(ExtendedField field) {
-        View view = Util.findChildViewByClass(this, cn.authing.guard.internal.DatePickerView.class, false);
+        View view = Util.findChildViewByClass(this, cn.withub.guard.internal.DatePickerView.class, false);
         if (view == null) {
             return;
         }
 
-        cn.authing.guard.internal.DatePickerView datePickerView = (cn.authing.guard.internal.DatePickerView) view;
+        cn.withub.guard.internal.DatePickerView datePickerView = (cn.withub.guard.internal.DatePickerView) view;
         String selected = datePickerView.getText();
         field.setValue(selected);
     }

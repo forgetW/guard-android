@@ -1,4 +1,4 @@
-package cn.authing.otp;
+package cn.withub.otp;
 
 import android.content.Context;
 import android.graphics.Canvas;

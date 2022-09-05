@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.authing.push">
+    package="cn.withub.push">
 
     <application>
         <activity
@@ -11,7 +11,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                android:host="cn.authing"
+                android:host="cn.withub"
                 android:path="/push"
                 android:scheme="pushscheme" />
             </intent-filter>

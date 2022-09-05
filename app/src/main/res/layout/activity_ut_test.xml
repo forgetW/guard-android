@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <cn.authing.guard.internal.LoadingButton
+    <cn.withub.guard.internal.LoadingButton
         android:id="@+id/btn_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

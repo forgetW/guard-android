@@ -1,4 +1,4 @@
-package cn.authing.push.huawei;
+package cn.withub.push.huawei;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -14,7 +14,7 @@ import cn.withub.guard.Callback;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Const;
-import cn.authing.push.Push;
+import cn.withub.push.Push;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

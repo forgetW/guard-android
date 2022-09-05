@@ -96,11 +96,6 @@ public abstract class SocialLoginButton extends androidx.appcompat.widget.AppCom
         this.callback = callback;
     }
 
-    public void setAuthProtocol(AuthContainer.AuthProtocol authProtocol){
-        if (authenticator != null) {
-            authenticator.setAuthProtocol(authProtocol);
-        }
-    }
 
     public void setType(String type) {
         this.type = type;

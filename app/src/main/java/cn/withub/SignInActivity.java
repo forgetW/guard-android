@@ -1,4 +1,4 @@
-package cn.authing;
+package cn.withub;
 
 import android.content.Intent;
 import android.os.Bundle;

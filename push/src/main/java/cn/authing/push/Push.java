@@ -1,4 +1,4 @@
-package cn.authing.push;
+package cn.withub.push;
 
 import android.content.Context;
 
@@ -11,7 +11,7 @@ import cn.withub.guard.data.Config;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.util.ALog;
 import cn.withub.guard.util.Const;
-import cn.authing.push.huawei.HuaweiPush;
+import cn.withub.push.huawei.HuaweiPush;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

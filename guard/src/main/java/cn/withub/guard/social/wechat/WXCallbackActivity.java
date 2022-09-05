@@ -12,6 +12,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import cn.withub.guard.AuthCallback;
+import cn.withub.guard.Authing;
 import cn.withub.guard.container.AuthContainer;
 import cn.withub.guard.data.UserInfo;
 import cn.withub.guard.network.AuthClient;

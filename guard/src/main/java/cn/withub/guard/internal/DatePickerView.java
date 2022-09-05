@@ -1,4 +1,4 @@
-package cn.authing.guard.internal;
+package cn.withub.guard.internal;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import cn.authing.guard.R;
-import cn.authing.guard.util.Util;
+import cn.withub.guard.R;
+import cn.withub.guard.util.Util;
 
 public class DatePickerView extends LinearLayout {
 

@@ -71,7 +71,7 @@
 - 在工程的 build.gradle 文件中引入该 jar，引入相关依赖项。
 
 ```java
-implementation 'cn.authing:guard:+'
+implementation 'cn.withub:guard:+'
 implementation files('libs/wechatwork.jar')
 ```
 

@@ -20,7 +20,7 @@ import com.google.zxing.activity.CaptureActivity;
 
 import cn.withub.R;
 import cn.withub.guard.util.ALog;
-import cn.authing.otp.TOTP;
+import cn.withub.otp.TOTP;
 
 public class AuthenticatorActivity extends AppCompatActivity {
 

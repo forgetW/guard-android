@@ -5,10 +5,9 @@ import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 
 import cn.withub.guard.AuthCallback;
-import cn.withub.guard.activity.AuthActivity;
-import cn.withub.guard.container.AuthContainer;
+import cn.withub.guard.Authing;
 import cn.withub.guard.data.UserInfo;
-import cn.withub.guard.flow.AuthFlow;
+import cn.withub.guard.handler.BaseHandler;
 
 public abstract class SocialAuthenticator extends BaseHandler {
 

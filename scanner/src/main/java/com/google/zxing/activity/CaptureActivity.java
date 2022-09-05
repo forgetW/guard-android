@@ -45,7 +45,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import cn.authing.scanner.R;
+import cn.withub.scanner.R;
 
 
 /**

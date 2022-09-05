@@ -1,4 +1,4 @@
-package cn.authing.otp;
+package cn.withub.otp;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
