@@ -1161,7 +1161,8 @@ public class AuthClient {
                 String token = userInfo.getIdToken();
                 authData.setUserInfo(userInfo);
                 authData.setToken(token);
-                new OIDCClient(authData).authByToken(userInfo, token, callback);
+                new OIDCClient(authData).oidcInteraction(callback); //旧代码
+//                new OIDCClient(authData).authByToken(userInfo, token, callback); //拉取的更新
             } catch (JSONException e) {
                 e.printStackTrace();
             }

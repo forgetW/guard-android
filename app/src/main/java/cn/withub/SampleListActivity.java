@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import java.util.concurrent.Executor;
 
 import cn.withub.SignInActivity;
+import cn.withub.guard.util.ALog;
 import cn.withub.ut.UTActivity;
 import cn.withub.abao.AbaoActivity;
 import cn.withub.appauth.AppAuthActivity;
@@ -171,9 +172,9 @@ public class SampleListActivity extends AppCompatActivity {
                 final AuthFlow flow = new AuthFlow();
                 flow.setAuthProtocol(AuthContainer.AuthProtocol.EOIDC);
                 if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EInHouse) {
-                    AuthClient.loginByAccount("17782091322", "13600000000", this::fireCallback);
+                    AuthClient.loginByAccount("18002330359", "NMGxczx2022", this::fireCallback);
                 } else if (flow.getAuthProtocol() == AuthContainer.AuthProtocol.EOIDC) {
-                    new OIDCClient().loginByAccount("17782091322", "13600000000", this::fireCallback);
+                    new OIDCClient().loginByAccount("18002330359", "NMGxczx2022", this::fireCallback);
                 }
             }else if(pos == 17){
                 AuthClient.sendSms("17723555741", this:: fireCallback);
@@ -187,6 +188,7 @@ public class SampleListActivity extends AppCompatActivity {
     }
 
     protected void fireCallback(int code, String message, Object o) {
+        ALog.d("fireCallback", "fireCallback: " + message + "--code: " + code);
         Log.e("fireCallback", "fireCallback: " + message + "--code: " + code);
     }
 
