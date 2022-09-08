@@ -174,6 +174,7 @@ public class OIDCClient {
         Authing.getPublicConfig(config -> prepareLogin(config, (code, message, authRequest) -> {
             if (code == 200) {
                 AuthClient.loginByAccount(authRequest, account, password, ((c, m, data) -> {
+                    ALog.d("fireCallback", "OIDCClient.loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
                     ALog.d(TAG, "OIDCClient.loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
                     callback.call(c, m, data);
                 }));
@@ -278,26 +279,41 @@ public class OIDCClient {
             try {
                 String url = Authing.getScheme() + "://" + Util.getHost(config) + "/oidc/token";
                 String secret = authRequest.getClientSecret();
-                RequestBody formBody = new FormBody.Builder()
-                        .add("client_id",Authing.getAppId())
-                        .add("grant_type", "authorization_code")
-                        .add("code", code)
-                        .add("scope", authRequest.getScope())
-                        .add("prompt", "consent")
-                        .add(secret == null ? "code_verifier" : "client_secret", secret == null ? authRequest.getCodeVerifier() : secret)
-                        .add("redirect_uri", authRequest.getRedirectURL())
-                        .build();
-                Guardian.authRequest(url, "post", formBody, (data)-> {
+//                RequestBody formBody = new FormBody.Builder()
+//                        .add("client_id",Authing.getAppId())
+//                        .add("grant_type", "authorization_code")
+//                        .add("code", code)
+//                        .add("scope", authRequest.getScope())
+//                        .add("prompt", "consent")
+//                        .add(secret == null ? "code_verifier" : "client_secret", secret == null ? authRequest.getCodeVerifier() : secret)
+//                        .add("redirect_uri", URLEncoder.encode(authRequest.getRedirectURL(), "utf-8"))
+////                        .add("redirect_uri", authRequest.getRedirectURL())
+//                        .build();
+                String body = "client_id=" + Authing.getClientId()
+                        + "&grant_type=authorization_code"
+                        + "&code=" + code
+                        + "&scope=" + authRequest.getScope()
+                        + "&prompt=" + "consent"
+                        + (secret == null ? "&code_verifier=" + authRequest.getCodeVerifier() : "&client_secret=" + secret)
+                        + "&redirect_uri=" + URLEncoder.encode(authRequest.getRedirectURL(), "utf-8");
+                Guardian.authRequest(url, "post", body, (data)-> {
+                    ALog.d("fireCallback", "authByCode cost:" + (System.currentTimeMillis() - now) + "ms");
                     ALog.d(TAG, "authByCode cost:" + (System.currentTimeMillis() - now) + "ms");
                     if (data.getCode() == 200) {
                         try {
-                            UserInfo userInfo = UserInfo.createUserInfo(new UserInfo(), data.getData());
-                            getUserInfoByAccessToken(userInfo, callback);
+                            UserInfo user = authRequest.getUserInfo() != null ? authRequest.getUserInfo() : new UserInfo();
+                            UserInfo userInfo = UserInfo.createUserInfo(user, data.getData());
+
+                            Authing.saveUser(user);
+                            callback.call(data.getCode(), data.getMessage(), userInfo);
+//                            UserInfo userInfo = UserInfo.createUserInfo(new UserInfo(), data.getData()); //old
+//                            getUserInfoByAccessToken(userInfo, callback); //老蒋说不需要  先干掉
                         } catch (JSONException e) {
                             e.printStackTrace();
                             callback.call(500, "Cannot parse data into UserInfo", null);
                         }
                     } else {
+                        ALog.d("fireCallback", "authByCode cost:" + data.getMessage());
                         callback.call(data.getCode(), data.getMessage(), null);
                     }
                 });
@@ -342,6 +358,7 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
+            ALog.d("fireCallback", "_oidcInteraction cost:" + (System.currentTimeMillis() - now) + "ms");
             ALog.d(TAG, "_oidcInteraction cost:" + (System.currentTimeMillis() - now) + "ms");
             if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
@@ -349,6 +366,7 @@ public class OIDCClient {
                 oidcLogin(location, callback);
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
+                ALog.w("fireCallback", "oidcInteraction failed. " + response.code() + " message:" + s);
                 ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
                 callback.call(response.code(), s, null);
             }
@@ -377,6 +395,7 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
+            ALog.d("fireCallback", "oidcLogin cost:" + (System.currentTimeMillis() - now) + "ms");
             ALog.d(TAG, "oidcLogin cost:" + (System.currentTimeMillis() - now) + "ms");
             if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
@@ -400,6 +419,7 @@ public class OIDCClient {
                 }
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
+                ALog.w("fireCallback", "oidcLogin failed. " + response.code() + " message:" + s);
                 ALog.w(TAG, "oidcLogin failed. " + response.code() + " message:" + s);
                 callback.call(response.code(), s, null);
             }
@@ -430,6 +450,7 @@ public class OIDCClient {
         okhttp3.Response response;
         try {
             response = call.execute();
+            ALog.d("fireCallback", "_oidcInteractionScopeConfirm cost:" + (System.currentTimeMillis() - now) + "ms");
             ALog.d(TAG, "_oidcInteractionScopeConfirm cost:" + (System.currentTimeMillis() - now) + "ms");
             if (response.code() == 302 || response.code() == 303) {
                 CookieManager.addCookies(response);
@@ -438,6 +459,7 @@ public class OIDCClient {
             } else {
                 String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
                 callback.call(response.code(), s, null);
+                ALog.d("fireCallback", "authByCode cost:" + s);
                 ALog.w(TAG, "oidcInteraction failed. " + response.code() + " message:" + s);
             }
         } catch (Exception e) {

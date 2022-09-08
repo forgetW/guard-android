@@ -32,7 +32,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation "com.squareup.okhttp3:okhttp:4.9.2"
 
-    compileOnly 'io.github.yidun:quicklogin:3.1.1'
+    compileOnly 'io.github.yidun:quicklogin:3.2.4'
     compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.0'
 
     implementation 'cn.hutool:hutool-crypto:5.7.9'

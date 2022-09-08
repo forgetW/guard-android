@@ -28,8 +28,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
+import javax.crypto.SecretKey;
+
 import cn.withub.guard.AuthCallback;
 import cn.withub.guard.Authing;
+import cn.withub.guard.Callback;
 import cn.withub.guard.R;
 import cn.withub.guard.container.AuthContainer;
 import cn.withub.guard.data.ImageLoader;
@@ -48,8 +51,10 @@ public class OneClick extends SocialAuthenticator implements Serializable {
     private static final String TAG = "OneClick";
     private static final int MSG_LOGIN = 1;
 
-    public static String bizId;
+    public static String bizId = "cb2df164fe704bb990ecf80a8f7f0893";
 
+//    SecretId：2c13ee878014356e69d1ed8512218e01
+//    SecretKey：3d53ef7dbde9b99d831688ba3f54f660
     private final Context context;
     private final Handler handler;
     private UnifyUiConfig uiConfig;
@@ -60,6 +65,18 @@ public class OneClick extends SocialAuthenticator implements Serializable {
 
     public OneClick(Context context) {
         this.context = context;
+        handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                if (msg.what == MSG_LOGIN)
+                    startLogin();
+            }
+        };
+    }
+
+    public OneClick(Context context, AuthCallback<UserInfo> callback ) {
+        this.context = context;
+        this.callback = callback;
         handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -85,18 +102,23 @@ public class OneClick extends SocialAuthenticator implements Serializable {
         getAndroidScreenProperty();
 
         Authing.getPublicConfig(config -> {
+            ALog.d("fireCallback", "OneClick start _bid--" + _bid);
             String businessId = (_bid != null ) ? _bid : config.getSocialBusinessId(Const.EC_TYPE_YI_DUN);
-            quickLogin = QuickLogin.getInstance(context, businessId);
+            quickLogin = QuickLogin.getInstance();
+            quickLogin.init(context, businessId);
             quickLogin.prefetchMobileNumber(new QuickLoginPreMobileListener() {
                 @Override
                 public void onGetMobileNumberSuccess(String YDToken, String mobileNumber) {
                     //预取号成功
                     ALog.d(TAG, "Got phone:" + mobileNumber);
+                    ALog.d("fireCallback", "Got phone:" + mobileNumber);
                     handler.sendEmptyMessageDelayed(MSG_LOGIN, 1000);
                 }
 
                 @Override
                 public void onGetMobileNumberError(String YDToken, String msg) {
+                    ALog.e("fireCallback", "Got phone error:" + msg);
+                    ALog.e("fireCallback", "Got phone error YDToken:" + YDToken);
                     ALog.e(TAG, "Got phone error:" + msg);
                     callback.call(500, msg, null);
                 }
@@ -104,7 +126,7 @@ public class OneClick extends SocialAuthenticator implements Serializable {
         });
     }
 
-    private void startLogin() {
+    public void startLogin() {
         if (uiConfig != null) {
             quickLogin.setUnifyUiConfig(uiConfig);
             startOnePass();
@@ -124,7 +146,7 @@ public class OneClick extends SocialAuthenticator implements Serializable {
         });
     }
 
-    private void startOnePass() {
+    public void startOnePass() {
         quickLogin.onePass(new QuickLoginTokenListener() {
             @Override
             public void onGetTokenSuccess(String YDToken, String accessCode) {
@@ -132,6 +154,7 @@ public class OneClick extends SocialAuthenticator implements Serializable {
                 //一键登录成功 运营商token：accessCode获取成功
                 //拿着获取到的运营商token二次校验（建议放在自己的服务端）
                 ALog.e(TAG, "onGetTokenSuccess:" + accessCode);
+                ALog.e(TAG, "YDToken:" + YDToken);
                 authingLogin(YDToken, accessCode);
             }
 
@@ -168,7 +191,7 @@ public class OneClick extends SocialAuthenticator implements Serializable {
         });
     }
 
-    private void getAndroidScreenProperty() {
+    public void getAndroidScreenProperty() {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
@@ -197,7 +220,7 @@ public class OneClick extends SocialAuthenticator implements Serializable {
         RelativeLayout.LayoutParams layoutParamsOther = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsOther.setMargins(0, topMargin, 0, 0);
         layoutParamsOther.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        layoutParamsOther.addRule(RelativeLayout.BELOW, com.netease.nis.quicklogin.R.id.oauth_login);
+        layoutParamsOther.addRule(RelativeLayout.BELOW, com.netease.nis.quicklogin.R.id.yd_rl_loading);
         otherLoginRel.setLayoutParams(layoutParamsOther);
 
         Button other = new Button(context);

@@ -234,6 +234,7 @@ public class AuthClient {
             body.put("password", encryptPassword);
             newCustomDataInsert(body);
             Guardian.post("/api/v2/login/account", body, (data)-> {
+                ALog.d("fireCallback", "loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
                 ALog.d(TAG, "loginByAccount cost:" + (System.currentTimeMillis() - now) + "ms");
                 if (data.getCode() == 200 || data.getCode() == EC_MFA_REQUIRED) {
                     Safe.saveAccount(account);

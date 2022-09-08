@@ -284,4 +284,63 @@ public class Guardian {
             callback.call(new Response(500, "Network Exception", null));
         }
     }
+
+    public static void authRequest(String url, String method, String body, @NotNull GuardianCallback callback) {
+        new Thread() {
+            public void run() {
+                _authRequest(url, method, body, callback);
+            }
+        }.start();
+    }
+
+    public static void _authRequest(String url, String method, String body, @NotNull GuardianCallback callback) {
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+        if (Authing.getClientId() != null) {
+            builder.addHeader("x-client-id", Authing.getClientId());
+        }
+        if (Authing.getTenantId() != null && !Authing.getTenantId().equals("")) {
+            builder.addHeader("x-tenant-id", Authing.getTenantId());
+        }else {
+            builder.addHeader("x-tenant-id", "nmg");
+        }
+        builder.addHeader("x-device-id", "Android");
+        builder.addHeader("x-request-from", "Native@Android@" + SDK_VERSION);
+        builder.addHeader("x-lang", Util.getLangHeader());
+        builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        if (method.equalsIgnoreCase("post")) {
+            MediaType type = (body.startsWith("{") || body.startsWith("[")) && (body.endsWith("]") || body.endsWith("}")) ? Const.JSON : Const.FORM;
+            RequestBody requestBody = RequestBody.create(body, type);
+            builder.post(requestBody);
+        }
+
+        Request request = builder.build();
+        OkHttpClient client = new OkHttpClient();
+        Call call = client.newCall(request);
+        okhttp3.Response response;
+        try {
+            response = call.execute();
+            if (response.code() == 201 || response.code() == 200) {
+                CookieManager.addCookies(response);
+                Response resp = new Response();
+                String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
+                JSONObject json;
+                try {
+                    json = new JSONObject(s);
+                    resp.setCode(200);
+                    resp.setData(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callback.call(resp);
+            } else {
+                String s = new String(Objects.requireNonNull(response.body()).bytes(), StandardCharsets.UTF_8);
+                Log.w(TAG, "authRequest failed. " + response.code() + " message:" + s);
+                callback.call(new Response(response.code(), s, null));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.call(new Response(500, "Network Exception", null));
+        }
+    }
 }

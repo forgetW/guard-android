@@ -21,10 +21,18 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
+import com.netease.nis.quicklogin.QuickLogin;
+import com.netease.nis.quicklogin.listener.QuickLoginPreMobileListener;
+import com.netease.nis.quicklogin.listener.QuickLoginTokenListener;
+
 import java.util.concurrent.Executor;
 
 import cn.withub.SignInActivity;
+import cn.withub.guard.AuthCallback;
+import cn.withub.guard.data.ImageLoader;
 import cn.withub.guard.util.ALog;
+import cn.withub.guard.util.Const;
+import cn.withub.oneclick.OneClickUtil;
 import cn.withub.ut.UTActivity;
 import cn.withub.abao.AbaoActivity;
 import cn.withub.appauth.AppAuthActivity;
@@ -72,7 +80,9 @@ public class SampleListActivity extends AppCompatActivity {
             "登出",
             "刷新token",
             "谷歌登录",
-            "场景测试"
+            "场景测试",
+            "获取手机号码",
+            "一键登录",
     };
 
     @Override
@@ -184,16 +194,34 @@ public class SampleListActivity extends AppCompatActivity {
                 String trim = editTextNumber.getText().toString().trim();
                 new OIDCClient().loginByPhoneCode("17723555741", trim, this::fireCallback);
             }
+            else if(pos == 23){
+                oneClickUtil = new OneClickUtil();
+                oneClickUtil.pre(getApplicationContext(), new AuthCallback<String>() {
+                    @Override
+                    public void call(int code, String message, String data) {
+                        Toast.makeText(getApplicationContext(), "获取成功", Toast.LENGTH_LONG).show();
+                        ALog.d("fireCallback", "fireCallback: " + message + "--code: " + code);
+                    }
+                });
+            }
+            else if(pos == 24){
+                if (oneClickUtil != null) {
+                    oneClickUtil.starLogin(this::fireCallback);
+                }
+            }
         });
     }
 
+    private OneClickUtil oneClickUtil;
+
+
     protected void fireCallback(int code, String message, Object o) {
         ALog.d("fireCallback", "fireCallback: " + message + "--code: " + code);
-        Log.e("fireCallback", "fireCallback: " + message + "--code: " + code);
     }
 
     protected void fireCallback(int code, String message, UserInfo userInfo) {
-        Log.e("fireCallback", "fireCallback: " + message + "--code: " + code);
+        ALog.d("fireCallback", "fireCallback: " + message + "--code: " + code);
+        ALog.d("fireCallback", "fireCallback: AccessToken---" + userInfo.getAccessToken());
     }
 
     private void startActivity(Class<?> cls) {

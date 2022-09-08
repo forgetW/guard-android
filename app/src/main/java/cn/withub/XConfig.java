@@ -77,7 +77,7 @@ public class XConfig {
 
     public void init(Application application) {
         // one click
-        OneClick.bizId = this.getKeyBizId() != null && !this.getKeyBizId().equals("") ? this.getKeyBizId() : "74ae90bd84f74b69a88b578bbbbcdcfd";
+        OneClick.bizId = this.getKeyBizId() != null && !this.getKeyBizId().equals("") ? this.getKeyBizId() : "cb2df164fe704bb990ecf80a8f7f0893";
 
         String schema = this.getKeySchema() != null && !this.getKeySchema().equals("") ? this.getKeySchema() : "https";
         String host = this.getKeyHost() != null && !this.getKeyHost().equals("") ? this.getKeyHost() : "oidc.nmgzzbdjy.com";
